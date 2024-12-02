@@ -52,7 +52,7 @@ jobs:
         run: curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && chmod +x wait-for-it.sh
 
       - name: Wait for MySQL to be ready
-        run: ./wait-for-it.sh mysql:3306 --timeout=60 --strict -- echo "MySQL is up"
+        run: ./wait-for-it.sh mysql:3306 --timeout=180 --strict -- echo "MySQL is up"
 
       # Step 6: Configure Bagisto
       - name: Set up environment
