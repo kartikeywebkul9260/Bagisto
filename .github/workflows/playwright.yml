@@ -22,6 +22,10 @@ jobs:
         options: --health-cmd="mysqladmin ping --silent" --health-start-period=10s --health-retries=3
 
     steps:
+      # Step 1: Output MySQL logs for debugging
+      - name: Output MySQL logs
+        run: docker logs $(docker ps -q --filter "ancestor=mysql:8.0")
+
       # Step 1: Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
