@@ -10,6 +10,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     services:
       mysql:
@@ -19,18 +20,12 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: bagisto-test
-        options: --health-cmd="mysqladmin ping --silent" --health-start-period=10s --health-retries=3
+        options: --health-cmd="mysqladmin ping --silent" --health-start-period=30s --health-retries=5
 
     steps:
-      # Step 1: Output MySQL logs for debugging
-      - name: Output MySQL logs
-        run: docker logs $(docker ps -q --filter "ancestor=mysql:8.0")
-
-      # Step 1: Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -38,7 +33,6 @@ jobs:
           extensions: mbstring, intl, bcmath, gd, pdo_mysql
           tools: composer
 
-      # Step 3: Cache Composer dependencies
       - name: Cache Composer dependencies
         uses: actions/cache@v3
         with:
@@ -47,22 +41,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      # Step 4: Install dependencies
       - name: Install dependencies
-        run: composer install
-
-      # Step 5: Wait for MySQL to be ready using wait-for-it.sh
-      - name: Download wait-for-it
-        run: curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && chmod +x wait-for-it.sh
-
-      - name: Wait for MySQL to be ready
-        run: ./wait-for-it.sh mysql:3306 --timeout=180 --strict -- echo "MySQL is up"
-
-      # Step 6: Configure Bagisto
-      - name: Set up environment
         run: |
+          composer install
           cp .env.example .env
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mysql/' .env
+
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysql -hmysql -uroot -proot -e "SELECT 1"; do
+            echo "Waiting for MySQL to be ready..."
+            sleep 5
+          done
+
+      - name: Set up environment
+        run: |
           php artisan key:generate
           php artisan migrate --seed
         env:
@@ -79,37 +72,29 @@ jobs:
           DB_PORT: 3306
           DB_DATABASE: bagisto-test
           DB_USERNAME: root
-          DB_PASSWORD: webkul
+          DB_PASSWORD: root
 
-      # Step 7: Start Laravel server
       - name: Start Laravel server
         run: php artisan serve --host=0.0.0.0 --port=8000 &
         env:
-          APP_ENV: local
-          APP_DEBUG: true
           APP_URL: http://localhost:8000
 
-      # Step 8: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      # Step 9: Install Node.js dependencies
       - name: Install Node.js dependencies
         run: npm install
 
-      # Step 10: Install Playwright Browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # Step 11: Run Playwright tests
       - name: Run Playwright tests
         env:
           BASE_URL: 'http://localhost:8000'
         run: npx playwright test --workers=1
 
-      # Step 12: Upload Playwright test report
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         with:
@@ -117,6 +102,5 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      # Optional: Show the Playwright test report
       - name: Show Playwright test report
         run: npx playwright show-report
