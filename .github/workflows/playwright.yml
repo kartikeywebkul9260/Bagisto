@@ -47,13 +47,12 @@ jobs:
       - name: Install dependencies
         run: composer install
 
-      # Step 5: Wait for MySQL to be ready
+      # Step 5: Wait for MySQL to be ready using wait-for-it.sh
+      - name: Download wait-for-it
+        run: curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && chmod +x wait-for-it.sh
+
       - name: Wait for MySQL to be ready
-        run: |
-          until mysql -hmysql -uroot -pwebkul -e "SELECT 1"; do
-            echo "Waiting for MySQL to be ready..."
-            sleep 5
-          done
+        run: ./wait-for-it.sh mysql:3306 --timeout=60 --strict -- echo "MySQL is up"
 
       # Step 6: Configure Bagisto
       - name: Set up environment
