@@ -12,15 +12,15 @@ jobs:
     services:
       mysql:
         image: mysql:8.0
-        ports:
-          - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: bagisto-test
           MYSQL_USER: bagisto
           MYSQL_PASSWORD: bagisto
+        ports:
+          - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="mysqladmin ping -h localhost -u root -proot"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -29,12 +29,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug MySQL Service
+        run: |
+          # Verbose MySQL connection debugging
+          echo "Listing MySQL connection details:"
+          echo "Host: mysql"
+          echo "Port: 3306"
+
+          # Try multiple connection methods
+          echo "Attempt 1: Connecting with root user"
+          mysql -h mysql -P 3306 -u root -proot -e "SHOW DATABASES;" || echo "Root connection failed"
+
+          echo "Attempt 2: Connecting with bagisto user"
+          mysql -h mysql -P 3306 -u bagisto -pbagisto -e "SHOW DATABASES;" || echo "Bagisto user connection failed"
+
+          echo "Attempt 3: Netcat port check"
+          nc -zv mysql 3306 || echo "Port 3306 not accessible"
+
+          echo "Attempt 4: MySQL service status"
+          sudo systemctl status mysql || echo "MySQL service status check failed"
+
+          echo "Attempt 5: Detailed MySQL logs"
+          docker logs $(docker ps | grep mysql | awk '{print $1}') || echo "Unable to fetch MySQL logs"
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
           extensions: mbstring, intl, bcmath, gd, pdo_mysql, mysql
-          coverage: none
           tools: composer
 
       - name: Cache Composer dependencies
@@ -45,23 +67,55 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Install dependencies
+      - name: Verify MySQL Connection
         run: |
-          composer install --no-progress --no-suggest
+          # Multiple connection verification attempts
+          echo "Attempting to connect to MySQL..."
+
+          # Try root connection
+          mysqladmin -h mysql -P 3306 -u root -proot ping || echo "Root ping failed"
+
+          # Try bagisto user connection
+          mysqladmin -h mysql -P 3306 -u bagisto -pbagisto ping || echo "Bagisto user ping failed"
+
+          # Show MySQL process list
+          mysql -h mysql -P 3306 -u root -proot -e "SHOW PROCESSLIST;" || echo "Process list query failed"
+
+      - name: Prepare Database
+        env:
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: bagisto-test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: |
+          # Explicit database preparation
+          mysql -h mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;"
+          mysql -h mysql -u root -proot -e "GRANT ALL PRIVILEGES ON \`bagisto-test\`.* TO 'root'@'%';"
+          mysql -h mysql -u root -proot -e "FLUSH PRIVILEGES;"
+
+      - name: Install Dependencies
+        run: |
+          composer install
           cp .env.example .env
 
-      - name: Configure database connection
-        run: |
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mysql/' .env
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=bagisto/' .env
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=bagisto/' .env
-          sed -i 's/DB_DATABASE=bagisto/DB_DATABASE=bagisto-test/' .env
+          # Explicitly set database connection details
+          sed -i 's/DB_HOST=.*/DB_HOST=mysql/' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
 
-      - name: Wait for MySQL to be ready
+      - name: Final MySQL Connectivity Test
         run: |
-          while ! mysqladmin ping -h mysql -u bagisto -pbagisto --silent; do
-            sleep 1
-          done
+          echo "Final connectivity check:"
+          php -r "
+          try {
+              \$conn = new PDO('mysql:host=mysql;dbname=bagisto-test', 'root', 'root');
+              echo \"PDO Connection Successful\n\";
+          } catch (PDOException \$e) {
+              echo \"PDO Connection Failed: \" . \$e->getMessage() . \"\n\";
+          }"
 
       - name: Set up application
         run: |
