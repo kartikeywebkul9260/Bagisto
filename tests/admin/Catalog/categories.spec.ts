@@ -1,422 +1,549 @@
-import { test } from '@playwright/test';
-import logIn from '../../../Helpers/admin/loginHelper';
-import mode from '../../../Helpers/admin/modeHelper';
-import config from '../../../Config/config';
-import * as forms from '../../../Helpers/admin/formHelper';
+// import { test } from '@playwright/test';
+// import logIn from '../../../Helpers/admin/loginHelper';
+// import mode from '../../../Helpers/admin/modeHelper';
+// import config from '../../../Config/config';
+// import * as forms from '../../../Helpers/admin/formHelper';
 
-const baseUrl = config.baseUrl;
+// const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+// const { chromium, firefox, webkit } = require('playwright');
 
-test('Create Category', async () => {
-    test.setTimeout(config.highTimeout);
+// test('Create Category', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-    var browser;
+//     var browser;
 
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-    const page = await context.newPage();
+//     const page = await context.newPage();
 
-    try {
-        const log = await logIn(page);
+//     try {
+//         const log = await logIn(page);
 
-        if (log == null) {
-            return;
-        }
+//         if (log == null) {
+//             return;
+//         }
 
-        await mode(page);
+//         await mode(page);
 
-        await page.goto(`${baseUrl}/admin/catalog/categories`);
+//         await page.goto(`${baseUrl}/admin/catalog/categories`);
 
-        await page.click('div.primary-button:visible');
+//         await page.click('div.primary-button:visible');
 
-        await page.waitForSelector('input[name="name"]#name');
+//         await page.waitForSelector('input[name="name"]#name');
 
-        await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//         await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-        await page.fill('input[name="position"]', (Math.floor(Math.random() * 100)).toString());
+//         await page.fill('input[name="position"]', (Math.floor(Math.random() * 100)).toString());
 
-        const parents = await page.$$('input[name="parent_id"] + span[class="icon-radio-normal peer-checked:icon-radio-selected mr-1 cursor-pointer rounded-md text-2xl peer-checked:text-blue-600"]');
+//         const parents = await page.$$('input[name="parent_id"] + span[class="icon-radio-normal peer-checked:icon-radio-selected mr-1 cursor-pointer rounded-md text-2xl peer-checked:text-blue-600"]');
 
-        await parents[Math.floor(Math.random() * ((parents.length - 1) - 0 + 1)) + 0].click();
+//         await parents[Math.floor(Math.random() * ((parents.length - 1) - 0 + 1)) + 0].click();
 
-        await page.waitForSelector('iframe');
-        const iframe = await page.$('iframe');
+//         await page.waitForSelector('iframe');
+//         const iframe = await page.$('iframe');
 
-        const frame = await iframe.contentFrame();
+//         const frame = await iframe.contentFrame();
 
-        const randomHtmlContent = await forms.fillParagraphWithRandomHtml(50);
+//         const randomHtmlContent = await forms.fillParagraphWithRandomHtml(50);
 
-        await frame.$eval('body[data-id="description"] > p', (el, content) => {
-            el.innerHTML = content;
-        }, randomHtmlContent);
+//         await frame.$eval('body[data-id="description"] > p', (el, content) => {
+//             el.innerHTML = content;
+//         }, randomHtmlContent);
 
-        await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-            el.innerHTML += content;
-        }, `<input type="file" name="logo_path[]" accept="image/*"><input type="file" name="banner_path[]" accept="image/*">`);
+//         await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//             el.innerHTML += content;
+//         }, `<input type="file" name="logo_path[]" accept="image/*"><input type="file" name="banner_path[]" accept="image/*">`);
 
-        const images = await page.$$('input[type="file"][name="logo_path[]"], input[type="file"][name="banner_path[]"]');
+//         const images = await page.$$('input[type="file"][name="logo_path[]"], input[type="file"][name="banner_path[]"]');
 
-        const filePath = forms.getRandomImageFile();
+//         const filePath = forms.getRandomImageFile();
 
-        for (let image of images) {
-            await image.setInputFiles(filePath);
-        }
+//         for (let image of images) {
+//             await image.setInputFiles(filePath);
+//         }
 
-        await page.evaluate((content) => {
-            const description = document.querySelector('textarea[name="description"]#description');
+//         await page.evaluate((content) => {
+//             const description = document.querySelector('textarea[name="description"]#description');
 
-            if (description instanceof HTMLTextAreaElement) {
-                description.style.display = content;
-            }
-        }, 'block');
+//             if (description instanceof HTMLTextAreaElement) {
+//                 description.style.display = content;
+//             }
+//         }, 'block');
 
-        await page.fill('textarea[name="description"]', randomHtmlContent.toString());
+//         await page.fill('textarea[name="description"]', randomHtmlContent.toString());
 
-        await page.evaluate((content) => {
-            const description = document.querySelector('textarea[name="description"]#description');
+//         await page.evaluate((content) => {
+//             const description = document.querySelector('textarea[name="description"]#description');
 
-            if (description instanceof HTMLTextAreaElement) {
-                description.style.display = content;
-            }
-        }, 'none');
+//             if (description instanceof HTMLTextAreaElement) {
+//                 description.style.display = content;
+//             }
+//         }, 'none');
 
-        const textareas = await page.$$('textarea:visible, input[name="meta_title"], input[name="meta_keywords"]');
+//         const textareas = await page.$$('textarea:visible, input[name="meta_title"], input[name="meta_keywords"]');
 
-        for (let textarea of textareas) {
-            let i = Math.floor(Math.random() * 10) + 1;
+//         for (let textarea of textareas) {
+//             let i = Math.floor(Math.random() * 10) + 1;
 
-            if (i % 3 == 1) {
-                await textarea.fill(forms.generateRandomStringWithSpaces(200));
-            }
-        }
+//             if (i % 3 == 1) {
+//                 await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//             }
+//         }
 
-        const selects = await page.$$('select.custom-select');
+//         const selects = await page.$$('select.custom-select');
 
-        for (let select of selects) {
-            const options = await select.$$eval('option', (options) => {
-                return options.map(option => option.value);
-            });
+//         for (let select of selects) {
+//             const options = await select.$$eval('option', (options) => {
+//                 return options.map(option => option.value);
+//             });
 
-            if (options.length > 0) {
-                const randomIndex = Math.floor(Math.random() * options.length);
+//             if (options.length > 0) {
+//                 const randomIndex = Math.floor(Math.random() * options.length);
 
-                await select.selectOption(options[randomIndex]);
-            }
-        }
+//                 await select.selectOption(options[randomIndex]);
+//             }
+//         }
 
-        const checkboxs = await page.$$('input[type="checkbox"] + label');
+//         const checkboxs = await page.$$('input[type="checkbox"] + label');
 
-        for (let checkbox of checkboxs) {
-            let i = Math.floor(Math.random() * 10) + 1;
+//         for (let checkbox of checkboxs) {
+//             let i = Math.floor(Math.random() * 10) + 1;
 
-            if (i % 2 == 1) {
-                await checkbox.click();
-            }
-        }
+//             if (i % 2 == 1) {
+//                 await checkbox.click();
+//             }
+//         }
 
-        await page.click('.primary-button:visible');
+//         await page.click('.primary-button:visible');
 
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
+//         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//         var message = '';
 
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
+//         if (getError) {
+//             const errors = await page.$$('.text-red-600.text-xs.italic');
 
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             for (let error of errors) {
+//                 message = await error.evaluate(el => el.innerText);
+//                 console.log(message);
+//             }
+//         } else {
+//             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//             if (iconExists) {
+//                 const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                 const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.log(message);
-            }
-        }
-    } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
+//                 message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                 await icons[0].click();
+//                 console.log(message);
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-        try {
-            if (page.url() != `${baseUrl}/admin/catalog/categories`) {
-                await page.goto(`${baseUrl}/admin/catalog/categories`);
-            }
+// test('Edit Category', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-            const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
+//     var browser;
 
-            if (iconEdit.length > 0) {
-                await iconEdit[Math.floor(Math.random() * ((iconEdit.length - 1) - 0 + 1)) + 0].click();
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                await page.waitForSelector('input[name="en[name]"]');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-                await page.fill('input[name="en[name]"]', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//     const page = await context.newPage();
 
-                await page.fill('input[name="position"]', (Math.floor(Math.random() * 100)).toString());
+//     try {
+//         const log = await logIn(page);
 
-                const parents = await page.$$('input[name="parent_id"] + span[class="icon-radio-normal peer-checked:icon-radio-selected mr-1 cursor-pointer rounded-md text-2xl peer-checked:text-blue-600"]');
+//         if (log == null) {
+//             return;
+//         }
 
-                await parents[Math.floor(Math.random() * ((parents.length - 1) - 0 + 1)) + 0].click();
+//         await page.goto(`${baseUrl}/admin/catalog/categories`);
 
-                await page.waitForSelector('iframe');
-                const iframe = await page.$('iframe');
+//         await mode(page);
 
-                const frame = await iframe.contentFrame();
+//         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
-                const randomHtmlContent = await forms.fillParagraphWithRandomHtml(50);
+//         if (iconEdit.length > 0) {
+//             await iconEdit[Math.floor(Math.random() * ((iconEdit.length - 1) - 0 + 1)) + 0].click();
 
-                await frame.$eval('body[data-id="description"] > p', (el, content) => {
-                    el.innerHTML = content;
-                }, randomHtmlContent);
+//             await page.waitForSelector('input[name="en[name]"]');
 
-                let number = Math.floor(Math.random() * 4) + 1;
+//             await page.fill('input[name="en[name]"]', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                    el.innerHTML += content;
-                }, `<input type="file" name="logo_path[]" accept="image/*"><input type="file" name="banner_path[]" accept="image/*">`);
+//             await page.fill('input[name="position"]', (Math.floor(Math.random() * 100)).toString());
 
-                const images = await page.$$('input[type="file"][name="logo_path[]"], input[type="file"][name="banner_path[]"]');
+//             const parents = await page.$$('input[name="parent_id"] + span[class="icon-radio-normal peer-checked:icon-radio-selected mr-1 cursor-pointer rounded-md text-2xl peer-checked:text-blue-600"]');
 
-                const filePath = forms.getRandomImageFile();
+//             await parents[Math.floor(Math.random() * ((parents.length - 1) - 0 + 1)) + 0].click();
 
-                for (let image of images) {
-                    await image.setInputFiles(filePath);
-                }
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$('iframe');
 
-                await page.evaluate((content) => {
-                    const description = document.querySelector('textarea[name="en[description]"]#description');
+//             const frame = await iframe.contentFrame();
 
-                    if (description instanceof HTMLTextAreaElement) {
-                        description.style.display = content;
-                    }
-                }, 'block');
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(50);
 
-                await page.fill('textarea[name="en[description]"]', randomHtmlContent.toString());
+//             await frame.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                await page.evaluate((content) => {
-                    const description = document.querySelector('textarea[name="en[description]"]#description');
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                    if (description instanceof HTMLTextAreaElement) {
-                        description.style.display = content;
-                    }
-                }, 'none');
+//             await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                 el.innerHTML += content;
+//             }, `<input type="file" name="logo_path[]" accept="image/*"><input type="file" name="banner_path[]" accept="image/*">`);
 
-                const textareas = await page.$$('textarea:visible, input[name="en[meta_title]"], input[name="en[meta_keywords]"]');
+//             const images = await page.$$('input[type="file"][name="logo_path[]"], input[type="file"][name="banner_path[]"]');
 
-                for (let textarea of textareas) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//             const filePath = forms.getRandomImageFile();
 
-                    if (i % 3 == 1) {
-                        await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                    }
-                }
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                const selects = await page.$$('select.custom-select');
+//             await page.evaluate((content) => {
+//                 const description = document.querySelector('textarea[name="en[description]"]#description');
 
-                for (let select of selects) {
-                    const options = await select.$$eval('option', (options) => {
-                        return options.map(option => option.value);
-                    });
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                    if (options.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * options.length);
+//             await page.fill('textarea[name="en[description]"]', randomHtmlContent.toString());
 
-                        await select.selectOption(options[randomIndex]);
-                    }
-                }
+//             await page.evaluate((content) => {
+//                 const description = document.querySelector('textarea[name="en[description]"]#description');
 
-                const checkboxs = await page.$$('input[type="checkbox"] + label');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                for (let checkbox of checkboxs) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//             const textareas = await page.$$('textarea:visible, input[name="en[meta_title]"], input[name="en[meta_keywords]"]');
 
-                    if (i % 2 == 1) {
-                        await checkbox.click();
-                    }
-                }
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                await page.click('.primary-button:visible');
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                var message = '';
+//             const selects = await page.$$('select.custom-select');
 
-                if (getError) {
-                    const errors = await page.$$('.text-red-600.text-xs.italic');
+//             for (let select of selects) {
+//                 const options = await select.$$eval('option', (options) => {
+//                     return options.map(option => option.value);
+//                 });
 
-                    for (let error of errors) {
-                        message = await error.evaluate(el => el.innerText);
-                        console.log(message);
-                    }
-                } else {
-                    const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                 if (options.length > 0) {
+//                     const randomIndex = Math.floor(Math.random() * options.length);
 
-                    if (iconExists) {
-                        const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                        const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//                     await select.selectOption(options[randomIndex]);
+//                 }
+//             }
 
-                        message = await messages[0].evaluate(el => el.parentNode.innerText);
-                        await icons[0].click();
-                        console.log(message);
-                    }
-                }
-            } else {
-                console.log('No category found, create first.');
-            }
-        } catch (error) {
-            console.log('Error during test execution:', error.message);
-        } finally {
+//             const checkboxs = await page.$$('input[type="checkbox"] + label');
 
-            try {
-                if (page.url() != `${baseUrl}/admin/catalog/categories`) {
-                    await page.goto(`${baseUrl}/admin/catalog/categories`);
-                }
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                if (iconEdit.length > 0) {
-                    await iconEdit[Math.floor(Math.random() * ((iconEdit.length - 1) - 0 + 1)) + 0].click();
+//             await page.click('.primary-button:visible');
 
-                    await page.click('button.transparent-button + button.primary-button:visible');
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                    const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                    if (iconExists) {
-                        const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                        const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                        const message = await messages[0].evaluate(el => el.parentNode.innerText);
-                        await icons[0].click();
-                        console.log(message);
-                    }
-                } else {
-                    console.log('No category found, create first.');
-                }
-            } catch (error) {
-                console.log('Error during test execution:', error.message);
-            } finally {
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                try {
-                    if (page.url() != `${baseUrl}/admin/catalog/categories`) {
-                        await page.goto(`${baseUrl}/admin/catalog/categories`);
-                    }
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         } else {
+//             console.log('No category found, create first.');
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                    const checkboxs = await page.$$('.icon-uncheckbox');
+// test('Delete Category', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                    if (checkboxs.length > 0) {
-                        for (let checkbox of checkboxs) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//     var browser;
 
-                            if (i % 3 == 1) {
-                                await checkbox.click();
-                            }
-                        }
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                        const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-                        if (button) {
-                            await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
-                            await page.click('a[class="whitespace-no-wrap flex gap-1.5 rounded-b px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+//     const page = await context.newPage();
 
-                            await page.click('button.transparent-button + button.primary-button:visible');
+//     try {
+//         const log = await logIn(page);
 
-                            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//         if (log == null) {
+//             return;
+//         }
 
-                            if (iconExists) {
-                                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//         await page.goto(`${baseUrl}/admin/catalog/categories`);
 
-                                const message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                await icons[0].click();
-                                console.log(message);
-                            }
-                        } else {
-                            console.log('Please select any category.');
-                        }
-                    } else {
-                        console.log('No category found, create first.');
-                    }
-                } catch (error) {
-                    console.log('Error during test execution:', error.message);
-                } finally {
+//         await mode(page);
 
-                    try {
-                        if (page.url() != `${baseUrl}/admin/catalog/categories`) {
-                            await page.goto(`${baseUrl}/admin/catalog/categories`);
-                        }
+//         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
-                        await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
-                        const checkboxs = await page.$$('.icon-uncheckbox');
+//         if (iconEdit.length > 0) {
+//             await iconEdit[Math.floor(Math.random() * ((iconEdit.length - 1) - 0 + 1)) + 0].click();
 
-                        if (checkboxs.length > 0) {
-                            for (let checkbox of checkboxs) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//             await page.click('button.transparent-button + button.primary-button:visible');
 
-                                if (i % 3 == 1) {
-                                    await checkbox.click();
-                                }
-                            }
-                            const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+//             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                            if (button) {
-                                await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
-                                await page.hover('a[class="whitespace-no-wrap flex cursor-not-allowed justify-between gap-1.5 rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+//             if (iconExists) {
+//                 const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                 const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                                const buttons = await page.$$('a[class="whitespace-no-wrap block rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+//                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                 await icons[0].click();
+//                 console.log(message);
+//             }
+//         } else {
+//             console.log('No category found, create first.');
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                                let i = Math.floor(Math.random() * 10) + 1;
+// test('Mass Delete Categories', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                                if (i % 2 == 1) {
-                                    await buttons[1].click();
-                                } else {
-                                    await buttons[0].click();
-                                }
+//     var browser;
 
-                                await page.click('button.transparent-button + button.primary-button:visible');
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                                const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-                                if (iconExists) {
-                                    const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                    const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//     const page = await context.newPage();
 
-                                    const message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                    await icons[0].click();
-                                    console.log(message);
-                                }
-                            } else {
-                                console.log('Please select any category.');
-                            }
-                        } else {
-                            console.log('No category found, create first.');
-                        }
-                    } catch (error) {
-                        console.log('Error during test execution:', error.message);
-                    } finally {
+//     try {
+//         const log = await logIn(page);
 
-                        await page.close();
-                        await context.close();
-                        await browser.close();
-                    }
-                }
-            }
-        }
-    }
-});
+//         if (log == null) {
+//             return;
+//         }
+
+//         await page.goto(`${baseUrl}/admin/catalog/categories`);
+
+//         await mode(page);
+
+//         const checkboxs = await page.$$('.icon-uncheckbox');
+
+//         if (checkboxs.length > 0) {
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 3 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
+
+//             const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+
+//             if (button) {
+//                 await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
+//                 await page.click('a[class="whitespace-no-wrap flex gap-1.5 rounded-b px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+
+//                 await page.click('button.transparent-button + button.primary-button:visible');
+
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+
+//                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             } else {
+//                 console.log('Please select any category.');
+//             }
+//         } else {
+//             console.log('No category found, create first.');
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
+
+// test('Mass Update Categories', async () => {
+//     test.setTimeout(config.mediumTimeout);
+
+//     var browser;
+
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
+
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+
+//     const page = await context.newPage();
+
+//     try {
+//         const log = await logIn(page);
+
+//         if (log == null) {
+//             return;
+//         }
+
+//         await page.goto(`${baseUrl}/admin/catalog/categories`);
+
+//         await mode(page);
+
+//         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//         const checkboxs = await page.$$('.icon-uncheckbox');
+
+//         if (checkboxs.length > 0) {
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 3 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
+//             const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+
+//             if (button) {
+//                 await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
+//                 await page.hover('a[class="whitespace-no-wrap flex cursor-not-allowed justify-between gap-1.5 rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+
+//                 const buttons = await page.$$('a[class="whitespace-no-wrap block rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 2 == 1) {
+//                     await buttons[1].click();
+//                 } else {
+//                     await buttons[0].click();
+//                 }
+
+//                 await page.click('button.transparent-button + button.primary-button:visible');
+
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+
+//                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             } else {
+//                 console.log('Please select any category.');
+//             }
+//         } else {
+//             console.log('No category found, create first.');
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });

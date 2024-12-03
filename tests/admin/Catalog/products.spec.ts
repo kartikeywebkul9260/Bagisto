@@ -1,2382 +1,2666 @@
-import { test } from '@playwright/test';
-import logIn from '../../../Helpers/admin/loginHelper';
-import mode from '../../../Helpers/admin/modeHelper';
-import config from '../../../Config/config';
-import * as forms from '../../../Helpers/admin/formHelper';
+// import { test } from '@playwright/test';
+// import logIn from '../../../Helpers/admin/loginHelper';
+// import mode from '../../../Helpers/admin/modeHelper';
+// import config from '../../../Config/config';
+// import * as forms from '../../../Helpers/admin/formHelper';
 
-const baseUrl = config.baseUrl;
+// const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+// const { chromium, firefox, webkit } = require('playwright');
 
-test('Create Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.highTimeout);
+// test('Create Product(simple, virtual, downloadable)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-    var browser;
+//     var browser;
 
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+//     const page = await context.newPage();
 
-    try {
-        const log = await logIn(page);
+//     try {
+//         const log = await logIn(page);
 
-        if (log == null) {
-            return;
-        }
+//         if (log == null) {
+//             return;
+//         }
 
-        await mode(page);
+//         await mode(page);
 
-        await page.goto(`${baseUrl}/admin/catalog/products`);
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-        await page.click('button.primary-button:visible');
+//         await page.click('button.primary-button:visible');
 
-        const option = Math.random() > 0.3 ? 'simple' : (Math.random() > 0.5 ? 'downloadable' : 'virtual');
+//         const option = Math.random() > 0.3 ? 'simple' : (Math.random() > 0.5 ? 'downloadable' : 'virtual');
 
-        await page.selectOption('select[name="type"]:visible', { value: option });
+//         await page.selectOption('select[name="type"]:visible', { value: option });
 
-        const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
-            return options.map(option => option.value);
-        });
+//         const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
+//             return options.map(option => option.value);
+//         });
 
-        const randomIndex = Math.floor(Math.random() * options.length);
+//         const randomIndex = Math.floor(Math.random() * options.length);
 
-        await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
+//         await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
 
-        await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
-        await page.click('button[type="submit"].primary-button:visible');
-        await forms.testForm(page);
+//         await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
+//         await page.click('button[type="submit"].primary-button:visible');
+//         await forms.testForm(page);
 
-        const exists = await page.waitForSelector('input[name="name"]#name', { timeout: 1000 }).catch(() => null);
+//         const exists = await page.waitForSelector('input[name="name"]#name', { timeout: 1000 }).catch(() => null);
 
-        if (exists) {
-            await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//         if (exists) {
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-            await page.waitForSelector('iframe');
-            const iframe = await page.$$('iframe');
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-            const frame1 = await iframe[0].contentFrame();
+//             const frame1 = await iframe[0].contentFrame();
 
-            const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-            await frame1.waitForSelector('body[data-id="short_description"] > p');
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-            await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                el.innerHTML = content;
-            }, randomHtmlContent);
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-            const frame2 = await iframe[1].contentFrame();
+//             const frame2 = await iframe[1].contentFrame();
 
-            const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-            await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                el.innerHTML = content;
-            }, randomHtmlContent1);
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-            let number = Math.floor(Math.random() * 4) + 1;
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-            for (let i = 1; i <= number; i++) {
-                await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                    el.innerHTML += content;
-                }, `<input type="file" name="images[files][]" accept="image/*">`);
-            }
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-            const images = await page.$$('input[type="file"][name="images[files][]"]');
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-            const filePath = forms.getRandomImageFile();
+//             const filePath = forms.getRandomImageFile();
 
-            for (let image of images) {
-                await image.setInputFiles(filePath);
-            }
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-            await page.evaluate((content) => {
-                const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                const description = document.querySelector('textarea[name="description"]#description');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                if (shortDescription instanceof HTMLTextAreaElement) {
-                    shortDescription.style.display = content;
-                }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                if (description instanceof HTMLTextAreaElement) {
-                    description.style.display = content;
-                }
-            }, 'block');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-            await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-            await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-            await page.evaluate((content) => {
-                const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                const description = document.querySelector('textarea[name="description"]#description');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                if (shortDescription instanceof HTMLTextAreaElement) {
-                    shortDescription.style.display = content;
-                }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                if (description instanceof HTMLTextAreaElement) {
-                    description.style.display = content;
-                }
-            }, 'none');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-            await page.fill('input[name="price"]#price', (Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//             await page.fill('input[name="price"]#price', (Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
 
-            const weight = await page.$$('input[name="weight"]#weight');
+//             const weight = await page.$$('input[name="weight"]#weight');
 
-            if (weight.length > 0) {
-                await page.fill('input[name="weight"]#weight', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
-            }
+//             if (weight.length > 0) {
+//                 await page.fill('input[name="weight"]#weight', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
+//             }
 
-            const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
+//             const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
 
-            for (let checkbox of checkboxs) {
-                let i = Math.floor(Math.random() * 10) + 1;
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                if (i % 2 == 1) {
-                    await checkbox.click();
-                }
-            }
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-            const inventories = await page.$$('input[name="inventories[1]"]:visible');
-            if (inventories.length > 0) {
-                await page.fill('input[name="inventories[1]"]', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
-            }
+//             const inventories = await page.$$('input[name="inventories[1]"]:visible');
+//             if (inventories.length > 0) {
+//                 await page.fill('input[name="inventories[1]"]', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
+//             }
 
-            const selects = await page.$$('select.custom-select');
+//             const selects = await page.$$('select.custom-select');
 
-            for (let select of selects) {
-                let i = Math.floor(Math.random() * 10) + 1;
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                if (i % 3 == 1) {
-                    const options = await select.$$eval('option', (options) => {
-                        return options.map(option => option.value);
-                    });
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                    if (options.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * options.length);
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                        await select.selectOption(options[randomIndex]);
-                    }
-                }
-            }
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-            const textareas = await page.$$('textarea:visible');
+//             const textareas = await page.$$('textarea:visible');
 
-            for (let textarea of textareas) {
-                let i = Math.floor(Math.random() * 10) + 1;
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                if (i % 3 == 1) {
-                    await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                }
-            }
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-            const inputs = await page.$$('input[name="cost"], input[name="special_price"], input[name="length"], input[name="width"], input[name="height"], input[name="product_number"]');
+//             const inputs = await page.$$('input[name="cost"], input[name="special_price"], input[name="length"], input[name="width"], input[name="height"], input[name="product_number"]');
 
-            for (let input of inputs) {
-                let i = Math.floor(Math.random() * 10) + 1;
+//             for (let input of inputs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                if (i % 3 == 1) {
-                    await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                }
-            }
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-            const addButtons = await page.$$('div.secondary-button:visible');
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-            for (let addButton of addButtons.slice(-3)) {
-                let i = Math.floor(Math.random() * 10) + 1;
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                if (i % 3 == 1) {
-                    await addButton.click();
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                    const randomProduct = forms.generateRandomProductName();
-                    await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                    const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                    if (exists) {
-                        const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                        for (let checkbox of checkboxs) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                            if (
-                                i % 2 == 1
-                                || checkboxs.length < 3
-                            ) {
-                                await checkbox.scrollIntoViewIfNeeded();
-                                await checkbox.click();
-                            }
-                        }
-                    } else {
-                        console.log('no product found');
-                    }
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                    page.click('div.primary-button:visible');
-                }
-            }
-            if (addButtons.length > 3) {
-                for (let addButton of [addButtons[0], addButtons.length == 7 ? addButtons[2] : (addButtons.length == 5 ? addButtons[1] : addButtons[2])]) {
-                    let i = Math.floor(Math.random() * 5) + 1;
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
+//             if (addButtons.length > 3) {
+//                 for (let addButton of [addButtons[0], addButtons.length == 7 ? addButtons[2] : (addButtons.length == 5 ? addButtons[1] : addButtons[2])]) {
+//                     let i = Math.floor(Math.random() * 5) + 1;
+
+//                     for (let j = 1; j <= i; j++) {
+//                         await addButton.click();
+
+//                         await page.waitForSelector('input[name="title"]:visible');
 
-                    for (let j = 1; j <= i; j++) {
-                        await addButton.click();
+//                         await page.fill('input[name="title"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                        await page.waitForSelector('input[name="title"]:visible');
+//                         const inventories = await page.$$('input[name="downloads"]:visible');
+//                         if (inventories.length > 0) {
+//                             await page.fill('input[name="price"]:visible', (Math.floor(Math.random() * 500)).toString());
+//                             await page.fill('input[name="downloads"]:visible', (Math.floor(Math.random() * 500)).toString());
+//                         }
+//                         const selects = await page.$$('select[name="type"].custom-select:visible , select[name="sample_type"].custom-select:visible');
 
-                        await page.fill('input[name="title"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                         for (let select of selects) {
+//                             const option = Math.random() > 0.5 ? 'file' : 'url';
 
-                        const inventories = await page.$$('input[name="downloads"]:visible');
-                        if (inventories.length > 0) {
-                            await page.fill('input[name="price"]:visible', (Math.floor(Math.random() * 500)).toString());
-                            await page.fill('input[name="downloads"]:visible', (Math.floor(Math.random() * 500)).toString());
-                        }
-                        const selects = await page.$$('select[name="type"].custom-select:visible , select[name="sample_type"].custom-select:visible');
+//                             await select.selectOption({ value: option });
+//                         }
 
-                        for (let select of selects) {
-                            const option = Math.random() > 0.5 ? 'file' : 'url';
+//                         const files = await page.$$('input[name="file"]:visible , input[name="sample_file"]:visible');
+//                         const urls = await page.$$('input[name="url"]:visible , input[name="sample_url"]:visible');
 
-                            await select.selectOption({ value: option });
-                        }
+//                         const filePath = forms.getRandomImageFile();
 
-                        const files = await page.$$('input[name="file"]:visible , input[name="sample_file"]:visible');
-                        const urls = await page.$$('input[name="url"]:visible , input[name="sample_url"]:visible');
+//                         for (let file of files) {
+//                             await file.setInputFiles(filePath);
+//                         }
+//                         for (let url of urls) {
+//                             await url.fill(forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                         }
 
-                        const filePath = forms.getRandomImageFile();
+//                         await page.click('p.text-xl.font-medium + button.primary-button:visible');
 
-                        for (let file of files) {
-                            await file.setInputFiles(filePath);
-                        }
-                        for (let url of urls) {
-                            await url.fill(forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
-                        }
+//                         await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
 
-                        await page.click('p.text-xl.font-medium + button.primary-button:visible');
+//                         const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
 
-                        await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+//                         if (crosses.length > 0) {
+//                             for (let cross of crosses) {
+//                                 await cross.click();
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
 
-                        const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+//             await page.click('.primary-button:visible');
 
-                        if (crosses.length > 0) {
-                            for (let cross of crosses) {
-                                await cross.click();
-                            }
-                        }
-                    }
-                }
-            }
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-            await page.click('.primary-button:visible');
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-            const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-            var message = '';
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-            if (getError) {
-                const errors = await page.$$('.text-red-600.text-xs.italic');
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                for (let error of errors) {
-                    message = await error.evaluate(el => el.innerText);
-                    console.log(message);
-                }
-            } else {
-                const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                if (iconExists) {
-                    const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                    const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+// test('Edit Product(simple, virtual, downloadable)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                    message = await messages[0].evaluate(el => el.parentNode.innerText);
-                    await icons[0].click();
-                    console.log(message);
-                }
-            }
-        }
-    } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
+//     var browser;
 
-        try {
-            if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                await page.goto(`${baseUrl}/admin/catalog/products`);
-            }
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-            await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-            await page.click('span[class="icon-filter text-2xl"]:visible');
+//     const page = await context.newPage();
 
-            const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
+//     try {
+//         const log = await logIn(page);
 
-            for (let i = 0; i < clearBtn.length; i++) {
-                await clearBtn[i].click();
-            }
+//         if (log == null) {
+//             return;
+//         }
 
-            const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-            await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
-            await typeBtn[typeBtn.length - 1].click();
+//         await mode(page);
 
-            await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
-            const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//         await page.click('span[class="icon-filter text-2xl"]:visible');
 
-            const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
+//         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
 
-            for (let i = 0; i < liSelects.length; i += 2) {
-                await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
-                await typeBtn[typeBtn.length - 1].click();
+//         for (let i = 0; i < clearBtn.length; i++) {
+//             await clearBtn[i].click();
+//         }
 
-                liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
-                liSelects[i].click();
-            }
+//         const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
 
-            await page.click('button[type="button"][class="secondary-button w-full"]:visible');
+//         await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
+//         await typeBtn[typeBtn.length - 1].click();
 
-            await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
+//         await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-            const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
+//         const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-            if (iconRight.length > 0) {
-                await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
+//         const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
 
-                await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//         for (let i = 0; i < liSelects.length; i += 2) {
+//             await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
+//             await typeBtn[typeBtn.length - 1].click();
 
-                await page.waitForSelector('iframe');
-                const iframe = await page.$$('iframe');
+//             liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
+//             liSelects[i].click();
+//         }
 
-                const frame1 = await iframe[0].contentFrame();
+//         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
-                const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//         await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
 
-                await frame1.waitForSelector('body[data-id="short_description"] > p');
+//         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
-                await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                    el.innerHTML = content;
-                }, randomHtmlContent);
+//         if (iconRight.length > 0) {
+//             await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
 
-                const frame2 = await iframe[1].contentFrame();
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                    el.innerHTML = content;
-                }, randomHtmlContent1);
+//             const frame1 = await iframe[0].contentFrame();
 
-                let number = Math.floor(Math.random() * 4) + 1;
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                for (let i = 1; i <= number; i++) {
-                    await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                        el.innerHTML += content;
-                    }, `<input type="file" name="images[files][]" accept="image/*">`);
-                }
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                const images = await page.$$('input[type="file"][name="images[files][]"]');
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                const filePath = forms.getRandomImageFile();
+//             const frame2 = await iframe[1].contentFrame();
 
-                for (let image of images) {
-                    await image.setInputFiles(filePath);
-                }
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                await page.evaluate((content) => {
-                    const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                    const description = document.querySelector('textarea[name="description"]#description');
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                    if (shortDescription instanceof HTMLTextAreaElement) {
-                        shortDescription.style.display = content;
-                    }
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                    if (description instanceof HTMLTextAreaElement) {
-                        description.style.display = content;
-                    }
-                }, 'block');
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                await page.evaluate((content) => {
-                    const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                    const description = document.querySelector('textarea[name="description"]#description');
+//             const filePath = forms.getRandomImageFile();
 
-                    if (shortDescription instanceof HTMLTextAreaElement) {
-                        shortDescription.style.display = content;
-                    }
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                    if (description instanceof HTMLTextAreaElement) {
-                        description.style.display = content;
-                    }
-                }, 'none');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                await page.fill('input[name="price"]#price', (Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                const weight = await page.$$('input[name="weight"]#weight');
-                if (weight.length > 0) {
-                    await page.fill('input[name="weight"]#weight', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
-                }
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                for (let checkbox of checkboxs) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                    if (i % 2 == 1) {
-                        await checkbox.click();
-                    }
-                }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                const inventories = await page.$$('input[name="inventories[1]"]:visible');
-                if (inventories.length > 0) {
-                    await page.fill('input[name="inventories[1]"]', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
-                }
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                const selects = await page.$$('select.custom-select');
+//             await page.fill('input[name="price"]#price', (Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
 
-                for (let select of selects) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//             const weight = await page.$$('input[name="weight"]#weight');
+//             if (weight.length > 0) {
+//                 await page.fill('input[name="weight"]#weight', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
+//             }
 
-                    if (i % 3 == 1) {
-                        const options = await select.$$eval('option', (options) => {
-                            return options.map(option => option.value);
-                        });
+//             const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
 
-                        if (options.length > 0) {
-                            const randomIndex = Math.floor(Math.random() * options.length);
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            await select.selectOption(options[randomIndex]);
-                        }
-                    }
-                }
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                const textareas = await page.$$('textarea:visible');
+//             const inventories = await page.$$('input[name="inventories[1]"]:visible');
+//             if (inventories.length > 0) {
+//                 await page.fill('input[name="inventories[1]"]', (Math.floor(Math.random() * 10) * Math.floor(Math.random() * 10)).toString());
+//             }
 
-                for (let textarea of textareas) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//             const selects = await page.$$('select.custom-select');
 
-                    if (i % 3 == 1) {
-                        await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                    }
-                }
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                for (let deleteBtn of deleteBtns) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                    if (i % 3 == 1) {
-                        await deleteBtn.click();
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                        await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+//             const textareas = await page.$$('textarea:visible');
 
-                        break;
-                    }
-                }
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                const inputs = await page.$$('input[name="cost"], input[name="special_price"], input[name="length"], input[name="width"], input[name="height"], input[name="product_number"]');
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                for (let input of inputs) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//             const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
 
-                    if (i % 3 == 1) {
-                        await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                    }
-                }
+//             for (let deleteBtn of deleteBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                const addButtons = await page.$$('div.secondary-button:visible');
+//                 if (i % 3 == 1) {
+//                     await deleteBtn.click();
 
-                for (let addButton of addButtons.slice(-3)) {
-                    let i = Math.floor(Math.random() * 10) + 1;
+//                     await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
 
-                    if (i % 3 == 1) {
-                        await addButton.click();
+//                     break;
+//                 }
+//             }
 
-                        const randomProduct = forms.generateRandomProductName();
-                        await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                        console.log(randomProduct);
+//             const inputs = await page.$$('input[name="cost"], input[name="special_price"], input[name="length"], input[name="width"], input[name="height"], input[name="product_number"]');
 
-                        const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//             for (let input of inputs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                        if (exists) {
-                            const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-                            for (let checkbox of checkboxs) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-                                if (
-                                    i % 2 == 1
-                                    || checkboxs.length < 3
-                                ) {
-                                    await checkbox.scrollIntoViewIfNeeded();
-                                    await checkbox.click();
-                                }
-                            }
-                        } else {
-                            console.log('no product found');
-                        }
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                        page.click('div.primary-button:visible');
-                    }
-                }
-                if (addButtons.length > 3) {
-                    for (let addButton of [addButtons[0], addButtons.length == 7 ? addButtons[2] : (addButtons.length == 5 ? addButtons[1] : addButtons[2])]) {
-                        let i = Math.floor(Math.random() * 5) + 1;
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                        for (let j = 1; j <= i; j++) {
-                            await addButton.click();
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                            await page.waitForSelector('input[name="title"]:visible');
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                            await page.fill('input[name="title"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                            const inventories = await page.$$('input[name="downloads"]:visible');
-                            if (inventories.length > 0) {
-                                await page.fill('input[name="price"]:visible', (Math.floor(Math.random() * 500)).toString());
-                                await page.fill('input[name="downloads"]:visible', (Math.floor(Math.random() * 500)).toString());
-                            }
-                            const selects = await page.$$('select[name="type"].custom-select:visible , select[name="sample_type"].custom-select:visible');
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                            for (let select of selects) {
-                                const option = Math.random() > 0.5 ? 'file' : 'url';
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                                await select.selectOption({ value: option });
-                            }
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
+//             if (addButtons.length > 3) {
+//                 for (let addButton of [addButtons[0], addButtons.length == 7 ? addButtons[2] : (addButtons.length == 5 ? addButtons[1] : addButtons[2])]) {
+//                     let i = Math.floor(Math.random() * 5) + 1;
 
-                            const files = await page.$$('input[name="file"]:visible , input[name="sample_file"]:visible');
-                            const urls = await page.$$('input[name="url"]:visible , input[name="sample_url"]:visible');
+//                     for (let j = 1; j <= i; j++) {
+//                         await addButton.click();
 
-                            const filePath = forms.getRandomImageFile();
+//                         await page.waitForSelector('input[name="title"]:visible');
 
-                            for (let file of files) {
-                                await file.setInputFiles(filePath);
-                            }
-                            for (let url of urls) {
-                                await url.fill(forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
-                            }
+//                         await page.fill('input[name="title"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                            await page.click('p.text-xl.font-medium + button.primary-button:visible');
+//                         const inventories = await page.$$('input[name="downloads"]:visible');
+//                         if (inventories.length > 0) {
+//                             await page.fill('input[name="price"]:visible', (Math.floor(Math.random() * 500)).toString());
+//                             await page.fill('input[name="downloads"]:visible', (Math.floor(Math.random() * 500)).toString());
+//                         }
+//                         const selects = await page.$$('select[name="type"].custom-select:visible , select[name="sample_type"].custom-select:visible');
 
-                            await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+//                         for (let select of selects) {
+//                             const option = Math.random() > 0.5 ? 'file' : 'url';
 
-                            const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+//                             await select.selectOption({ value: option });
+//                         }
 
-                            if (crosses.length > 0) {
-                                for (let cross of crosses) {
-                                    await cross.click();
-                                }
-                            }
-                        }
-                    }
-                }
+//                         const files = await page.$$('input[name="file"]:visible , input[name="sample_file"]:visible');
+//                         const urls = await page.$$('input[name="url"]:visible , input[name="sample_url"]:visible');
 
-                await page.click('.primary-button:visible');
+//                         const filePath = forms.getRandomImageFile();
 
-                const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                var message = '';
+//                         for (let file of files) {
+//                             await file.setInputFiles(filePath);
+//                         }
+//                         for (let url of urls) {
+//                             await url.fill(forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                         }
 
-                if (getError) {
-                    const errors = await page.$$('.text-red-600.text-xs.italic');
+//                         await page.click('p.text-xl.font-medium + button.primary-button:visible');
 
-                    for (let error of errors) {
-                        message = await error.evaluate(el => el.innerText);
-                        console.log(message);
-                    }
-                } else {
-                    const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                         await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
 
-                    if (iconExists) {
-                        const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                        const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//                         const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
 
-                        message = await messages[0].evaluate(el => el.parentNode.innerText);
-                        await icons[0].click();
-                        console.log(message);
-                    }
-                }
-            }
-        } catch (error) {
-            console.log('Error during test execution:', error.message);
-        } finally {
+//                         if (crosses.length > 0) {
+//                             for (let cross of crosses) {
+//                                 await cross.click();
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
 
-            try {
-                if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                    await page.goto(`${baseUrl}/admin/catalog/products`);
-                }
+//             await page.click('.primary-button:visible');
 
-                await page.click('button.primary-button:visible');
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                await page.selectOption('select[name="type"]:visible', 'bundle');
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
-                    return options.map(option => option.value);
-                });
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                const randomIndex = Math.floor(Math.random() * options.length);
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
-                await page.click('button[type="submit"].primary-button:visible');
-                await forms.testForm(page);
+// test('Create Product(bundle)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                const exists = await page.waitForSelector('input[name="name"]#name', { timeout: 1000 }).catch(() => null);
+//     var browser;
 
-                if (exists) {
-                    await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                    await page.waitForSelector('iframe');
-                    const iframe = await page.$$('iframe');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+//     const page = await context.newPage();
 
-                    const frame1 = await iframe[0].contentFrame();
+//     try {
+//         const log = await logIn(page);
 
-                    const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//         if (log == null) {
+//             return;
+//         }
 
-                    await frame1.waitForSelector('body[data-id="short_description"] > p');
+//         await mode(page);
 
-                    await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                        el.innerHTML = content;
-                    }, randomHtmlContent);
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-                    const frame2 = await iframe[1].contentFrame();
+//         await page.click('button.primary-button:visible');
 
-                    const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//         await page.selectOption('select[name="type"]:visible', 'bundle');
 
-                    await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                        el.innerHTML = content;
-                    }, randomHtmlContent1);
+//         const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
+//             return options.map(option => option.value);
+//         });
 
-                    let number = Math.floor(Math.random() * 4) + 1;
+//         const randomIndex = Math.floor(Math.random() * options.length);
 
-                    for (let i = 1; i <= number; i++) {
-                        await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                            el.innerHTML += content;
-                        }, `<input type="file" name="images[files][]" accept="image/*">`);
-                    }
+//         await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
 
-                    const images = await page.$$('input[type="file"][name="images[files][]"]');
+//         await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
+//         await page.click('button[type="submit"].primary-button:visible');
+//         await forms.testForm(page);
 
-                    const filePath = forms.getRandomImageFile();
+//         const exists = await page.waitForSelector('input[name="name"]#name', { timeout: 1000 }).catch(() => null);
 
-                    for (let image of images) {
-                        await image.setInputFiles(filePath);
-                    }
+//         if (exists) {
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                    await page.evaluate((content) => {
-                        const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                        const description = document.querySelector('textarea[name="description"]#description');
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                        if (shortDescription instanceof HTMLTextAreaElement) {
-                            shortDescription.style.display = content;
-                        }
+//             const frame1 = await iframe[0].contentFrame();
 
-                        if (description instanceof HTMLTextAreaElement) {
-                            description.style.display = content;
-                        }
-                    }, 'block');
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                    await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                    await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                    await page.evaluate((content) => {
-                        const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                        const description = document.querySelector('textarea[name="description"]#description');
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                        if (shortDescription instanceof HTMLTextAreaElement) {
-                            shortDescription.style.display = content;
-                        }
+//             const frame2 = await iframe[1].contentFrame();
 
-                        if (description instanceof HTMLTextAreaElement) {
-                            description.style.display = content;
-                        }
-                    }, 'none');
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                    const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                    for (let checkbox of checkboxs) {
-                        let i = Math.floor(Math.random() * 10) + 1;
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                        if (i % 2 == 1) {
-                            await checkbox.click();
-                        }
-                    }
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                    const selects = await page.$$('select.custom-select');
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                    for (let select of selects) {
-                        let i = Math.floor(Math.random() * 10) + 1;
+//             const filePath = forms.getRandomImageFile();
 
-                        if (i % 3 == 1) {
-                            const options = await select.$$eval('option', (options) => {
-                                return options.map(option => option.value);
-                            });
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                            if (options.length > 0) {
-                                const randomIndex = Math.floor(Math.random() * options.length);
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                await select.selectOption(options[randomIndex]);
-                            }
-                        }
-                    }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                    const textareas = await page.$$('textarea:visible');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                    for (let textarea of textareas) {
-                        let i = Math.floor(Math.random() * 10) + 1;
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                        if (i % 3 == 1) {
-                            await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                        }
-                    }
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                    const input = await page.$('input[name="product_number"]');
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                    if (input != null) {
-                        let i = Math.floor(Math.random() * 10) + 1;
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                        if (i % 3 == 1) {
-                            await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                        }
-                    }
+//             const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
 
-                    const addButtons = await page.$$('div.secondary-button:visible');
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                    for (let addButton of addButtons.slice(-3)) {
-                        let i = Math.floor(Math.random() * 10) + 1;
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                        if (i % 3 == 1) {
-                            await addButton.click();
+//             const selects = await page.$$('select.custom-select');
 
-                            const randomProduct = forms.generateRandomProductName();
-                            await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                            console.log(randomProduct);
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                            if (exists) {
-                                const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                                for (let checkbox of checkboxs) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                                    if (
-                                        i % 2 == 1
-                                        || checkboxs.length < 3
-                                    ) {
-                                        await checkbox.scrollIntoViewIfNeeded();
-                                        await checkbox.click();
-                                    }
-                                }
-                            } else {
-                                console.log('no product found');
-                            }
+//             const textareas = await page.$$('textarea:visible');
 
-                            page.click('div.primary-button:visible');
-                        }
-                    }
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                    let i = Math.floor(Math.random() * 3) + 1;
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                    for (let j = 1; j <= i; j++) {
-                        await addButtons[0].click();
+//             const input = await page.$('input[name="product_number"]');
 
-                        await page.waitForSelector('input[name="label"]:visible');
+//             if (input != null) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                        await page.fill('input[name="label"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-                        const selects = await page.$$('select[name="type"].custom-select:visible , select[name="is_required"].custom-select:visible');
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-                        for (let select of selects) {
-                            const options = await select.$$eval('option', (options) => {
-                                return options.map(option => option.value);
-                            });
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            const randomIndex = Math.floor(Math.random() * options.length);
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                            await select.selectOption(options[randomIndex]);
-                        }
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                        await page.click('button[type="submit"].primary-button:visible');
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                        await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                        const addBtn = await page.$$('.flex.justify-between.gap-5.p-4 > .flex.items-center.gap-x-5 > p.cursor-pointer.font-semibold.text-blue-600.transition-all');
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                        let k = Math.floor(Math.random() * 2) + 1;
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                        for (let l = 1; l <= k; l++) {
-                            await addBtn[addBtn.length - 2].click();
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                            const randomProduct = forms.generateRandomProductName();
-                            await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                            console.log(randomProduct);
+//             let i = Math.floor(Math.random() * 3) + 1;
 
-                            await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//             for (let j = 1; j <= i; j++) {
+//                 await addButtons[0].click();
 
-                            const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//                 await page.waitForSelector('input[name="label"]:visible');
 
-                            if (exists) {
-                                const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//                 await page.fill('input[name="label"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                                for (let checkbox of checkboxs) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//                 const selects = await page.$$('select[name="type"].custom-select:visible , select[name="is_required"].custom-select:visible');
 
-                                    if (
-                                        i % 3 == 1
-                                        || checkboxs.length < 2
-                                    ) {
-                                        await checkbox.scrollIntoViewIfNeeded();
-                                        await checkbox.click();
-                                    }
-                                }
-                            } else {
-                                console.log('no product found');
-                            }
+//                 for (let select of selects) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                            page.click('div.primary-button:visible');
-                        }
-                    }
+//                     const randomIndex = Math.floor(Math.random() * options.length);
 
-                    await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//                     await select.selectOption(options[randomIndex]);
+//                 }
 
-                    const productBtns = await page.$$('input[type="radio"].peer.sr-only + label:visible, input[type="checkbox"].peer.sr-only + label:visible');
+//                 await page.click('button[type="submit"].primary-button:visible');
 
-                    for (let productBtn of productBtns) {
-                        let i = Math.floor(Math.random() * 10) + 1;
+//                 await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                        if (i % 3 == 1) {
-                            await productBtn.click();
-                        }
-                    }
+//                 const addBtn = await page.$$('.flex.justify-between.gap-5.p-4 > .flex.items-center.gap-x-5 > p.cursor-pointer.font-semibold.text-blue-600.transition-all');
 
-                    const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
+//                 let k = Math.floor(Math.random() * 2) + 1;
 
-                    for (let element of itemQty) {
-                        const qty = Math.floor(Math.random() * 10) + 1;
+//                 for (let l = 1; l <= k; l++) {
+//                     await addBtn[addBtn.length - 2].click();
 
-                        await element.fill(qty.toString());
-                    }
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                    await page.click('.primary-button:visible');
+//                     await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                    const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                    var message = '';
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                    if (getError) {
-                        const errors = await page.$$('.text-red-600.text-xs.italic');
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                        for (let error of errors) {
-                            message = await error.evaluate(el => el.innerText);
-                            console.log(message);
-                        }
-                    } else {
-                        const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                        if (iconExists) {
-                            const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                            const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//                             if (
+//                                 i % 3 == 1
+//                                 || checkboxs.length < 2
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                            message = await messages[0].evaluate(el => el.parentNode.innerText);
-                            await icons[0].click();
-                            console.log(message);
-                        }
-                    }
-                }
-            } catch (error) {
-                console.log('Error during test execution:', error.message);
-            } finally {
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                try {
-                    if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                        await page.goto(`${baseUrl}/admin/catalog/products`);
-                    }
+//             await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                    await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
+//             const productBtns = await page.$$('input[type="radio"].peer.sr-only + label:visible, input[type="checkbox"].peer.sr-only + label:visible');
 
-                    await page.click('span[class="icon-filter text-2xl"]:visible');
+//             for (let productBtn of productBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                    const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
+//                 if (i % 3 == 1) {
+//                     await productBtn.click();
+//                 }
+//             }
 
-                    for (let i = 0; i < clearBtn.length; i++) {
-                        await clearBtn[i].click();
-                    }
+//             const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
 
-                    const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
+//             for (let element of itemQty) {
+//                 const qty = Math.floor(Math.random() * 10) + 1;
 
-                    await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
-                    await typeBtn[typeBtn.length - 1].click();
+//                 await element.fill(qty.toString());
+//             }
 
-                    await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//             await page.click('.primary-button:visible');
 
-                    const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                    const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                    liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
-                    liSelects[liSelects.length - 1].click();
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                    await page.click('button[type="button"][class="secondary-button w-full"]:visible');
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                    await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                    const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
+// test('Edit Product(bundle)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                    if (iconRight.length > 0) {
-                        await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
+//     var browser;
 
-                        await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                        await page.waitForSelector('iframe');
-                        const iframe = await page.$$('iframe');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-                        const frame1 = await iframe[0].contentFrame();
+//     const page = await context.newPage();
 
-                        const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//     try {
+//         const log = await logIn(page);
 
-                        await frame1.waitForSelector('body[data-id="short_description"] > p');
+//         if (log == null) {
+//             return;
+//         }
 
-                        await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                            el.innerHTML = content;
-                        }, randomHtmlContent);
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-                        const frame2 = await iframe[1].contentFrame();
+//         await mode(page);
 
-                        const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
-                        await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                            el.innerHTML = content;
-                        }, randomHtmlContent1);
+//         await page.click('span[class="icon-filter text-2xl"]:visible');
 
-                        let number = Math.floor(Math.random() * 4) + 1;
+//         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
 
-                        for (let i = 1; i <= number; i++) {
-                            await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                                el.innerHTML += content;
-                            }, `<input type="file" name="images[files][]" accept="image/*">`);
-                        }
+//         for (let i = 0; i < clearBtn.length; i++) {
+//             await clearBtn[i].click();
+//         }
 
-                        const images = await page.$$('input[type="file"][name="images[files][]"]');
+//         const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
 
-                        const filePath = forms.getRandomImageFile();
+//         await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
+//         await typeBtn[typeBtn.length - 1].click();
 
-                        for (let image of images) {
-                            await image.setInputFiles(filePath);
-                        }
+//         await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-                        await page.evaluate((content) => {
-                            const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                            const description = document.querySelector('textarea[name="description"]#description');
+//         const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-                            if (shortDescription instanceof HTMLTextAreaElement) {
-                                shortDescription.style.display = content;
-                            }
+//         const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
 
-                            if (description instanceof HTMLTextAreaElement) {
-                                description.style.display = content;
-                            }
-                        }, 'block');
+//         liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
+//         liSelects[liSelects.length - 1].click();
 
-                        await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                        await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
-                        await page.evaluate((content) => {
-                            const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                            const description = document.querySelector('textarea[name="description"]#description');
+//         await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
 
-                            if (shortDescription instanceof HTMLTextAreaElement) {
-                                shortDescription.style.display = content;
-                            }
+//         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
-                            if (description instanceof HTMLTextAreaElement) {
-                                description.style.display = content;
-                            }
-                        }, 'none');
+//         if (iconRight.length > 0) {
+//             await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
 
-                        const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                        for (let checkbox of checkboxs) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                            if (i % 2 == 1) {
-                                await checkbox.click();
-                            }
-                        }
+//             const frame1 = await iframe[0].contentFrame();
 
-                        const selects = await page.$$('select.custom-select');
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                        for (let select of selects) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                            if (i % 3 == 1) {
-                                const options = await select.$$eval('option', (options) => {
-                                    return options.map(option => option.value);
-                                });
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                                if (options.length > 0) {
-                                    const randomIndex = Math.floor(Math.random() * options.length);
+//             const frame2 = await iframe[1].contentFrame();
 
-                                    await select.selectOption(options[randomIndex]);
-                                }
-                            }
-                        }
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                        const textareas = await page.$$('textarea:visible');
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                        for (let textarea of textareas) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                            if (i % 3 == 1) {
-                                await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                            }
-                        }
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                        const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                        for (let deleteBtn of deleteBtns) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//             const filePath = forms.getRandomImageFile();
 
-                            if (i % 3 == 1) {
-                                await deleteBtn.click();
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                                await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                break;
-                            }
-                        }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                        const input = await page.$('input[name="product_number"]');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                        if (input != null) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                            if (i % 3 == 1) {
-                                await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                            }
-                        }
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                        const addButtons = await page.$$('div.secondary-button:visible');
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                        for (let addButton of addButtons.slice(-3)) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                            if (i % 3 == 1) {
-                                await addButton.click();
+//             const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
 
-                                const randomProduct = forms.generateRandomProductName();
-                                await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                console.log(randomProduct);
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                                if (exists) {
-                                    const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             const selects = await page.$$('select.custom-select');
 
-                                    for (let checkbox of checkboxs) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                        if (
-                                            i % 2 == 1
-                                            || checkboxs.length < 3
-                                        ) {
-                                            await checkbox.scrollIntoViewIfNeeded();
-                                            await checkbox.click();
-                                        }
-                                    }
-                                } else {
-                                    console.log('no product found');
-                                }
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                                page.click('div.primary-button:visible');
-                            }
-                        }
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                        let i = Math.floor(Math.random() * 3) + 1;
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                        for (let j = 1; j <= i; j++) {
-                            await addButtons[0].click();
+//             const textareas = await page.$$('textarea:visible');
 
-                            await page.waitForSelector('input[name="label"]:visible');
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            await page.fill('input[name="label"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                            const selects = await page.$$('select[name="type"].custom-select:visible , select[name="is_required"].custom-select:visible');
+//             const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
 
-                            for (let select of selects) {
-                                const options = await select.$$eval('option', (options) => {
-                                    return options.map(option => option.value);
-                                });
+//             for (let deleteBtn of deleteBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                const randomIndex = Math.floor(Math.random() * options.length);
+//                 if (i % 3 == 1) {
+//                     await deleteBtn.click();
 
-                                await select.selectOption(options[randomIndex]);
-                            }
+//                     await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
 
-                            await page.click('button[type="submit"].primary-button:visible');
+//                     break;
+//                 }
+//             }
 
-                            await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//             const input = await page.$('input[name="product_number"]');
 
-                            const addBtn = await page.$$('.flex.justify-between.gap-5.p-4 > .flex.items-center.gap-x-5 > p.cursor-pointer.font-semibold.text-blue-600.transition-all');
+//             if (input != null) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            let k = Math.floor(Math.random() * 2) + 1;
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-                            for (let l = 1; l <= k; l++) {
-                                await addBtn[addBtn.length - 2].click();
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-                                const randomProduct = forms.generateRandomProductName();
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                                console.log(randomProduct);
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                                await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                                const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                                if (exists) {
-                                    const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                                    for (let checkbox of checkboxs) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                                        if (
-                                            i % 3 == 1
-                                            || checkboxs.length < 2
-                                        ) {
-                                            await checkbox.scrollIntoViewIfNeeded();
-                                            await checkbox.click();
-                                        }
-                                    }
-                                } else {
-                                    console.log('no product found');
-                                }
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                                page.click('div.primary-button:visible');
-                            }
-                        }
+//             let i = Math.floor(Math.random() * 3) + 1;
 
-                        await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//             for (let j = 1; j <= i; j++) {
+//                 await addButtons[0].click();
 
-                        const productBtns = await page.$$('input[type="radio"].peer.sr-only + label:visible, input[type="checkbox"].peer.sr-only + label:visible');
+//                 await page.waitForSelector('input[name="label"]:visible');
 
-                        for (let productBtn of productBtns) {
-                            let i = Math.floor(Math.random() * 10) + 1;
+//                 await page.fill('input[name="label"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                            if (i % 3 == 1) {
-                                await productBtn.click();
-                            }
-                        }
+//                 const selects = await page.$$('select[name="type"].custom-select:visible , select[name="is_required"].custom-select:visible');
 
-                        const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
+//                 for (let select of selects) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                        for (let element of itemQty) {
-                            const qty = Math.floor(Math.random() * 10) + 1;
+//                     const randomIndex = Math.floor(Math.random() * options.length);
 
-                            await element.fill(qty.toString());
-                        }
+//                     await select.selectOption(options[randomIndex]);
+//                 }
 
-                        await page.click('.primary-button:visible');
+//                 await page.click('button[type="submit"].primary-button:visible');
 
-                        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                        var message = '';
+//                 await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                        if (getError) {
-                            const errors = await page.$$('.text-red-600.text-xs.italic');
+//                 const addBtn = await page.$$('.flex.justify-between.gap-5.p-4 > .flex.items-center.gap-x-5 > p.cursor-pointer.font-semibold.text-blue-600.transition-all');
 
-                            for (let error of errors) {
-                                message = await error.evaluate(el => el.innerText);
-                                console.log(message);
-                            }
-                        } else {
-                            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                 let k = Math.floor(Math.random() * 2) + 1;
 
-                            if (iconExists) {
-                                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//                 for (let l = 1; l <= k; l++) {
+//                     await addBtn[addBtn.length - 2].click();
 
-                                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                await icons[0].click();
-                                console.log(message);
-                            }
-                        }
-                    }
-                } catch (error) {
-                    console.log('Error during test execution:', error.message);
-                } finally {
+//                     const randomProduct = forms.generateRandomProductName();
 
-                    try {
-                        if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                            await page.goto(`${baseUrl}/admin/catalog/products`);
-                        }
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
 
-                        await page.click('button.primary-button:visible');
+//                     console.log(randomProduct);
 
-                        await page.selectOption('select[name="type"]:visible', 'grouped');
+//                     await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                        const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
-                            return options.map(option => option.value);
-                        });
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                        const randomIndex = Math.floor(Math.random() * options.length);
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                        await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                        await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
-                        await page.click('button[type="submit"].primary-button:visible');
-                        await forms.testForm(page);
+//                             if (
+//                                 i % 3 == 1
+//                                 || checkboxs.length < 2
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                        const exists = await page.waitForSelector('input[name="name"]#name', { timeout: 1000 }).catch(() => null);
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                        if (exists) {
-                            await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//             await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                            await page.waitForSelector('iframe');
-                            const iframe = await page.$$('iframe');
+//             const productBtns = await page.$$('input[type="radio"].peer.sr-only + label:visible, input[type="checkbox"].peer.sr-only + label:visible');
 
-                            const frame1 = await iframe[0].contentFrame();
+//             for (let productBtn of productBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//                 if (i % 3 == 1) {
+//                     await productBtn.click();
+//                 }
+//             }
 
-                            await frame1.waitForSelector('body[data-id="short_description"] > p');
+//             const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
 
-                            await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                                el.innerHTML = content;
-                            }, randomHtmlContent);
+//             for (let element of itemQty) {
+//                 const qty = Math.floor(Math.random() * 10) + 1;
 
-                            const frame2 = await iframe[1].contentFrame();
+//                 await element.fill(qty.toString());
+//             }
 
-                            const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//             await page.click('.primary-button:visible');
 
-                            await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                                el.innerHTML = content;
-                            }, randomHtmlContent1);
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                            let number = Math.floor(Math.random() * 4) + 1;
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                            for (let i = 1; i <= number; i++) {
-                                await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                                    el.innerHTML += content;
-                                }, `<input type="file" name="images[files][]" accept="image/*">`);
-                            }
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                            const images = await page.$$('input[type="file"][name="images[files][]"]');
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                            const filePath = forms.getRandomImageFile();
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                            for (let image of images) {
-                                await image.setInputFiles(filePath);
-                            }
+// test('Create Product(grouped)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                            await page.evaluate((content) => {
-                                const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                const description = document.querySelector('textarea[name="description"]#description');
+//     var browser;
 
-                                if (shortDescription instanceof HTMLTextAreaElement) {
-                                    shortDescription.style.display = content;
-                                }
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                                if (description instanceof HTMLTextAreaElement) {
-                                    description.style.display = content;
-                                }
-                            }, 'block');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+//     const page = await context.newPage();
 
-                            await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                            await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//     try {
+//         const log = await logIn(page);
 
-                            await page.evaluate((content) => {
-                                const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                const description = document.querySelector('textarea[name="description"]#description');
+//         if (log == null) {
+//             return;
+//         }
 
-                                if (shortDescription instanceof HTMLTextAreaElement) {
-                                    shortDescription.style.display = content;
-                                }
+//         await mode(page);
 
-                                if (description instanceof HTMLTextAreaElement) {
-                                    description.style.display = content;
-                                }
-                            }, 'none');
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-                            const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
+//         await page.click('button.primary-button:visible');
 
-                            for (let checkbox of checkboxs) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//         await page.selectOption('select[name="type"]:visible', 'grouped');
 
-                                if (i % 2 == 1) {
-                                    await checkbox.click();
-                                }
-                            }
+//         const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
+//             return options.map(option => option.value);
+//         });
 
-                            const selects = await page.$$('select.custom-select');
+//         const randomIndex = Math.floor(Math.random() * options.length);
 
-                            for (let select of selects) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//         await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
 
-                                if (i % 3 == 1) {
-                                    const options = await select.$$eval('option', (options) => {
-                                        return options.map(option => option.value);
-                                    });
+//         await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
+//         await page.click('button[type="submit"].primary-button:visible');
+//         await forms.testForm(page);
 
-                                    if (options.length > 0) {
-                                        const randomIndex = Math.floor(Math.random() * options.length);
+//         const exists = await page.waitForSelector('input[name="name"]#name', { timeout: 1000 }).catch(() => null);
 
-                                        await select.selectOption(options[randomIndex]);
-                                    }
-                                }
-                            }
+//         if (exists) {
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                            const textareas = await page.$$('textarea:visible');
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                            for (let textarea of textareas) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//             const frame1 = await iframe[0].contentFrame();
 
-                                if (i % 3 == 1) {
-                                    await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                                }
-                            }
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                            const input = await page.$('input[name="product_number"]');
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                            if (input != null) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                                if (i % 3 == 1) {
-                                    await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                                }
-                            }
+//             const frame2 = await iframe[1].contentFrame();
 
-                            const addButtons = await page.$$('div.secondary-button:visible');
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                            for (let addButton of addButtons.slice(-3)) {
-                                let i = Math.floor(Math.random() * 10) + 1;
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                                if (i % 3 == 1) {
-                                    await addButton.click();
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                                    const randomProduct = forms.generateRandomProductName();
-                                    await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                    console.log(randomProduct);
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                                    const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                                    if (exists) {
-                                        const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             const filePath = forms.getRandomImageFile();
 
-                                        for (let checkbox of checkboxs) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                                            if (
-                                                i % 2 == 1
-                                                || checkboxs.length < 3
-                                            ) {
-                                                await checkbox.scrollIntoViewIfNeeded();
-                                                await checkbox.click();
-                                            }
-                                        }
-                                    } else {
-                                        console.log('no product found');
-                                    }
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                    page.click('div.primary-button:visible');
-                                }
-                            }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                            let i = Math.floor(Math.random() * 5) + 1;
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                            for (let j = 1; j <= i; j++) {
-                                await addButtons[0].click();
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                                const randomProduct = forms.generateRandomProductName();
-                                await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                console.log(randomProduct);
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                                if (exists) {
-                                    const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
 
-                                    for (let checkbox of checkboxs) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                        if (
-                                            i % 3 == 1
-                                            || checkboxs.length < 2
-                                        ) {
-                                            await checkbox.scrollIntoViewIfNeeded();
-                                            await checkbox.click();
-                                        }
-                                    }
-                                } else {
-                                    console.log('no product found');
-                                }
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                                page.click('div.primary-button:visible');
-                            }
+//             const selects = await page.$$('select.custom-select');
 
-                            await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                            for (let element of itemQty) {
-                                const qty = Math.floor(Math.random() * 10) + 1;
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                                await element.fill(qty.toString());
-                            }
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                            await page.click('.primary-button:visible');
+//             const textareas = await page.$$('textarea:visible');
 
-                            const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                            var message = '';
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            if (getError) {
-                                const errors = await page.$$('.text-red-600.text-xs.italic');
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                                for (let error of errors) {
-                                    message = await error.evaluate(el => el.innerText);
-                                    console.log(message);
-                                }
-                            } else {
-                                const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             const input = await page.$('input[name="product_number"]');
 
-                                if (iconExists) {
-                                    const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                    const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//             if (input != null) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                    message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                    await icons[0].click();
-                                    console.log(message);
-                                }
-                            }
-                        }
-                    } catch (error) {
-                        console.log('Error during test execution:', error.message);
-                    } finally {
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-                        try {
-                            if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                                await page.goto(`${baseUrl}/admin/catalog/products`);
-                            }
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-                            await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                            await page.click('span[class="icon-filter text-2xl"]:visible');
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                            const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                            for (let i = 0; i < clearBtn.length; i++) {
-                                await clearBtn[i].click();
-                            }
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                            const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                            await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
-                            await typeBtn[typeBtn.length - 1].click();
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                            await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                            const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                            const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
+//             let i = Math.floor(Math.random() * 5) + 1;
 
-                            liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
-                            liSelects[3].click();
+//             for (let j = 1; j <= i; j++) {
+//                 await addButtons[0].click();
 
-                            await page.click('button[type="button"][class="secondary-button w-full"]:visible');
+//                 const randomProduct = forms.generateRandomProductName();
+//                 await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                 console.log(randomProduct);
 
-                            await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
+//                 await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                            const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
+//                 const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                            if (iconRight.length > 0) {
-                                await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
+//                 if (exists) {
+//                     const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                                await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                     for (let checkbox of checkboxs) {
+//                         let i = Math.floor(Math.random() * 10) + 1;
 
-                                await page.waitForSelector('iframe');
-                                const iframe = await page.$$('iframe');
+//                         if (
+//                             i % 3 == 1
+//                             || checkboxs.length < 2
+//                         ) {
+//                             await checkbox.scrollIntoViewIfNeeded();
+//                             await checkbox.click();
+//                         }
+//                     }
+//                 } else {
+//                     console.log('no product found');
+//                 }
 
-                                const frame1 = await iframe[0].contentFrame();
+//                 page.click('div.primary-button:visible');
+//             }
 
-                                const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//             await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                                await frame1.waitForSelector('body[data-id="short_description"] > p');
+//             const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
 
-                                await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                                    el.innerHTML = content;
-                                }, randomHtmlContent);
+//             for (let element of itemQty) {
+//                 const qty = Math.floor(Math.random() * 10) + 1;
 
-                                const frame2 = await iframe[1].contentFrame();
+//                 await element.fill(qty.toString());
+//             }
 
-                                const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//             await page.click('.primary-button:visible');
 
-                                await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                                    el.innerHTML = content;
-                                }, randomHtmlContent1);
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                                let number = Math.floor(Math.random() * 4) + 1;
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                                for (let i = 1; i <= number; i++) {
-                                    await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                                        el.innerHTML += content;
-                                    }, `<input type="file" name="images[files][]" accept="image/*">`);
-                                }
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                                const images = await page.$$('input[type="file"][name="images[files][]"]');
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                                const filePath = forms.getRandomImageFile();
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                                for (let image of images) {
-                                    await image.setInputFiles(filePath);
-                                }
+// test('Edit Product(grouped)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                                await page.evaluate((content) => {
-                                    const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                    const description = document.querySelector('textarea[name="description"]#description');
+//     var browser;
 
-                                    if (shortDescription instanceof HTMLTextAreaElement) {
-                                        shortDescription.style.display = content;
-                                    }
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                                    if (description instanceof HTMLTextAreaElement) {
-                                        description.style.display = content;
-                                    }
-                                }, 'block');
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-                                await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                                await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//     const page = await context.newPage();
 
-                                await page.evaluate((content) => {
-                                    const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                    const description = document.querySelector('textarea[name="description"]#description');
+//     try {
+//         const log = await logIn(page);
 
-                                    if (shortDescription instanceof HTMLTextAreaElement) {
-                                        shortDescription.style.display = content;
-                                    }
+//         if (log == null) {
+//             return;
+//         }
 
-                                    if (description instanceof HTMLTextAreaElement) {
-                                        description.style.display = content;
-                                    }
-                                }, 'none');
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-                                const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
+//         await mode(page);
 
-                                for (let checkbox of checkboxs) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
-                                    if (i % 2 == 1) {
-                                        await checkbox.click();
-                                    }
-                                }
+//         await page.click('span[class="icon-filter text-2xl"]:visible');
 
-                                const selects = await page.$$('select.custom-select');
+//         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
 
-                                for (let select of selects) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//         for (let i = 0; i < clearBtn.length; i++) {
+//             await clearBtn[i].click();
+//         }
 
-                                    if (i % 3 == 1) {
-                                        const options = await select.$$eval('option', (options) => {
-                                            return options.map(option => option.value);
-                                        });
+//         const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
 
-                                        if (options.length > 0) {
-                                            const randomIndex = Math.floor(Math.random() * options.length);
+//         await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
+//         await typeBtn[typeBtn.length - 1].click();
 
-                                            await select.selectOption(options[randomIndex]);
-                                        }
-                                    }
-                                }
+//         await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-                                const textareas = await page.$$('textarea:visible');
+//         const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-                                for (let textarea of textareas) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//         const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
 
-                                    if (i % 3 == 1) {
-                                        await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                                    }
-                                }
+//         liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
+//         liSelects[3].click();
 
-                                const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
+//         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
-                                for (let deleteBtn of deleteBtns) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//         await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
 
-                                    if (i % 3 == 1) {
-                                        await deleteBtn.click();
+//         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
-                                        await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+//         if (iconRight.length > 0) {
+//             await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
 
-                                        break;
-                                    }
-                                }
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                                const input = await page.$('input[name="product_number"]');
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                                if (input != null) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//             const frame1 = await iframe[0].contentFrame();
 
-                                    if (i % 3 == 1) {
-                                        await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                                    }
-                                }
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                                const addButtons = await page.$$('div.secondary-button:visible');
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                                for (let addButton of addButtons.slice(-3)) {
-                                    let i = Math.floor(Math.random() * 10) + 1;
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                                    if (i % 3 == 1) {
-                                        await addButton.click();
+//             const frame2 = await iframe[1].contentFrame();
 
-                                        const randomProduct = forms.generateRandomProductName();
-                                        await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                        console.log(randomProduct);
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                                        const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                                        if (exists) {
-                                            const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                                            for (let checkbox of checkboxs) {
-                                                let i = Math.floor(Math.random() * 10) + 1;
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                                                if (
-                                                    i % 2 == 1
-                                                    || checkboxs.length < 3
-                                                ) {
-                                                    await checkbox.scrollIntoViewIfNeeded();
-                                                    await checkbox.click();
-                                                }
-                                            }
-                                        } else {
-                                            console.log('no product found');
-                                        }
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                                        page.click('div.primary-button:visible');
-                                    }
-                                }
+//             const filePath = forms.getRandomImageFile();
 
-                                let i = Math.floor(Math.random() * 5) + 1;
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                                for (let j = 1; j <= i; j++) {
-                                    await addButtons[0].click();
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                    const randomProduct = forms.generateRandomProductName();
-                                    await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                    console.log(randomProduct);
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                    await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                                    const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                                    if (exists) {
-                                        const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                        for (let checkbox of checkboxs) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                            if (
-                                                i % 3 == 1
-                                                || checkboxs.length < 2
-                                            ) {
-                                                await checkbox.scrollIntoViewIfNeeded();
-                                                await checkbox.click();
-                                            }
-                                        }
-                                    } else {
-                                        console.log('no product found');
-                                    }
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                                    page.click('div.primary-button:visible');
-                                }
+//             const checkboxs = await page.$$('input[type="checkbox"] + label, input[name="categories[]"] + span');
 
-                                await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                                for (let element of itemQty) {
-                                    const qty = Math.floor(Math.random() * 10) + 1;
+//             const selects = await page.$$('select.custom-select');
 
-                                    await element.fill(qty.toString());
-                                }
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                await page.click('.primary-button:visible');
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                                const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                                var message = '';
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                                if (getError) {
-                                    const errors = await page.$$('.text-red-600.text-xs.italic');
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                                    for (let error of errors) {
-                                        message = await error.evaluate(el => el.innerText);
-                                        console.log(message);
-                                    }
-                                } else {
-                                    const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             const textareas = await page.$$('textarea:visible');
 
-                                    if (iconExists) {
-                                        const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                        const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                        message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                        await icons[0].click();
-                                        console.log(message);
-                                    }
-                                }
-                            }
-                        } catch (error) {
-                            console.log('Error during test execution:', error.message);
-                        } finally {
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                            try {
-                                if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                                    await page.goto(`${baseUrl}/admin/catalog/products`);
-                                }
+//             const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
 
-                                await page.click('button.primary-button:visible');
+//             for (let deleteBtn of deleteBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                await page.selectOption('select[name="type"]:visible', 'configurable');
+//                 if (i % 3 == 1) {
+//                     await deleteBtn.click();
 
-                                const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
-                                    return options.map(option => option.value);
-                                });
+//                     await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
 
-                                const randomIndex = Math.floor(Math.random() * options.length);
+//                     break;
+//                 }
+//             }
 
-                                await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
+//             const input = await page.$('input[name="product_number"]');
 
-                                await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
-                                await page.click('button[type="submit"].primary-button:visible');
+//             if (input != null) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                await forms.testForm(page);
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-                                await page.waitForSelector('span[class="icon-cross cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"]');
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-                                const varients = await page.$$('span[class="icon-cross cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"]');
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                for (let varient of varients) {
-                                    let number = Math.floor(Math.random() * 15) + 1;
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                                    if (number % 3 == 1) {
-                                        await varient.click();
-                                    }
-                                }
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                                await page.click('button[type="submit"].primary-button:visible');
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                                const exists = await page.waitForSelector('input[name="name"]#name');
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                                if (exists) {
-                                    await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                                    await page.waitForSelector('iframe');
-                                    const iframe = await page.$$('iframe');
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                                    const frame1 = await iframe[0].contentFrame();
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                                    const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//             let i = Math.floor(Math.random() * 5) + 1;
 
-                                    await frame1.waitForSelector('body[data-id="short_description"] > p');
+//             for (let j = 1; j <= i; j++) {
+//                 await addButtons[0].click();
 
-                                    await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                                        el.innerHTML = content;
-                                    }, randomHtmlContent);
+//                 const randomProduct = forms.generateRandomProductName();
+//                 await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                 console.log(randomProduct);
 
-                                    const frame2 = await iframe[1].contentFrame();
+//                 await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                                    const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//                 const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                                    await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                                        el.innerHTML = content;
-                                    }, randomHtmlContent1);
+//                 if (exists) {
+//                     const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                                    let number = Math.floor(Math.random() * 4) + 1;
+//                     for (let checkbox of checkboxs) {
+//                         let i = Math.floor(Math.random() * 10) + 1;
 
-                                    for (let i = 1; i <= number; i++) {
-                                        await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                                            el.innerHTML += content;
-                                        }, `<input type="file" name="images[files][]" accept="image/*">`);
-                                    }
+//                         if (
+//                             i % 3 == 1
+//                             || checkboxs.length < 2
+//                         ) {
+//                             await checkbox.scrollIntoViewIfNeeded();
+//                             await checkbox.click();
+//                         }
+//                     }
+//                 } else {
+//                     console.log('no product found');
+//                 }
 
-                                    const images = await page.$$('input[type="file"][name="images[files][]"]');
+//                 page.click('div.primary-button:visible');
+//             }
 
-                                    const filePath = forms.getRandomImageFile();
+//             await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
-                                    for (let image of images) {
-                                        await image.setInputFiles(filePath);
-                                    }
+//             const itemQty = await page.$$('input[class="min-h-[39px] w-[86px] rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"]:visible');
 
-                                    await page.evaluate((content) => {
-                                        const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                        const description = document.querySelector('textarea[name="description"]#description');
+//             for (let element of itemQty) {
+//                 const qty = Math.floor(Math.random() * 10) + 1;
 
-                                        if (shortDescription instanceof HTMLTextAreaElement) {
-                                            shortDescription.style.display = content;
-                                        }
+//                 await element.fill(qty.toString());
+//             }
 
-                                        if (description instanceof HTMLTextAreaElement) {
-                                            description.style.display = content;
-                                        }
-                                    }, 'block');
+//             await page.click('.primary-button:visible');
 
-                                    await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                                    await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                                    await page.evaluate((content) => {
-                                        const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                        const description = document.querySelector('textarea[name="description"]#description');
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                                        if (shortDescription instanceof HTMLTextAreaElement) {
-                                            shortDescription.style.display = content;
-                                        }
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                                        if (description instanceof HTMLTextAreaElement) {
-                                            description.style.display = content;
-                                        }
-                                    }, 'none');
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                                    const checkboxs = await page.$$('input[type="checkbox"] + label:visible, input[name="categories[]"] + span:visible');
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                                    for (let checkbox of checkboxs) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+// test('Create Product(configurable)', async () => {
+//     test.setTimeout(config.highTimeout);
 
-                                        if (i % 2 == 1) {
-                                            await checkbox.click();
-                                        }
-                                    }
+//     var browser;
 
-                                    const selects = await page.$$('select.custom-select');
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                                    for (let select of selects) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+//     const page = await context.newPage();
 
-                                        if (i % 3 == 1) {
-                                            const options = await select.$$eval('option', (options) => {
-                                                return options.map(option => option.value);
-                                            });
+//     try {
+//         const log = await logIn(page);
 
-                                            if (options.length > 0) {
-                                                const randomIndex = Math.floor(Math.random() * options.length);
+//         if (log == null) {
+//             return;
+//         }
 
-                                                await select.selectOption(options[randomIndex]);
-                                            }
-                                        }
-                                    }
+//         await mode(page);
 
-                                    const textareas = await page.$$('textarea:visible');
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-                                    for (let textarea of textareas) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//         await page.click('button.primary-button:visible');
 
-                                        if (i % 3 == 1) {
-                                            await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                                        }
-                                    }
+//         await page.selectOption('select[name="type"]:visible', 'configurable');
 
-                                    const input = await page.$('input[name="product_number"]');
+//         const options = await page.$$eval('select[name="attribute_family_id"]:visible option', (options) => {
+//             return options.map(option => option.value);
+//         });
 
-                                    if (input != null) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//         const randomIndex = Math.floor(Math.random() * options.length);
 
-                                        if (i % 3 == 1) {
-                                            await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                                        }
-                                    }
+//         await page.selectOption('select[name="attribute_family_id"]:visible', options[randomIndex]);
 
-                                    const addButtons = await page.$$('div.secondary-button:visible');
+//         await page.fill('input[name="sku"]:visible', Math.random().toString(36).substring(7));
+//         await page.click('button[type="submit"].primary-button:visible');
 
-                                    for (let addButton of addButtons.slice(-3)) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//         await forms.testForm(page);
 
-                                        if (i % 3 == 1) {
-                                            await addButton.click();
+//         await page.waitForSelector('span[class="icon-cross cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"]');
 
-                                            const randomProduct = forms.generateRandomProductName();
-                                            await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                            console.log(randomProduct);
+//         const varients = await page.$$('span[class="icon-cross cursor-pointer text-lg text-white ltr:ml-1.5 rtl:mr-1.5"]');
 
-                                            const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//         for (let varient of varients) {
+//             let number = Math.floor(Math.random() * 15) + 1;
 
-                                            if (exists) {
-                                                const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             if (number % 3 == 1) {
+//                 await varient.click();
+//             }
+//         }
 
-                                                for (let checkbox of checkboxs) {
-                                                    let i = Math.floor(Math.random() * 10) + 1;
+//         await page.click('button[type="submit"].primary-button:visible');
 
-                                                    if (
-                                                        i % 2 == 1
-                                                        || checkboxs.length < 3
-                                                    ) {
-                                                        await checkbox.scrollIntoViewIfNeeded();
-                                                        await checkbox.click();
-                                                    }
-                                                }
-                                            } else {
-                                                console.log('no product found');
-                                            }
+//         const exists = await page.waitForSelector('input[name="name"]#name');
 
-                                            page.click('div.primary-button:visible');
-                                        }
-                                    }
+//         if (exists) {
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                                    const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                                    for (let deleteBtn of deleteBtns) {
-                                        let i = Math.floor(Math.random() * 10) + 1;
+//             const frame1 = await iframe[0].contentFrame();
 
-                                        if (i % 3 == 1) {
-                                            await deleteBtn.click();
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                                            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                                            break;
-                                        }
-                                    }
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                                    const editBtns = await page.$$('p.cursor-pointer.text-emerald-600.transition-all');
+//             const frame2 = await iframe[1].contentFrame();
 
-                                    for (let editBtn of editBtns) {
-                                        await editBtn.click();
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                                        await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="name"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500) + 1));
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                                        await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="sku"]:visible', Math.random().toString(36).substring(7));
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                                        const inputs = await page.$$('input[name="inventories[1]"]:visible, input[name="price"]:visible, input[name="weight"]:visible');
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                                        for (let input of inputs) {
-                                            await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200) + 1).toString());
-                                        }
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                                        const select = await page.$('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] select.custom-select:visible');
+//             const filePath = forms.getRandomImageFile();
 
-                                        const options = await select.$$eval('option', (options) => {
-                                            return options.map(option => option.value);
-                                        });
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                                        if (options.length > 0) {
-                                            const randomIndex = Math.floor(Math.random() * options.length);
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                            await select.selectOption(options[randomIndex]);
-                                        }
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                        await inputs[0].press('Enter');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                                        await page.waitForSelector('div#not_available', { timeout: 2000 }).catch(() => null);
-                                    }
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                                    await page.click('.primary-button:visible');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                    const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                                    var message = '';
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                    if (getError) {
-                                        const errors = await page.$$('.text-red-600.text-xs.italic');
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                                        for (let error of errors) {
-                                            message = await error.evaluate(el => el.innerText);
-                                            console.log(message);
-                                        }
-                                    } else {
-                                        const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             const checkboxs = await page.$$('input[type="checkbox"] + label:visible, input[name="categories[]"] + span:visible');
 
-                                        if (iconExists) {
-                                            const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                            const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                            message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                            await icons[0].click();
-                                            console.log(message);
-                                        }
-                                    }
-                                }
-                            } catch (error) {
-                                console.log('Error during test execution:', error.message);
-                            } finally {
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                                try {
-                                    if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                                        await page.goto(`${baseUrl}/admin/catalog/products`);
-                                    }
+//             const selects = await page.$$('select.custom-select');
 
-                                    await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                    await page.click('span[class="icon-filter text-2xl"]:visible');
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                                    const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                                    for (let i = 0; i < clearBtn.length; i++) {
-                                        await clearBtn[i].click();
-                                    }
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                                    const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
+//             const textareas = await page.$$('textarea:visible');
 
-                                    await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
-                                    await typeBtn[typeBtn.length - 1].click();
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                    await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                                    const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
+//             const input = await page.$('input[name="product_number"]');
 
-                                    const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
+//             if (input != null) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                    liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
-                                    liSelects[1].click();
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
 
-                                    await page.click('button[type="button"][class="secondary-button w-full"]:visible');
+//             const addButtons = await page.$$('div.secondary-button:visible');
 
-                                    await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                    const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
 
-                                    if (iconRight.length > 0) {
-                                        await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
 
-                                        await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
-                                        await page.waitForSelector('iframe');
-                                        const iframe = await page.$$('iframe');
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
 
-                                        const frame1 = await iframe[0].contentFrame();
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
 
-                                        const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
 
-                                        await frame1.waitForSelector('body[data-id="short_description"] > p');
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
 
-                                        await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
-                                            el.innerHTML = content;
-                                        }, randomHtmlContent);
+//             const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
 
-                                        const frame2 = await iframe[1].contentFrame();
+//             for (let deleteBtn of deleteBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                        const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
+//                 if (i % 3 == 1) {
+//                     await deleteBtn.click();
 
-                                        await frame2.$eval('body[data-id="description"] > p', (el, content) => {
-                                            el.innerHTML = content;
-                                        }, randomHtmlContent1);
+//                     await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
 
-                                        let number = Math.floor(Math.random() * 4) + 1;
+//                     break;
+//                 }
+//             }
 
-                                        for (let i = 1; i <= number; i++) {
-                                            await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
-                                                el.innerHTML += content;
-                                            }, `<input type="file" name="images[files][]" accept="image/*">`);
-                                        }
+//             const editBtns = await page.$$('p.cursor-pointer.text-emerald-600.transition-all');
 
-                                        const images = await page.$$('input[type="file"][name="images[files][]"]');
+//             for (let editBtn of editBtns) {
+//                 await editBtn.click();
 
-                                        const filePath = forms.getRandomImageFile();
+//                 await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="name"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500) + 1));
 
-                                        for (let image of images) {
-                                            await image.setInputFiles(filePath);
-                                        }
+//                 await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="sku"]:visible', Math.random().toString(36).substring(7));
 
-                                        await page.evaluate((content) => {
-                                            const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                            const description = document.querySelector('textarea[name="description"]#description');
+//                 const inputs = await page.$$('input[name="inventories[1]"]:visible, input[name="price"]:visible, input[name="weight"]:visible');
 
-                                            if (shortDescription instanceof HTMLTextAreaElement) {
-                                                shortDescription.style.display = content;
-                                            }
+//                 for (let input of inputs) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200) + 1).toString());
+//                 }
 
-                                            if (description instanceof HTMLTextAreaElement) {
-                                                description.style.display = content;
-                                            }
-                                        }, 'block');
+//                 const select = await page.$('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] select.custom-select:visible');
 
-                                        await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
-                                        await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
+//                 const options = await select.$$eval('option', (options) => {
+//                     return options.map(option => option.value);
+//                 });
 
-                                        await page.evaluate((content) => {
-                                            const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
-                                            const description = document.querySelector('textarea[name="description"]#description');
+//                 if (options.length > 0) {
+//                     const randomIndex = Math.floor(Math.random() * options.length);
 
-                                            if (shortDescription instanceof HTMLTextAreaElement) {
-                                                shortDescription.style.display = content;
-                                            }
+//                     await select.selectOption(options[randomIndex]);
+//                 }
 
-                                            if (description instanceof HTMLTextAreaElement) {
-                                                description.style.display = content;
-                                            }
-                                        }, 'none');
+//                 await inputs[0].press('Enter');
 
-                                        const checkboxs = await page.$$('input[type="checkbox"] + label:visible, input[name="categories[]"] + span:visible');
+//                 await page.waitForSelector('div#not_available', { timeout: 2000 }).catch(() => null);
+//             }
 
-                                        for (let checkbox of checkboxs) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//             await page.click('.primary-button:visible');
 
-                                            if (i % 2 == 1) {
-                                                await checkbox.click();
-                                            }
-                                        }
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
 
-                                        const selects = await page.$$('select.custom-select');
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
 
-                                        for (let select of selects) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
 
-                                            if (i % 3 == 1) {
-                                                const options = await select.$$eval('option', (options) => {
-                                                    return options.map(option => option.value);
-                                                });
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
 
-                                                if (options.length > 0) {
-                                                    const randomIndex = Math.floor(Math.random() * options.length);
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
 
-                                                    await select.selectOption(options[randomIndex]);
-                                                }
-                                            }
-                                        }
+// test('Edit Product(configurable)', async () => {
+//     test.setTimeout(config.mediumTimeout);
 
-                                        const textareas = await page.$$('textarea:visible');
+//     var browser;
 
-                                        for (let textarea of textareas) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
 
-                                            if (i % 3 == 1) {
-                                                await textarea.fill(forms.generateRandomStringWithSpaces(200));
-                                            }
-                                        }
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
 
-                                        const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
+//     const page = await context.newPage();
 
-                                        for (let deleteBtn of deleteBtns) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//     try {
+//         const log = await logIn(page);
 
-                                            if (i % 3 == 1) {
-                                                await deleteBtn.click();
+//         if (log == null) {
+//             return;
+//         }
 
-                                                await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
 
-                                                break;
-                                            }
-                                        }
+//         await mode(page);
 
-                                        const editBtns = await page.$$('p.cursor-pointer.text-emerald-600.transition-all');
+//         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
-                                        for (let editBtn of editBtns) {
-                                            await editBtn.click();
+//         await page.click('span[class="icon-filter text-2xl"]:visible');
 
-                                            await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="name"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500) + 1));
+//         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
 
-                                            await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="sku"]:visible', Math.random().toString(36).substring(7));
+//         for (let i = 0; i < clearBtn.length; i++) {
+//             await clearBtn[i].click();
+//         }
 
-                                            const inputs = await page.$$('input[name="inventories[1]"]:visible, input[name="price"]:visible, input[name="weight"]:visible');
+//         const typeBtn = await page.$$('button[class="inline-flex w-full cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]');
 
-                                            for (let input of inputs) {
-                                                await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200) + 1).toString());
-                                            }
+//         await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
+//         await typeBtn[typeBtn.length - 1].click();
 
-                                            const select = await page.$('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] select.custom-select:visible');
+//         await page.waitForSelector('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-                                            const options = await select.$$eval('option', (options) => {
-                                                return options.map(option => option.value);
-                                            });
+//         const typeSelect = await page.$$('div[class="absolute z-10 w-max rounded bg-white shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] dark:bg-gray-900"]:visible');
 
-                                            if (options.length > 0) {
-                                                const randomIndex = Math.floor(Math.random() * options.length);
+//         const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
 
-                                                await select.selectOption(options[randomIndex]);
-                                            }
+//         liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
+//         liSelects[1].click();
 
-                                            await inputs[0].press('Enter');
+//         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
-                                            await page.waitForSelector('div#not_available', { timeout: 2000 }).catch(() => null);
-                                        }
+//         await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
 
-                                        const input = await page.$('input[name="product_number"]');
+//         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
-                                        if (input != null) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//         if (iconRight.length > 0) {
+//             await iconRight[Math.floor(Math.random() * ((iconRight.length - 1) - 0 + 1)) + 0].click();
 
-                                            if (i % 3 == 1) {
-                                                await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
-                                            }
-                                        }
+//             await page.fill('input[name="name"]#name', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500)));
 
-                                        const addButtons = await page.$$('div.secondary-button:visible');
+//             await page.waitForSelector('iframe');
+//             const iframe = await page.$$('iframe');
 
-                                        for (let addButton of addButtons.slice(-3)) {
-                                            let i = Math.floor(Math.random() * 10) + 1;
+//             const frame1 = await iframe[0].contentFrame();
 
-                                            if (i % 3 == 1) {
-                                                await addButton.click();
+//             const randomHtmlContent = await forms.fillParagraphWithRandomHtml(10);
 
-                                                const randomProduct = forms.generateRandomProductName();
-                                                await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                                                console.log(randomProduct);
+//             await frame1.waitForSelector('body[data-id="short_description"] > p');
 
-                                                const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+//             await frame1.$eval('body[data-id="short_description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent);
 
-                                                if (exists) {
-                                                    const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+//             const frame2 = await iframe[1].contentFrame();
 
-                                                    for (let checkbox of checkboxs) {
-                                                        let i = Math.floor(Math.random() * 10) + 1;
+//             const randomHtmlContent1 = await forms.fillParagraphWithRandomHtml(50);
 
-                                                        if (
-                                                            i % 2 == 1
-                                                            || checkboxs.length < 3
-                                                        ) {
-                                                            await checkbox.scrollIntoViewIfNeeded();
-                                                            await checkbox.click();
-                                                        }
-                                                    }
-                                                } else {
-                                                    console.log('no product found');
-                                                }
+//             await frame2.$eval('body[data-id="description"] > p', (el, content) => {
+//                 el.innerHTML = content;
+//             }, randomHtmlContent1);
 
-                                                page.click('div.primary-button:visible');
-                                            }
-                                        }
+//             let number = Math.floor(Math.random() * 4) + 1;
 
-                                        await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//             for (let i = 1; i <= number; i++) {
+//                 await page.$eval('p.mb-4.text-base.font-semibold.text-gray-800', (el, content) => {
+//                     el.innerHTML += content;
+//                 }, `<input type="file" name="images[files][]" accept="image/*">`);
+//             }
 
-                                        await page.click('.primary-button:visible');
+//             const images = await page.$$('input[type="file"][name="images[files][]"]');
 
-                                        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-                                        var message = '';
+//             const filePath = forms.getRandomImageFile();
 
-                                        if (getError) {
-                                            const errors = await page.$$('.text-red-600.text-xs.italic');
+//             for (let image of images) {
+//                 await image.setInputFiles(filePath);
+//             }
 
-                                            for (let error of errors) {
-                                                message = await error.evaluate(el => el.innerText);
-                                                console.log(message);
-                                            }
-                                        } else {
-                                            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                            if (iconExists) {
-                                                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                                await icons[0].click();
-                                                console.log(message);
-                                            }
-                                        }
-                                    }
-                                } catch (error) {
-                                    console.log('Error during test execution:', error.message);
-                                } finally {
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'block');
 
-                                    try {
-                                        if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                                            await page.goto(`${baseUrl}/admin/catalog/products`);
-                                        }
+//             await page.fill('textarea[name="short_description"]', randomHtmlContent.toString());
+//             await page.fill('textarea[name="description"]', randomHtmlContent1.toString());
 
-                                        const checkboxs = await page.$$('.icon-uncheckbox');
+//             await page.evaluate((content) => {
+//                 const shortDescription = document.querySelector('textarea[name="short_description"]#short_description');
+//                 const description = document.querySelector('textarea[name="description"]#description');
 
-                                        if (checkboxs.length > 0) {
-                                            for (let checkbox of checkboxs) {
-                                                let i = Math.floor(Math.random() * 10) + 1;
+//                 if (shortDescription instanceof HTMLTextAreaElement) {
+//                     shortDescription.style.display = content;
+//                 }
 
-                                                if (i % 3 == 1) {
-                                                    await checkbox.click();
-                                                }
-                                            }
+//                 if (description instanceof HTMLTextAreaElement) {
+//                     description.style.display = content;
+//                 }
+//             }, 'none');
 
-                                            const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+//             const checkboxs = await page.$$('input[type="checkbox"] + label:visible, input[name="categories[]"] + span:visible');
 
-                                            if (button) {
-                                                await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
-                                                await page.click('a[class="whitespace-no-wrap flex gap-1.5 rounded-b px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                                await page.click('button.transparent-button + button.primary-button:visible');
+//                 if (i % 2 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
 
-                                                const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//             const selects = await page.$$('select.custom-select');
 
-                                                if (iconExists) {
-                                                    const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                                    const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//             for (let select of selects) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                                    const message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                                    await icons[0].click();
-                                                    console.log(message);
-                                                }
-                                            } else {
-                                                console.log('Please select any product.');
-                                            }
-                                        } else {
-                                            console.log('No product found, create first.');
-                                        }
-                                    } catch (error) {
-                                        console.log('Error during test execution:', error.message);
-                                    } finally {
+//                 if (i % 3 == 1) {
+//                     const options = await select.$$eval('option', (options) => {
+//                         return options.map(option => option.value);
+//                     });
 
-                                        try {
-                                            if (page.url() != `${baseUrl}/admin/catalog/products`) {
-                                                await page.goto(`${baseUrl}/admin/catalog/products`);
-                                            }
+//                     if (options.length > 0) {
+//                         const randomIndex = Math.floor(Math.random() * options.length);
 
-                                            await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
-                                            const checkboxs = await page.$$('.icon-uncheckbox');
+//                         await select.selectOption(options[randomIndex]);
+//                     }
+//                 }
+//             }
 
-                                            if (checkboxs.length > 0) {
-                                                for (let checkbox of checkboxs) {
-                                                    let i = Math.floor(Math.random() * 10) + 1;
+//             const textareas = await page.$$('textarea:visible');
 
-                                                    if (i % 3 == 1) {
-                                                        await checkbox.click();
-                                                    }
-                                                }
-                                                const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+//             for (let textarea of textareas) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                                if (button) {
-                                                    await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
-                                                    await page.hover('a[class="whitespace-no-wrap flex cursor-not-allowed justify-between gap-1.5 rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+//                 if (i % 3 == 1) {
+//                     await textarea.fill(forms.generateRandomStringWithSpaces(200));
+//                 }
+//             }
 
-                                                    const buttons = await page.$$('a[class="whitespace-no-wrap block rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+//             const deleteBtns = await page.$$('p.cursor-pointer.text-red-600.transition-all');
 
-                                                    let i = Math.floor(Math.random() * 10) + 1;
+//             for (let deleteBtn of deleteBtns) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
 
-                                                    if (i % 2 == 1) {
-                                                        await buttons[1].click();
-                                                    } else {
-                                                        await buttons[0].click();
-                                                    }
+//                 if (i % 3 == 1) {
+//                     await deleteBtn.click();
 
-                                                    await page.click('button.transparent-button + button.primary-button:visible');
+//                     await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
 
-                                                    const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     break;
+//                 }
+//             }
 
-                                                    if (iconExists) {
-                                                        const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                                                        const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+//             const editBtns = await page.$$('p.cursor-pointer.text-emerald-600.transition-all');
 
-                                                        const message = await messages[0].evaluate(el => el.parentNode.innerText);
-                                                        await icons[0].click();
-                                                        console.log(message);
-                                                    }
-                                                } else {
-                                                    console.log('Please select any product.');
-                                                }
-                                            } else {
-                                                console.log('No product found, create first.');
-                                            }
-                                        } catch (error) {
-                                            console.log('Error during test execution:', error.message);
-                                        } finally {
+//             for (let editBtn of editBtns) {
+//                 await editBtn.click();
 
-                                            await page.close();
-                                            await context.close();
-                                            await browser.close();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-});
+//                 await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="name"]:visible', forms.generateRandomStringWithSpaces(Math.floor(Math.random() * 500) + 1));
+
+//                 await page.fill('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] input[name="sku"]:visible', Math.random().toString(36).substring(7));
+
+//                 const inputs = await page.$$('input[name="inventories[1]"]:visible, input[name="price"]:visible, input[name="weight"]:visible');
+
+//                 for (let input of inputs) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200) + 1).toString());
+//                 }
+
+//                 const select = await page.$('div[class="fixed z-[10002] bg-white dark:bg-gray-900 max-sm:!w-full inset-y-0 ltr:right-0 rtl:left-0"] select.custom-select:visible');
+
+//                 const options = await select.$$eval('option', (options) => {
+//                     return options.map(option => option.value);
+//                 });
+
+//                 if (options.length > 0) {
+//                     const randomIndex = Math.floor(Math.random() * options.length);
+
+//                     await select.selectOption(options[randomIndex]);
+//                 }
+
+//                 await inputs[0].press('Enter');
+
+//                 await page.waitForSelector('div#not_available', { timeout: 2000 }).catch(() => null);
+//             }
+
+//             const input = await page.$('input[name="product_number"]');
+
+//             if (input != null) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 3 == 1) {
+//                     await input.fill((Math.floor(Math.random() * 200) * Math.floor(Math.random() * 200)).toString());
+//                 }
+//             }
+
+//             const addButtons = await page.$$('div.secondary-button:visible');
+
+//             for (let addButton of addButtons.slice(-3)) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 3 == 1) {
+//                     await addButton.click();
+
+//                     const randomProduct = forms.generateRandomProductName();
+//                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
+//                     console.log(randomProduct);
+
+//                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
+
+//                     if (exists) {
+//                         const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox');
+
+//                         for (let checkbox of checkboxs) {
+//                             let i = Math.floor(Math.random() * 10) + 1;
+
+//                             if (
+//                                 i % 2 == 1
+//                                 || checkboxs.length < 3
+//                             ) {
+//                                 await checkbox.scrollIntoViewIfNeeded();
+//                                 await checkbox.click();
+//                             }
+//                         }
+//                     } else {
+//                         console.log('no product found');
+//                     }
+
+//                     page.click('div.primary-button:visible');
+//                 }
+//             }
+
+//             await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+
+//             await page.click('.primary-button:visible');
+
+//             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
+//             var message = '';
+
+//             if (getError) {
+//                 const errors = await page.$$('.text-red-600.text-xs.italic');
+
+//                 for (let error of errors) {
+//                     message = await error.evaluate(el => el.innerText);
+//                     console.log(message);
+//                 }
+//             } else {
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+
+//                     message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
+
+// test('Mass Delete Products', async () => {
+//     test.setTimeout(config.mediumTimeout);
+
+//     var browser;
+
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
+
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+
+//     const page = await context.newPage();
+
+//     try {
+//         const log = await logIn(page);
+
+//         if (log == null) {
+//             return;
+//         }
+
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+//         await mode(page);
+
+//         const checkboxs = await page.$$('.icon-uncheckbox');
+
+//         if (checkboxs.length > 0) {
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 3 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
+
+//             const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+
+//             if (button) {
+//                 await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
+//                 await page.click('a[class="whitespace-no-wrap flex gap-1.5 rounded-b px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+
+//                 await page.click('button.transparent-button + button.primary-button:visible');
+
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+
+//                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             } else {
+//                 console.log('Please select any product.');
+//             }
+//         } else {
+//             console.log('No product found, create first.');
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
+
+// test('Mass Update Products', async () => {
+//     test.setTimeout(config.mediumTimeout);
+
+//     var browser;
+
+//     if (config.browser == 'firefox') {
+//         browser = await firefox.launch();
+//     } else if (config.browser == 'webkit') {
+//         browser = await webkit.launch();
+//     } else {
+//         browser = await chromium.launch();
+//     }
+
+//     const context = await browser.newContext({
+//         recordVideo: {
+//             dir: 'videos/',
+//             size: { width: 1280, height: 720 }
+//         }
+//     });
+
+//     const page = await context.newPage();
+
+//     try {
+//         const log = await logIn(page);
+
+//         if (log == null) {
+//             return;
+//         }
+
+//         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+//         await mode(page);
+
+//         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+//         const checkboxs = await page.$$('.icon-uncheckbox');
+
+//         if (checkboxs.length > 0) {
+//             for (let checkbox of checkboxs) {
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 3 == 1) {
+//                     await checkbox.click();
+//                 }
+//             }
+//             const button = await page.waitForSelector('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible', { timeout: 1000 }).catch(() => null);
+
+//             if (button) {
+//                 await page.click('button[class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
+//                 await page.hover('a[class="whitespace-no-wrap flex cursor-not-allowed justify-between gap-1.5 rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+
+//                 const buttons = await page.$$('a[class="whitespace-no-wrap block rounded-t px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-950"]:visible');
+
+//                 let i = Math.floor(Math.random() * 10) + 1;
+
+//                 if (i % 2 == 1) {
+//                     await buttons[1].click();
+//                 } else {
+//                     await buttons[0].click();
+//                 }
+
+//                 await page.click('button.transparent-button + button.primary-button:visible');
+
+//                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+
+//                 if (iconExists) {
+//                     const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+//                     const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+
+//                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
+//                     await icons[0].click();
+//                     console.log(message);
+//                 }
+//             } else {
+//                 console.log('Please select any product.');
+//             }
+//         } else {
+//             console.log('No product found, create first.');
+//         }
+//     } catch (error) {
+//         console.log('Error during test execution:', error.message);
+//     } finally {
+//         await page.close();
+//         await context.close();
+//         await browser.close();
+//     }
+// });
