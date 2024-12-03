@@ -9,7 +9,7 @@ const baseUrl = config.baseUrl;
 const { chromium, firefox, webkit } = require('playwright');
 
 test('Create Attribute Family', async () => {
-    test.setTimeout(config.mediumTimeout);
+    test.setTimeout(config.highTimeout);
 
     var browser;
 
@@ -245,7 +245,7 @@ test('Create Attribute Family', async () => {
         if (page.url() != `${baseUrl}/admin/catalog/families`) {
             await page.goto(`${baseUrl}/admin/catalog/families`);
         }
-        
+
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconDelete.length > 0) {

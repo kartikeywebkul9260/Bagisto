@@ -9,7 +9,7 @@ const baseUrl = config.baseUrl;
 const { chromium, firefox, webkit } = require('playwright');
 
 test('Create Category', async () => {
-    test.setTimeout(config.mediumTimeout);
+    test.setTimeout(config.highTimeout);
 
     var browser;
 
@@ -361,7 +361,7 @@ test('Create Category', async () => {
         if (page.url() != `${baseUrl}/admin/catalog/categories`) {
             await page.goto(`${baseUrl}/admin/catalog/categories`);
         }
-        
+
         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
 

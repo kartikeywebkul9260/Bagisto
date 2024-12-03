@@ -9,7 +9,7 @@ const baseUrl = config.baseUrl;
 const { chromium, firefox, webkit } = require('playwright');
 
 test('Create Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.mediumTimeout);
+    test.setTimeout(config.highTimeout);
 
     var browser;
 

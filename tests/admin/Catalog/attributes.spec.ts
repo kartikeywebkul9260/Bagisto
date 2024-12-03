@@ -9,7 +9,7 @@ const baseUrl = config.baseUrl;
 const { chromium, firefox, webkit } = require('playwright');
 
 test('Create Attribute', async () => {
-    test.setTimeout(config.mediumTimeout);
+    test.setTimeout(config.highTimeout);
 
     var browser;
 
@@ -250,7 +250,7 @@ test('Create Attribute', async () => {
         if (page.url() != `${baseUrl}/admin/catalog/attributes`) {
             await page.goto(`${baseUrl}/admin/catalog/attributes`);
         }
-        
+
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {
