@@ -20,7 +20,7 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -u root -proot"
+          --health-cmd="mysqladmin ping -h localhost -u root -pwebkul"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -38,7 +38,7 @@ jobs:
 
           # Try multiple connection methods
           echo "Attempt 1: Connecting with root user"
-          mysql -h mysql -P 3306 -u root -proot -e "SHOW DATABASES;" || echo "Root connection failed"
+          mysql -h mysql -P 3306 -u root -pwebkul -e "SHOW DATABASES;" || echo "Root connection failed"
 
           echo "Attempt 2: Connecting with bagisto user"
           mysql -h mysql -P 3306 -u bagisto -pbagisto -e "SHOW DATABASES;" || echo "Bagisto user connection failed"
@@ -73,13 +73,13 @@ jobs:
           echo "Attempting to connect to MySQL..."
 
           # Try root connection
-          mysqladmin -h mysql -P 3306 -u root -proot ping || echo "Root ping failed"
+          mysqladmin -h mysql -P 3306 -u root -pwebkul ping || echo "Root ping failed"
 
           # Try bagisto user connection
           mysqladmin -h mysql -P 3306 -u bagisto -pbagisto ping || echo "Bagisto user ping failed"
 
           # Show MySQL process list
-          mysql -h mysql -P 3306 -u root -proot -e "SHOW PROCESSLIST;" || echo "Process list query failed"
+          mysql -h mysql -P 3306 -u root -pwebkul -e "SHOW PROCESSLIST;" || echo "Process list query failed"
 
       - name: Prepare Database
         env:
@@ -87,12 +87,12 @@ jobs:
           DB_PORT: 3306
           DB_DATABASE: bagisto-test
           DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_PASSWORD: webkul
         run: |
           # Explicit database preparation
-          mysql -h mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;"
-          mysql -h mysql -u root -proot -e "GRANT ALL PRIVILEGES ON \`bagisto-test\`.* TO 'root'@'%';"
-          mysql -h mysql -u root -proot -e "FLUSH PRIVILEGES;"
+          mysql -h mysql -u root -pwebkul -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;"
+          mysql -h mysql -u root -pwebkul -e "GRANT ALL PRIVILEGES ON \`bagisto-test\`.* TO 'root'@'%';"
+          mysql -h mysql -u root -pwebkul -e "FLUSH PRIVILEGES;"
 
       - name: Install Dependencies
         run: |
@@ -104,14 +104,14 @@ jobs:
           sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=webkul/' .env
 
       - name: Final MySQL Connectivity Test
         run: |
           echo "Final connectivity check:"
           php -r "
           try {
-              \$conn = new PDO('mysql:host=mysql;dbname=bagisto-test', 'root', 'root');
+              \$conn = new PDO('mysql:host=mysql;dbname=bagisto-test', 'root', 'webkul');
               echo \"PDO Connection Successful\n\";
           } catch (PDOException \$e) {
               echo \"PDO Connection Failed: \" . \$e->getMessage() . \"\n\";
