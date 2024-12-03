@@ -53,9 +53,9 @@ jobs:
 
       - name: Configure MySQL user privileges
         run: |
-          echo "Granting privileges to root user for external connections..."
           mysql -h 127.0.0.1 -uroot -pwebkul -e "
-            GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'webkul' WITH GRANT OPTION;
+            CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'webkul';
+            GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
             FLUSH PRIVILEGES;
           "
 
