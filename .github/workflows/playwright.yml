@@ -18,8 +18,6 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: bagisto-test
-          MYSQL_USER: root
-          MYSQL_PASSWORD: webkul
         ports:
           - 3306:3306
         options: >-
