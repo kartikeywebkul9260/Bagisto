@@ -47,7 +47,7 @@ test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.log('Browser session closed.');
+    console.info('Browser session closed.');
 });
 
 test('Create Category', async () => {
@@ -153,7 +153,7 @@ test('Create Category', async () => {
 
             for (let error of errors) {
                 message = await error.evaluate(el => el.innerText);
-                console.log(message);
+                console.error(message);
             }
         } else {
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -164,11 +164,11 @@ test('Create Category', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -281,7 +281,7 @@ test('Edit Category', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -292,14 +292,14 @@ test('Edit Category', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         } else {
-            console.log('No category found, create first.');
+            console.error('No category found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -325,13 +325,13 @@ test('Delete Category', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         } else {
-            console.log('No category found, create first.');
+            console.error('No category found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -369,16 +369,16 @@ test('Mass Delete Categories', async () => {
 
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             } else {
                 console.log('Please select any category.');
             }
         } else {
-            console.log('No category found, create first.');
+            console.error('No category found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -426,15 +426,15 @@ test('Mass Update Categories', async () => {
 
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             } else {
                 console.log('Please select any category.');
             }
         } else {
-            console.log('No category found, create first.');
+            console.error('No category found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });

@@ -47,7 +47,7 @@ test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.log('Browser session closed.');
+    console.info('Browser session closed.');
 });
 
 test('Create Attribute Family', async () => {
@@ -121,9 +121,9 @@ test('Create Attribute Family', async () => {
                 }
             }
         } else if (attributes.length === 0) {
-            console.log('No draggable attributes found.');
+            console.error('No draggable attributes found.');
         } else {
-            console.log('Expected 2 target containers, but found:', targets.length);
+            console.error('Expected  2 target containers, but found:', targets.length);
         }
 
         await page.click('.primary-button:visible');
@@ -136,7 +136,7 @@ test('Create Attribute Family', async () => {
 
             for (let error of errors) {
                 message = await error.evaluate(el => el.innerText);
-                console.log(message);
+                console.error(message);
             }
         } else {
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
@@ -147,13 +147,13 @@ test('Create Attribute Family', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             } else {
                 console.log('The cobination you are tring is no able to create');
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -225,9 +225,9 @@ test('Edit Attribute Family', async () => {
                     }
                 }
             } else if (attributes.length === 0) {
-                console.log('No draggable attributes found.');
+                console.error('No draggable attributes found.');
             } else {
-                console.log('Expected 2 target containers, but found:', targets.length);
+                console.error('Expected  2 target containers, but found:', targets.length);
             }
 
             await page.click('.primary-button:visible');
@@ -240,7 +240,7 @@ test('Edit Attribute Family', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
@@ -251,16 +251,16 @@ test('Edit Attribute Family', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 } else {
                     console.log('The cobination you are tring is no able to update');
                 }
             }
         } else {
-            console.log('No Attribute family found, create first.');
+            console.error('No Attribute family found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -286,12 +286,12 @@ test('Delete Attribute Family', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         } else {
-            console.log('No Attribute family found, create first.');
+            console.error('No Attribute family found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });

@@ -47,7 +47,7 @@ test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.log('Browser session closed.');
+    console.info('Browser session closed.');
 });
 
 test('Create Product(simple, virtual, downloadable)', async () => {
@@ -216,7 +216,6 @@ test('Create Product(simple, virtual, downloadable)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -235,7 +234,7 @@ test('Create Product(simple, virtual, downloadable)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -302,7 +301,7 @@ test('Create Product(simple, virtual, downloadable)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -313,12 +312,12 @@ test('Create Product(simple, virtual, downloadable)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -518,7 +517,6 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -537,7 +535,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -604,7 +602,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -615,12 +613,12 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -775,7 +773,6 @@ test('Create Product(bundle)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -794,7 +791,7 @@ test('Create Product(bundle)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -835,7 +832,6 @@ test('Create Product(bundle)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
@@ -856,7 +852,7 @@ test('Create Product(bundle)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -893,7 +889,7 @@ test('Create Product(bundle)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -904,12 +900,12 @@ test('Create Product(bundle)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -1092,7 +1088,6 @@ test('Edit Product(bundle)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -1111,7 +1106,7 @@ test('Edit Product(bundle)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1154,7 +1149,6 @@ test('Edit Product(bundle)', async () => {
 
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
 
-                    console.log(randomProduct);
 
                     await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
@@ -1175,7 +1169,7 @@ test('Edit Product(bundle)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1212,7 +1206,7 @@ test('Edit Product(bundle)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -1223,12 +1217,12 @@ test('Edit Product(bundle)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -1383,7 +1377,6 @@ test('Create Product(grouped)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -1402,7 +1395,7 @@ test('Create Product(grouped)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1416,7 +1409,6 @@ test('Create Product(grouped)', async () => {
 
                 const randomProduct = forms.generateRandomProductName();
                 await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                console.log(randomProduct);
 
                 await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
@@ -1437,7 +1429,7 @@ test('Create Product(grouped)', async () => {
                         }
                     }
                 } else {
-                    console.log('no product found');
+                    console.error('No product found');
                 }
 
                 page.click('div.primary-button:visible');
@@ -1463,7 +1455,7 @@ test('Create Product(grouped)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -1474,12 +1466,12 @@ test('Create Product(grouped)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -1662,7 +1654,6 @@ test('Edit Product(grouped)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -1681,7 +1672,7 @@ test('Edit Product(grouped)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1695,7 +1686,6 @@ test('Edit Product(grouped)', async () => {
 
                 const randomProduct = forms.generateRandomProductName();
                 await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                console.log(randomProduct);
 
                 await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 
@@ -1716,7 +1706,7 @@ test('Edit Product(grouped)', async () => {
                         }
                     }
                 } else {
-                    console.log('no product found');
+                    console.error('No product found');
                 }
 
                 page.click('div.primary-button:visible');
@@ -1742,7 +1732,7 @@ test('Edit Product(grouped)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -1753,12 +1743,12 @@ test('Edit Product(grouped)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -1928,7 +1918,6 @@ test('Create Product(configurable)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -1947,7 +1936,7 @@ test('Create Product(configurable)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -2010,7 +1999,7 @@ test('Create Product(configurable)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -2021,12 +2010,12 @@ test('Create Product(configurable)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -2241,7 +2230,6 @@ test('Edit Product(configurable)', async () => {
 
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-                    console.log(randomProduct);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -2260,7 +2248,7 @@ test('Edit Product(configurable)', async () => {
                             }
                         }
                     } else {
-                        console.log('no product found');
+                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -2279,7 +2267,7 @@ test('Edit Product(configurable)', async () => {
 
                 for (let error of errors) {
                     message = await error.evaluate(el => el.innerText);
-                    console.log(message);
+                    console.error(message);
                 }
             } else {
                 const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -2290,12 +2278,12 @@ test('Edit Product(configurable)', async () => {
 
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -2333,16 +2321,16 @@ test('Mass Delete Products', async () => {
 
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             } else {
                 console.log('Please select any product.');
             }
         } else {
-            console.log('No product found, create first.');
+            console.error('No product found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -2389,15 +2377,15 @@ test('Mass Update Products', async () => {
 
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
-                    console.log(message);
+                    console.info(message);
                 }
             } else {
                 console.log('Please select any product.');
             }
         } else {
-            console.log('No product found, create first.');
+            console.error('No product found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });

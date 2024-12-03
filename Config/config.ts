@@ -17,7 +17,7 @@ const config = {
   validInputs: process.env.VALID_INPUTS === 'true' || true,
 
   // File path for file uploads
-  filePath: process.env.APP_URL + '/themes/shop/default/build/assets/',
+  filePath: `localhost/bagisto/public/themes/shop/default/build/assets/`,
 
   // Browser settings
   browser: process.env.BROWSER || 'chromium',
