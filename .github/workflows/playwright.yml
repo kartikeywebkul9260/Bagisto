@@ -5,10 +5,12 @@ on:
   pull_request:
     branches: [ v2.2.2 ]
   workflow_dispatch:
+
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+
     services:
       mysql:
         image: mysql:8.0
@@ -29,28 +31,45 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug MySQL Service
+      - name: Install system dependencies
         run: |
-          # Verbose MySQL connection debugging
-          echo "Listing MySQL connection details:"
-          echo "Host: mysql"
-          echo "Port: 3306"
+          sudo apt-get update
+          sudo apt-get install -y mysql-client netcat-openbsd net-tools
 
-          # Try multiple connection methods
-          echo "Attempt 1: Connecting with root user"
-          mysql -h mysql -P 3306 -u root -pwebkul -e "SHOW DATABASES;" || echo "Root connection failed"
+      - name: Verify MySQL Connection
+        run: |
+          echo "Attempting to connect to MySQL..."
 
-          echo "Attempt 2: Connecting with bagisto user"
-          mysql -h mysql -P 3306 -u bagisto -pbagisto -e "SHOW DATABASES;" || echo "Bagisto user connection failed"
+          # Comprehensive connection checks
+          echo "Checking MySQL connectivity:"
 
-          echo "Attempt 3: Netcat port check"
-          nc -zv mysql 3306 || echo "Port 3306 not accessible"
+          # Root user connection
+          echo "Attempting root user connection:"
+          mysqladmin -h 127.0.0.1 -P 3306 -u root -pwebkul ping || {
+            echo "Root user connection failed"
+            echo "MySQL service details:"
+            sudo service mysql status
+            sudo netstat -tuln | grep 3306
+            exit 1
+          }
 
-          echo "Attempt 4: MySQL service status"
-          sudo systemctl status mysql || echo "MySQL service status check failed"
+          # Create test database
+          mysql -h 127.0.0.1 -P 3306 -u root -pwebkul -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;" || {
+            echo "Failed to create test database"
+            exit 1
+          }
 
-          echo "Attempt 5: Detailed MySQL logs"
-          docker logs $(docker ps | grep mysql | awk '{print $1}') || echo "Unable to fetch MySQL logs"
+          # Network connectivity
+          nc -zv 127.0.0.1 3306 || {
+            echo "Port 3306 not accessible"
+            exit 1
+          }
+
+          # Show databases to verify connection
+          mysql -h 127.0.0.1 -P 3306 -u root -pwebkul -e "SHOW DATABASES;" || {
+            echo "Failed to list databases"
+            exit 1
+          }
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -58,6 +77,27 @@ jobs:
           php-version: '8.1'
           extensions: mbstring, intl, bcmath, gd, pdo_mysql, mysql
           tools: composer
+
+      - name: Prepare Application
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: bagisto-test
+          DB_USERNAME: root
+          DB_PASSWORD: webkul
+        run: |
+          # Prepare .env file
+          cp .env.example .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=webkul/' .env
+
+          # Install dependencies and prepare application
+          composer install
+          php artisan key:generate
+          php artisan migrate --seed
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
