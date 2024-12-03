@@ -116,10 +116,13 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
+
       - name: Run Playwright admin catalog tests
         env:
           BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test --ui
+        run: xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' npx playwright test --ui
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
