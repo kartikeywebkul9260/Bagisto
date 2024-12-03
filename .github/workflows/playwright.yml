@@ -1,9 +1,10 @@
 name: Bagisto Playwright Tests
+
 on:
   push:
-    branches: [ v2.2.2 ]
+    branches: [v2.2.2]
   pull_request:
-    branches: [ v2.2.2 ]
+    branches: [v2.2.2]
   workflow_dispatch:
 
 jobs:
@@ -17,8 +18,8 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: bagisto-test
-          MYSQL_USER: bagisto
-          MYSQL_PASSWORD: bagisto
+          MYSQL_USER: root
+          MYSQL_PASSWORD: webkul
         ports:
           - 3306:3306
         options: >-
@@ -36,114 +37,50 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mysql-client netcat-openbsd net-tools
 
-      - name: Verify MySQL Connection
+      - name: Wait for MySQL
         run: |
-          echo "Attempting to connect to MySQL..."
-
-          # Additional MySQL configuration for root access
-          echo "Configuring MySQL root access..."
-          docker exec $(docker ps | grep mysql | awk '{print $1}') mysql -u root -pwebkul -e "
-            ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
-            ALTER USER 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
-            FLUSH PRIVILEGES;
-          " || echo "MySQL root configuration failed"
-
-          # Wait for MySQL to be ready
+          echo "Waiting for MySQL..."
           max_attempts=30
           attempt=0
-          while [ $attempt -lt $max_attempts ]; do
-            if mysql -h 127.0.0.1 -u root -pwebkul -e "SELECT 1" > /dev/null 2>&1; then
-              echo "MySQL is ready!"
-              break
+          until mysqladmin ping -h localhost -uroot -pwebkul --silent; do
+            if [ $attempt -ge $max_attempts ]; then
+              echo "MySQL failed to start in time."
+              exit 1
             fi
             echo "Waiting for MySQL... (attempt $((attempt+1))/$max_attempts)"
             sleep 2
             ((attempt++))
           done
 
-          # Create test database
-          mysql -h 127.0.0.1 -u root -pwebkul -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;" || {
-            echo "Failed to create test database"
-            exit 1
-          }
+      - name: Set up application environment
+        run: |
+          cp .env.example .env
+          sed -i 's/DB_HOST=.*/DB_HOST=localhost/' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=webkul/' .env
 
-          # Verify database creation
-          mysql -h 127.0.0.1 -u root -pwebkul -e "SHOW DATABASES;" || {
-            echo "Failed to list databases"
-            exit 1
-          }
-
-      - name: Set up PHP
+      - name: Install PHP and dependencies
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
           extensions: mbstring, intl, bcmath, gd, pdo_mysql, mysql
           tools: composer
 
-      - name: Prepare Application
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Run Laravel migrations
+        run: |
+          php artisan key:generate
+          php artisan migrate --seed
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: localhost
           DB_PORT: 3306
           DB_DATABASE: bagisto-test
           DB_USERNAME: root
           DB_PASSWORD: webkul
-        run: |
-          # Prepare .env file
-          cp .env.example .env
-          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=webkul/' .env
-
-          # Install dependencies and prepare application
-          composer install
-          php artisan key:generate
-          php artisan migrate --seed
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.composer/cache
-          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Install Dependencies
-        run: |
-          composer install
-          cp .env.example .env
-
-          # Explicitly set database connection details
-          sed -i 's/DB_HOST=.*/DB_HOST=mysql/' .env
-          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=webkul/' .env
-
-      - name: Final MySQL Connectivity Test
-        run: |
-          echo "Final connectivity check:"
-          php -r "
-          try {
-              \$conn = new PDO('mysql:host=mysql;dbname=bagisto-test', 'root', 'webkul');
-              echo \"PDO Connection Successful\n\";
-          } catch (PDOException \$e) {
-              echo \"PDO Connection Failed: \" . \$e->getMessage() . \"\n\";
-          }"
-
-      - name: Set up application
-        run: |
-          php artisan key:generate
-          php artisan migrate --seed
-        env:
-          APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: mysql
-          DB_PORT: 3306
-          DB_DATABASE: bagisto-test
-          DB_USERNAME: bagisto
-          DB_PASSWORD: bagisto
 
       - name: Start Laravel server
         run: php artisan serve --host=0.0.0.0 --port=8000 &
