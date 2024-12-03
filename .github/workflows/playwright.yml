@@ -16,7 +16,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: webkul
           MYSQL_DATABASE: bagisto-test
         ports:
           - 3306:3306
@@ -50,6 +50,15 @@ jobs:
             ((attempt++))
           done
 
+
+      - name: Configure MySQL user privileges
+        run: |
+          echo "Granting privileges to root user for external connections..."
+          mysql -h 127.0.0.1 -uroot -pwebkul -e "
+            GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'webkul' WITH GRANT OPTION;
+            FLUSH PRIVILEGES;
+          "
+
       - name: Set up application environment
         run: |
           cp .env.example .env
@@ -69,6 +78,22 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
 
+      - name: Test MySQL Connectivity
+        run: |
+          echo "Testing MySQL connection..."
+          php -r "
+            try {
+                \$pdo = new PDO('mysql:host=127.0.0.1;dbname=bagisto-test', 'root', 'webkul');
+                echo 'Connected to MySQL successfully!';
+            } catch (PDOException \$e) {
+                echo 'Connection failed: ' . \$e->getMessage();
+                exit(1);
+            }
+          "
+      - name: Restart MySQL Service
+        run: |
+          docker exec $(docker ps | grep mysql | awk '{print $1}') service mysql restart
+
       - name: Run Laravel migrations
         run: |
           php artisan key:generate
@@ -81,7 +106,7 @@ jobs:
           DB_PASSWORD: webkul
 
       - name: Start Laravel server
-        run: php artisan serve --host=0.0.0.0 --port=8000 &
+        run: nohup php artisan serve --host=0.0.0.0 --port=8000 > /dev/null 2>&1 &
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
