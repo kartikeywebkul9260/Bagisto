@@ -121,7 +121,7 @@ jobs:
 
       - name: Download and Set Up ngrok
         run: |
-          curl -o ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+          curl -o ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-v3-stable-linux-amd64.zip
           unzip ngrok.zip
           chmod +x ngrok
 
