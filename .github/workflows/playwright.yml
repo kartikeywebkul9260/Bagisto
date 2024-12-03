@@ -122,8 +122,8 @@ jobs:
       - name: Download and Set Up ngrok
         run: |
           curl -o ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-v3-stable-linux-amd64.zip
-          unzip ngrok.zip
-          chmod +x ngrok
+          unzip ngrok.zip -d $HOME/.local/bin/
+          chmod +x $HOME/.local/bin/ngrok
 
       - name: Authenticate ngrok
         run: ./ngrok authtoken 2lMZ2Y73YCgcQCeVWbS1HxGt0y2_7ZRqWcHBYAQ6v3mTCV1fo
