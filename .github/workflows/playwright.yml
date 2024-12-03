@@ -90,10 +90,7 @@ jobs:
                 exit(1);
             }
           "
-      - name: Restart MySQL Service
-        run: |
-          docker exec $(docker ps | grep mysql | awk '{print $1}') service mysql restart
-
+          
       - name: Run Laravel migrations
         run: |
           php artisan key:generate
