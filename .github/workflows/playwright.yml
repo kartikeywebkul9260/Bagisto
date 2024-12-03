@@ -40,33 +40,35 @@ jobs:
         run: |
           echo "Attempting to connect to MySQL..."
 
-          # Comprehensive connection checks
-          echo "Checking MySQL connectivity:"
+          # Additional MySQL configuration for root access
+          echo "Configuring MySQL root access..."
+          docker exec $(docker ps | grep mysql | awk '{print $1}') mysql -u root -pwebkul -e "
+            ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
+            ALTER USER 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+            FLUSH PRIVILEGES;
+          " || echo "MySQL root configuration failed"
 
-          # Root user connection
-          echo "Attempting root user connection:"
-          mysqladmin -h 127.0.0.1 -P 3306 -u root -pwebkul ping || {
-            echo "Root user connection failed"
-            echo "MySQL service details:"
-            sudo service mysql status
-            sudo netstat -tuln | grep 3306
-            exit 1
-          }
+          # Wait for MySQL to be ready
+          max_attempts=30
+          attempt=0
+          while [ $attempt -lt $max_attempts ]; do
+            if mysql -h 127.0.0.1 -u root -pwebkul -e "SELECT 1" > /dev/null 2>&1; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Waiting for MySQL... (attempt $((attempt+1))/$max_attempts)"
+            sleep 2
+            ((attempt++))
+          done
 
           # Create test database
-          mysql -h 127.0.0.1 -P 3306 -u root -pwebkul -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;" || {
+          mysql -h 127.0.0.1 -u root -pwebkul -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;" || {
             echo "Failed to create test database"
             exit 1
           }
 
-          # Network connectivity
-          nc -zv 127.0.0.1 3306 || {
-            echo "Port 3306 not accessible"
-            exit 1
-          }
-
-          # Show databases to verify connection
-          mysql -h 127.0.0.1 -P 3306 -u root -pwebkul -e "SHOW DATABASES;" || {
+          # Verify database creation
+          mysql -h 127.0.0.1 -u root -pwebkul -e "SHOW DATABASES;" || {
             echo "Failed to list databases"
             exit 1
           }
@@ -106,33 +108,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-
-      - name: Verify MySQL Connection
-        run: |
-          # Multiple connection verification attempts
-          echo "Attempting to connect to MySQL..."
-
-          # Try root connection
-          mysqladmin -h mysql -P 3306 -u root -pwebkul ping || echo "Root ping failed"
-
-          # Try bagisto user connection
-          mysqladmin -h mysql -P 3306 -u bagisto -pbagisto ping || echo "Bagisto user ping failed"
-
-          # Show MySQL process list
-          mysql -h mysql -P 3306 -u root -pwebkul -e "SHOW PROCESSLIST;" || echo "Process list query failed"
-
-      - name: Prepare Database
-        env:
-          DB_HOST: mysql
-          DB_PORT: 3306
-          DB_DATABASE: bagisto-test
-          DB_USERNAME: root
-          DB_PASSWORD: webkul
-        run: |
-          # Explicit database preparation
-          mysql -h mysql -u root -pwebkul -e "CREATE DATABASE IF NOT EXISTS \`bagisto-test\`;"
-          mysql -h mysql -u root -pwebkul -e "GRANT ALL PRIVILEGES ON \`bagisto-test\`.* TO 'root'@'%';"
-          mysql -h mysql -u root -pwebkul -e "FLUSH PRIVILEGES;"
 
       - name: Install Dependencies
         run: |
