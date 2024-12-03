@@ -137,45 +137,12 @@ test('Create Attribute Family', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Attribute Family', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const loginResult = await logIn(page);
-        if (!loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/families`) {
+            await page.goto(`${baseUrl}/admin/catalog/families`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/families`);
-
-        await mode(page);
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -272,45 +239,13 @@ test('Edit Attribute Family', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Delete Attribute Family', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/families`) {
+            await page.goto(`${baseUrl}/admin/catalog/families`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/families`);
-
-        await mode(page);
-
+        
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconDelete.length > 0) {
@@ -333,9 +268,10 @@ test('Delete Attribute Family', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
+
+    await page.close();
+    await context.close();
+    await browser.close();
+
 });

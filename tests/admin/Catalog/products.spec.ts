@@ -303,45 +303,12 @@ test('Create Product(simple, virtual, downloadable)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
-
-        await mode(page);
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -636,44 +603,12 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Create Product(bundle)', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await mode(page);
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
 
         await page.click('button.primary-button:visible');
 
@@ -955,45 +890,12 @@ test('Create Product(bundle)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Product(bundle)', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
-
-        await mode(page);
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1305,44 +1207,12 @@ test('Edit Product(bundle)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Create Product(grouped)', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await mode(page);
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
 
         await page.click('button.primary-button:visible');
 
@@ -1586,45 +1456,12 @@ test('Create Product(grouped)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Product(grouped)', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
-
-        await mode(page);
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1896,44 +1733,12 @@ test('Edit Product(grouped)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Create Product(configurable)', async () => {
-    test.setTimeout(config.highTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await mode(page);
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
 
         await page.click('button.primary-button:visible');
 
@@ -2194,45 +1999,12 @@ test('Create Product(configurable)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Product(configurable)', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
-
-        await mode(page);
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -2494,45 +2266,12 @@ test('Edit Product(configurable)', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Mass Delete Products', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
-
-        await mode(page);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -2571,45 +2310,12 @@ test('Mass Delete Products', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Mass Update Products', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/products`) {
+            await page.goto(`${baseUrl}/admin/catalog/products`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/products`);
-
-        await mode(page);
 
         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
@@ -2658,9 +2364,9 @@ test('Mass Update Products', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
+
+    await page.close();
+    await context.close();
+    await browser.close();
 });

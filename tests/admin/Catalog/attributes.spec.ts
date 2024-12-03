@@ -132,45 +132,12 @@ test('Create Attribute', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Attribute', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/attributes`) {
+            await page.goto(`${baseUrl}/admin/catalog/attributes`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/attributes`);
-
-        await mode(page);
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -202,20 +169,20 @@ test('Edit Attribute', async () => {
             }
 
             await page.click('.primary-button:visible');
-        
+
             if (config.validInputs) {
                 const errors = await page.$$('input[type="text"].border-red-500, input[type="text"][class="border !border-red-600 hover:border-red-600 w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
-    
+
                 for (let error of errors) {
                     await error.fill((Math.random() * 10).toString());
                 }
-    
+
                 const newErrors = await page.$$('input[type="text"].border-red-500, input[class="border !border-red-600 hover:border-red-600 w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
-    
+
                 for (let error of newErrors) {
                     await error.fill((Math.floor(Math.random() * 10) + 1).toString());
                 }
-    
+
                 if (errors.length > 0) {
                     await page.click('.primary-button:visible');
                 }
@@ -248,45 +215,12 @@ test('Edit Attribute', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Delete Attribute', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/attributes`) {
+            await page.goto(`${baseUrl}/admin/catalog/attributes`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/attributes`);
-
-        await mode(page);
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -310,46 +244,13 @@ test('Delete Attribute', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Mass Delete Attributes', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/attributes`) {
+            await page.goto(`${baseUrl}/admin/catalog/attributes`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/attributes`);
-
-        await mode(page);
-
+        
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {
@@ -387,9 +288,9 @@ test('Mass Delete Attributes', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
+
+    await page.close();
+    await context.close();
+    await browser.close();
 });

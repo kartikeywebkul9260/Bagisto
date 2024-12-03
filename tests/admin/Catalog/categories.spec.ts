@@ -154,45 +154,12 @@ test('Create Category', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Edit Category', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/categories`) {
+            await page.goto(`${baseUrl}/admin/catalog/categories`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/categories`);
-
-        await mode(page);
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -315,45 +282,12 @@ test('Edit Category', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Delete Category', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/categories`) {
+            await page.goto(`${baseUrl}/admin/catalog/categories`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/categories`);
-
-        await mode(page);
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -377,45 +311,12 @@ test('Delete Category', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Mass Delete Categories', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/categories`) {
+            await page.goto(`${baseUrl}/admin/catalog/categories`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/categories`);
-
-        await mode(page);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -454,46 +355,13 @@ test('Mass Delete Categories', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
-});
-
-test('Mass Update Categories', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
+        if (page.url() != `${baseUrl}/admin/catalog/categories`) {
+            await page.goto(`${baseUrl}/admin/catalog/categories`);
         }
-
-        await page.goto(`${baseUrl}/admin/catalog/categories`);
-
-        await mode(page);
-
+        
         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -541,9 +409,9 @@ test('Mass Update Categories', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
+
+    await page.close();
+    await context.close();
+    await browser.close();
 });
