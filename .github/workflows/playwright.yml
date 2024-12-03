@@ -118,15 +118,19 @@ jobs:
 
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
+        
+      - name: Download and Set Up ngrok
+        run: |
+          curl -o ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+          unzip ngrok.zip
+          chmod +x ngrok
 
-      - name: Run Playwright admin catalog tests
-        env:
-          BASE_URL: 'http://127.0.0.1:8000'
+      - name: Expose Playwright UI with ngrok
         run: |
           nohup xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' npx playwright test --ui &
-          curl -s https://ngrok.io -o ngrok
-          chmod +x ngrok
-          ./ngrok http 9323
+          ./ngrok http 9323 > ngrok.log &
+          sleep 5
+          cat ngrok.log | grep https
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
