@@ -156,6 +156,8 @@ test('Edit Attribute', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/attributes`);
 
+        page.waitForSelector('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -241,6 +243,8 @@ test('Delete Attribute', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/attributes`);
 
+        page.waitForSelector('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
+
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconDelete.length > 0) {
@@ -271,6 +275,8 @@ test('Mass Delete Attributes', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/attributes`);
+
+        page.waitForSelector('.icon-uncheckbox');
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
