@@ -156,7 +156,7 @@ test('Edit Attribute', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/attributes`);
 
-        page.waitForSelector('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -243,7 +243,7 @@ test('Delete Attribute', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/attributes`);
 
-        page.waitForSelector('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -276,7 +276,7 @@ test('Mass Delete Attributes', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/attributes`);
 
-        page.waitForSelector('.icon-uncheckbox');
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
