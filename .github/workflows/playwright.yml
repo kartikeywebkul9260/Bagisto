@@ -118,12 +118,15 @@ jobs:
 
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
-        
+
       - name: Download and Set Up ngrok
         run: |
           curl -o ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
           unzip ngrok.zip
           chmod +x ngrok
+
+      - name: Authenticate ngrok
+        run: ./ngrok authtoken 2lMZ2Y73YCgcQCeVWbS1HxGt0y2_7ZRqWcHBYAQ6v3mTCV1fo
 
       - name: Expose Playwright UI with ngrok
         run: |
