@@ -4,42 +4,57 @@ import mode from '../../../Helpers/admin/modeHelper';
 import config from '../../../Config/config';
 import * as forms from '../../../Helpers/admin/formHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-test('General of General', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
             dir: 'videos/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+
+    await mode(page); // Set the desired mode after login
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
+
+test('General of General', async () => {
+    test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/configuration/general/general`);
-
-        await mode(page);
 
         await page.click('select.custom-select');
 
@@ -89,34 +104,11 @@ test('General of General', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Content of General', async () => {
     test.setTimeout(config.mediumTimeout);
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
         const loginResult = await logIn(page);
@@ -126,8 +118,6 @@ test('Content of General', async () => {
         }
 
         await page.goto(`${baseUrl}/admin/configuration/general/content`);
-
-        await mode(page);
 
         await page.click('input[type="text"].rounded-md:visible');
 
@@ -168,45 +158,14 @@ test('Content of General', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Design of General', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/configuration/general/design`);
-
-        await mode(page);
 
         await page.click('input[type="file"]');
 
@@ -254,45 +213,14 @@ test('Design of General', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Magic AI of General', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/configuration/general/magic_ai`);
-
-        await mode(page);
 
         await page.click('input[type="checkbox"] + div.peer');
 
@@ -356,9 +284,5 @@ test('Magic AI of General', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
