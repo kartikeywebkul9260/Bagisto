@@ -1,17 +1,14 @@
 name: Bagisto Playwright Tests
-
 on:
   push:
     branches: [ v2.2.2 ]
   pull_request:
     branches: [ v2.2.2 ]
   workflow_dispatch:
-
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-
     services:
       mysql:
         image: mysql:8.0
@@ -20,7 +17,13 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: bagisto-test
-        options: --health-cmd="mysqladmin ping --silent" --health-start-period=30s --health-retries=5
+          MYSQL_USER: bagisto
+          MYSQL_PASSWORD: bagisto
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout repository
@@ -30,7 +33,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-          extensions: mbstring, intl, bcmath, gd, pdo_mysql
+          extensions: mbstring, intl, bcmath, gd, pdo_mysql, mysql
+          coverage: none
           tools: composer
 
       - name: Cache Composer dependencies
@@ -43,41 +47,37 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install
+          composer install --no-progress --no-suggest
           cp .env.example .env
+
+      - name: Configure database connection
+        run: |
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mysql/' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=bagisto/' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=bagisto/' .env
+          sed -i 's/DB_DATABASE=bagisto/DB_DATABASE=bagisto-test/' .env
 
       - name: Wait for MySQL to be ready
         run: |
-          until mysql -hmysql -uroot -proot -e "SELECT 1"; do
-            echo "Waiting for MySQL to be ready..."
-            sleep 5
+          while ! mysqladmin ping -h mysql -u bagisto -pbagisto --silent; do
+            sleep 1
           done
 
-      - name: Set up environment
+      - name: Set up application
         run: |
           php artisan key:generate
           php artisan migrate --seed
         env:
-          APP_NAME: Bagisto
-          APP_ENV: local
-          APP_DEBUG: true
-          APP_URL: http://localhost:8000
-          APP_ADMIN_URL: admin
-          APP_TIMEZONE: Asia/Kolkata
-          APP_LOCALE: en
-          APP_CURRENCY: USD
+          APP_ENV: testing
           DB_CONNECTION: mysql
           DB_HOST: mysql
           DB_PORT: 3306
           DB_DATABASE: bagisto-test
-          DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_USERNAME: bagisto
+          DB_PASSWORD: bagisto
 
       - name: Start Laravel server
         run: php artisan serve --host=0.0.0.0 --port=8000 &
-        env:
-          APP_URL: http://localhost:8000
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -97,10 +97,8 @@ jobs:
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-
-      - name: Show Playwright test report
-        run: npx playwright show-report
