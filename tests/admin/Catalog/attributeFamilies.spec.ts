@@ -116,10 +116,6 @@ test('Create Attribute Family', async () => {
                     await page.mouse.down();
                     await page.mouse.move(randomX, randomY);
                     await page.mouse.up();
-
-                    console.log(`Dragged an attribute to a random position (${randomX.toFixed(2)}, ${randomY.toFixed(2)}) in target ${randomTargetIndex + 1}.`);
-                } else {
-                    console.log('Could not retrieve bounding box for attribute or target container.');
                 }
             }
         } else if (attributes.length === 0) {
@@ -222,10 +218,6 @@ test('Edit Attribute Family', async () => {
                         await page.mouse.down();
                         await page.mouse.move(randomX, randomY);
                         await page.mouse.up();
-
-                        console.log(`Dragged an attribute to a random position (${randomX.toFixed(2)}, ${randomY.toFixed(2)}) in target ${randomTargetIndex + 1}.`);
-                    } else {
-                        console.log('Could not retrieve bounding box for attribute or target container.');
                     }
                 }
             } else if (attributes.length === 0) {
