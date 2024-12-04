@@ -95,7 +95,7 @@ jobs:
       - name: Install Bagisto
         run: |
           # Run the bagisto:create command to create a new project
-          composer create-project --prefer-dist bagisto/bagisto .
+          composer create
 
           # Install Bagisto
           php artisan bagisto:install --no-interaction
