@@ -42,14 +42,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
-
 test('Create Channel', async () => {
     test.setTimeout(config.mediumTimeout);
 
@@ -241,4 +233,12 @@ test('Delete Channel', async () => {
     } catch (error) {
         console.log('Error during test execution:', error.message);
     }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
 });

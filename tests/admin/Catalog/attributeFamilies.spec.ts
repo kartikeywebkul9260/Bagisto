@@ -42,14 +42,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
-
 test('Create Attribute Family', async () => {
     test.setTimeout(config.mediumTimeout);
 
@@ -294,4 +286,12 @@ test('Delete Attribute Family', async () => {
     } catch (error) {
         console.error('Error during test execution:', error.message);
     }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
 });
