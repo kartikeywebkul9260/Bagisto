@@ -41,13 +41,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
 
 test('Create Exchange Rate', async () => {
     test.setTimeout(config.mediumTimeout);
@@ -178,7 +171,7 @@ test('Delete Exchange Rate', async () => {
         console.log('Delete Exchange Rate');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-        
+
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {

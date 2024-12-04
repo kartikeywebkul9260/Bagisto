@@ -42,13 +42,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
 
 test('Create Product(simple, virtual, downloadable)', async () => {
     test.setTimeout(config.mediumTimeout);
@@ -235,8 +228,6 @@ test('Create Product(simple, virtual, downloadable)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -544,8 +535,6 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -802,8 +791,6 @@ test('Create Product(bundle)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -863,8 +850,6 @@ test('Create Product(bundle)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1125,8 +1110,6 @@ test('Edit Product(bundle)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1187,8 +1170,6 @@ test('Edit Product(bundle)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1415,8 +1396,6 @@ test('Create Product(grouped)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1449,8 +1428,6 @@ test('Create Product(grouped)', async () => {
                             await checkbox.click();
                         }
                     }
-                } else {
-                    console.error('No product found');
                 }
 
                 page.click('div.primary-button:visible');
@@ -1700,8 +1677,6 @@ test('Edit Product(grouped)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -1734,8 +1709,6 @@ test('Edit Product(grouped)', async () => {
                             await checkbox.click();
                         }
                     }
-                } else {
-                    console.error('No product found');
                 }
 
                 page.click('div.primary-button:visible');
@@ -1966,8 +1939,6 @@ test('Create Product(configurable)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -2286,8 +2257,6 @@ test('Edit Product(configurable)', async () => {
                                 await checkbox.click();
                             }
                         }
-                    } else {
-                        console.error('No product found');
                     }
 
                     page.click('div.primary-button:visible');
@@ -2385,7 +2354,7 @@ test('Mass Update Products', async () => {
         console.log('Mass Update Products');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-        
+
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {

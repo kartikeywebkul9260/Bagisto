@@ -44,13 +44,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
 
 test('Create Orders', async () => {
     test.setTimeout(config.highTimeout);
@@ -745,7 +738,7 @@ test('Print Invoice', async () => {
         console.log('Print Invoice');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-        
+
         const iconEye = await page.$$('.cursor-pointer.rounded-md.text-2xl.transition-all.icon-view');
 
         if (iconEye.length > 0) {

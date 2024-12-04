@@ -43,13 +43,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
 
 test('Create Customer', async () => {
     test.setTimeout(config.mediumTimeout);
@@ -107,7 +100,7 @@ test('Edit Customer', async () => {
         console.log('Edit Customer');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-        
+
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconRight.length > 0) {

@@ -42,13 +42,6 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
-    console.info('Browser session closed.');
-});
 
 test('Create Category', async () => {
     test.setTimeout(config.mediumTimeout);
@@ -317,7 +310,7 @@ test('Delete Category', async () => {
         console.log('Delete Categories');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-        
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconEdit.length > 0) {
