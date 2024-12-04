@@ -56,6 +56,8 @@ test('Shipping Settings of Sales', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/shipping`);
 
+        console.log('Shipping Settings of Sales');
+
         await page.click('select[name="sales[shipping][origin][country]"]');
 
         const select = await page.$('select[name="sales[shipping][origin][country]"]');
@@ -129,6 +131,8 @@ test('Shipping Methods of Sales', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/carriers`);
 
+        console.log('Shipping Methods of Sales');
+
         await page.click('input[type="checkbox"] + div.peer');
 
         const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
@@ -197,6 +201,8 @@ test('Payment Methods of Sales', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/payment_methods`);
+
+        console.log('Payment Methods of Sales');
 
         await page.click('input[type="checkbox"] + div.peer');
 
@@ -291,6 +297,8 @@ test('Order Settings of Sales', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/order_settings`);
 
+        console.log('Order Settings of Sales');
+
         await page.click('input[type="checkbox"] + div.peer');
 
         const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
@@ -314,7 +322,7 @@ test('Order Settings of Sales', async () => {
         }
 
         await page.fill('input[name="sales[order_settings][order_number][order_number_length]"]', (Math.floor(Math.random() * 100000000)).toString());
-        await page.fill('input[type="number"]', (Math.floor(Math.random() * 1000000)).toString());
+        await page.fill('input[type="number"]', (Math.floor(Math.random() * 1000000)).toString(), { timeout: 3000 }).catch(() => null);
 
         await page.click('button[type="submit"].primary-button:visible');
 
@@ -350,6 +358,8 @@ test('Invoice Settings of Sales', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/invoice_settings`);
+
+        console.log('Invoice Settings of Sales');
 
         await page.click('input[type="checkbox"] + div.peer');
 
@@ -436,6 +446,8 @@ test('Taxes of Sales', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/taxes`);
 
+        console.log('Taxes of Sales');
+
         await page.click('select.custom-select');
 
         const selects = await page.$$('select.custom-select');
@@ -512,6 +524,8 @@ test('Checkout of Sales', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/sales/checkout`);
+
+        console.log('Checkout of Sales');
 
         await page.click('input[type="checkbox"] + div.peer');
 

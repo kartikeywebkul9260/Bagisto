@@ -56,6 +56,8 @@ test('General of General', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/general/general`);
 
+        console.log('General of General');
+
         await page.click('select.custom-select');
 
         const select = await page.$('select.custom-select');
@@ -113,6 +115,8 @@ test('Content of General', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/general/content`);
 
+        console.log('Content of General');
+
         await page.click('input[type="text"].rounded-md:visible');
 
         const inputs = await page.$$('textarea.rounded-md:visible, input[type="text"].rounded-md:visible');
@@ -160,6 +164,8 @@ test('Design of General', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/general/design`);
+
+        console.log('Design of General');
 
         await page.click('input[type="file"]');
 
@@ -215,6 +221,8 @@ test('Magic AI of General', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/general/magic_ai`);
+
+        console.log('Magic AI of General');
 
         await page.click('input[type="checkbox"] + div.peer');
 

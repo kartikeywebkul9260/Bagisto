@@ -56,6 +56,8 @@ test('Settings of Email', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/emails/configure`);
 
+        console.log('Settings of Email');
+
         await page.click('input[type="text"].rounded-md:visible');
 
         const inputs = await page.$$('input[type="text"].rounded-md:visible');
@@ -106,6 +108,8 @@ test('Notifications of Email', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/emails/general`);
+
+        console.log('Notifications of Email');
 
         await page.click('input[type="checkbox"] + div.peer');
 

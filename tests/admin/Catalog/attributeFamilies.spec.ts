@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/Catalog/attributeFamilies',
             size: { width: 1280, height: 720 }
         }
     });
@@ -55,6 +55,8 @@ test('Create Attribute Family', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/families`);
+
+        console.log('Create Attribute Family');
 
         await page.click('div.primary-button:visible');
 
@@ -163,6 +165,8 @@ test('Edit Attribute Family', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/families`);
 
+        console.log('Edit Attribute Family');
+
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -269,6 +273,8 @@ test('Delete Attribute Family', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/families`);
+
+        console.log('Delete Attribute Family');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');

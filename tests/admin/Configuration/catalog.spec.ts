@@ -56,6 +56,8 @@ test('Products of Catalog', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/catalog/products`);
 
+        console.log('Products of Catalog');
+
         await page.click('input[type="checkbox"] + div.peer');
 
         const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
@@ -165,6 +167,8 @@ test('Rich Snippets of Catalog', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/catalog/rich_snippets`);
 
+        console.log('Rich Snippets of Catalog');
+
         await page.click('input[type="checkbox"] + div.peer');
 
         const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
@@ -211,6 +215,8 @@ test('Inventory of Catalog', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/catalog/inventory`);
+
+        console.log('Inventory of Catalog');
 
         await page.click('input[type="checkbox"] + div.peer');
 

@@ -56,6 +56,8 @@ test('Address of Customer', async () => {
     try {
         await page.goto(`${baseUrl}/admin/configuration/customer/address`);
 
+        console.log('Address of Customer');
+
         await page.click('input[type="checkbox"] + div.peer');
 
         const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
@@ -106,6 +108,8 @@ test('Captcha of Customer', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/customer/captcha`);
+
+        console.log('Captcha of Customer');
 
         await page.click('input[type="checkbox"] + div.peer');
 
@@ -162,6 +166,8 @@ test('Settings of Customer', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/configuration/customer/settings`);
+
+        console.log('Settings of Customer');
 
         await page.click('input[type="checkbox"] + div.peer');
 
