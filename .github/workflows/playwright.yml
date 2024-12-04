@@ -101,6 +101,9 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: webkul
 
+      - name: Seed Product Table
+        run: php artisan db:seed --class="Webkul\\Installer\\Database\\Seeders\\ProductTableSeeder"
+
       - name: Start Laravel server
         run: nohup php artisan serve --host=0.0.0.0 --port=8000 > /dev/null 2>&1 &
 
@@ -115,69 +118,17 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright Admin Configuration general tests
+      - name: Run Playwright Admin Configuration tests
         env:
           BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/Configuration/general.spec --workers=1
+        run: npx playwright test tests/admin/Configuration --workers=1
 
       - name: Upload Playwright Videos of Admin Configuration general tests
         uses: actions/upload-artifact@v4
         if: always() # Upload videos even if tests fail
         with:
           name: playwright-videos
-          path: videos/Configuration/general/
-          retention-days: 30
-
-      - name: Run Playwright Admin Configuration customer tests
-        env:
-          BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/Configuration/customer.spec --workers=1
-
-      - name: Upload Playwright Videos of Admin Configuration customer tests
-        uses: actions/upload-artifact@v4
-        if: always() # Upload videos even if tests fail
-        with:
-          name: playwright-videos
-          path: videos/Configuration/customer/
-          retention-days: 30
-
-      - name: Run Playwright Admin Configuration catalog tests
-        env:
-          BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/Configuration/catalog.spec --workers=1
-
-      - name: Upload Playwright Videos of Admin Configuration catalog tests
-        uses: actions/upload-artifact@v4
-        if: always() # Upload videos even if tests fail
-        with:
-          name: playwright-videos
-          path: videos/Configuration/catalog/
-          retention-days: 30
-
-      - name: Run Playwright Admin Configuration email tests
-        env:
-          BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/Configuration/email.spec --workers=1
-
-      - name: Upload Playwright Videos of Admin Configuration email tests
-        uses: actions/upload-artifact@v4
-        if: always() # Upload videos even if tests fail
-        with:
-          name: playwright-videos
-          path: videos/Configuration/email/
-          retention-days: 30
-
-      - name: Run Playwright Admin Configuration sales tests
-        env:
-          BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/Configuration/sales.spec --workers=1
-
-      - name: Upload Playwright Videos of Admin Configuration sales tests
-        uses: actions/upload-artifact@v4
-        if: always() # Upload videos even if tests fail
-        with:
-          name: playwright-videos
-          path: videos/Configuration/sales/
+          path: videos/Configuration/
           retention-days: 30
 
       - name: Upload Playwright report

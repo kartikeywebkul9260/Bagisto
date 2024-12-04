@@ -210,12 +210,6 @@ test('Inventory of Catalog', async () => {
     test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/configuration/catalog/inventory`);
 
         await page.click('input[type="checkbox"] + div.peer');
