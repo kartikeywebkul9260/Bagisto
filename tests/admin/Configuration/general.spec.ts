@@ -111,12 +111,6 @@ test('Content of General', async () => {
     test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/configuration/general/content`);
 
         await page.click('input[type="text"].rounded-md:visible');
