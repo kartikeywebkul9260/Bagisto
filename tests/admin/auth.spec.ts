@@ -49,7 +49,7 @@ test('Logout', async () => {
 
   const context = await browser.newContext({
     recordVideo: {
-      dir: 'videos/',
+      dir: 'videos/admin/auth',
       size: { width: 1280, height: 720 }
     }
   });

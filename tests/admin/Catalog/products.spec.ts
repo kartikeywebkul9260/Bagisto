@@ -367,7 +367,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
         } else {
             throw new Error('Button not found');
         }
-        
+
         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
         await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
@@ -1172,7 +1172,6 @@ test('Edit Product(bundle)', async () => {
                     const randomProduct = forms.generateRandomProductName();
 
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
-
 
                     await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
 

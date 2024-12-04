@@ -4,42 +4,59 @@ import mode from '../../../Helpers/admin/modeHelper';
 import config from '../../../Config/config';
 import * as forms from '../../../Helpers/admin/formHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-test('Create Product Carousel Theme', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/admin/Settings/themes/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+
+    await mode(page); // Set the desired mode after login
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
+
+test('Create Product Carousel Theme', async () => {
+    test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Create Product Carousel Theme');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -181,45 +198,16 @@ test('Create Product Carousel Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Category Carousel Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Create Category Carousel Theme');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -362,45 +350,16 @@ test('Create Category Carousel Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Static Content Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Create Static Content Theme');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -481,45 +440,16 @@ test('Create Static Content Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Image Slider Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Create Image Slider Theme');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -609,45 +539,16 @@ test('Create Image Slider Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Footer Link Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Create Footer Link Theme');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -745,45 +646,16 @@ test('Create Footer Link Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Services Content Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Create Services Content Theme');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -865,45 +737,16 @@ test('Create Services Content Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Product Carousel Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Edit Product Carousel Theme');
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1060,45 +903,16 @@ test('Edit Product Carousel Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Category Carousel Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Edit Category Carousel Theme');
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1256,45 +1070,16 @@ test('Edit Category Carousel Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Static Content Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Edit Static Content Theme');
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1390,45 +1175,16 @@ test('Edit Static Content Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Image Slider Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Edit Image Slider Theme');
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1533,45 +1289,16 @@ test('Edit Image Slider Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Footer Link Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Edit Footer Link Theme');
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1684,45 +1411,16 @@ test('Edit Footer Link Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Services Content Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Edit Services Content Theme');
 
         await page.waitForSelector('span[class="icon-filter text-2xl"]:visible');
 
@@ -1819,45 +1517,16 @@ test('Edit Services Content Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Delete Theme', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/themes`);
 
-        await mode(page);
+        console.log('Delete Theme');
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -1881,9 +1550,5 @@ test('Delete Theme', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });

@@ -3,42 +3,59 @@ import logIn from '../../../Helpers/admin/loginHelper';
 import mode from '../../../Helpers/admin/modeHelper';
 import config from '../../../Config/config';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-test('Create Exchange Rate', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/admin/Settings/exchangeRates/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+
+    await mode(page); // Set the desired mode after login
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
+
+test('Create Exchange Rate', async () => {
+    test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/exchange-rates`);
 
-        await mode(page);
+        console.log('Create Exchange Rate');
 
         await page.click('button[type="button"].primary-button:visible');
 
@@ -85,45 +102,16 @@ test('Create Exchange Rate', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Exchange Rate', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/exchange-rates`);
 
-        await mode(page);
+        console.log('Edit Exchange Rate');
 
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
@@ -176,45 +164,16 @@ test('Edit Exchange Rate', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Delete Exchange Rate', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/settings/exchange-rates`);
 
-        await mode(page);
+        console.log('Delete Exchange Rate');
 
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
@@ -238,9 +197,5 @@ test('Delete Exchange Rate', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });

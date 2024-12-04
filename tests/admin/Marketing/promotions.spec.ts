@@ -4,42 +4,59 @@ import mode from '../../../Helpers/admin/modeHelper';
 import config from '../../../Config/config';
 import * as forms from '../../../Helpers/admin/formHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-test('Create Cart Rule', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/admin/Marketing/promotions/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+
+    await mode(page); // Set the desired mode after login
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
+
+test('Create Cart Rule', async () => {
+    test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/marketing/promotions/cart-rules`);
 
-        await mode(page);
+        console.log('Create Cart Rule');
 
         await page.click('a.primary-button:visible');
 
@@ -164,45 +181,16 @@ test('Create Cart Rule', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Cart Rule', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/marketing/promotions/cart-rules`);
 
-        await mode(page);
+        console.log('Edit Cart Rule');
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -327,45 +315,16 @@ test('Edit Cart Rule', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Delete Cart Rule', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/marketing/promotions/cart-rules`);
 
-        await mode(page);
+        console.log('Delete Cart Rule');
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -389,45 +348,16 @@ test('Delete Cart Rule', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Catalog Rule', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/marketing/promotions/catalog-rules`);
 
-        await mode(page);
+        console.log('Create Catalog Rule');
 
         await page.click('a.primary-button:visible');
 
@@ -552,45 +482,16 @@ test('Create Catalog Rule', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Catalog Rule', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/marketing/promotions/catalog-rules`);
 
-        await mode(page);
+        console.log('Edit Catalog Rule');
 
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
@@ -715,45 +616,16 @@ test('Edit Catalog Rule', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Delete Catalog Rule', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/marketing/promotions/catalog-rules`);
 
-        await mode(page);
+        console.log('Delete Catalog Rule');
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -777,9 +649,5 @@ test('Delete Catalog Rule', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });

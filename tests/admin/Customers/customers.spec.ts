@@ -5,42 +5,59 @@ import config from '../../../Config/config';
 import * as readlineSync from 'readline-sync';
 import * as forms from '../../../Helpers/admin/formHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-test('Create Customer', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/Customers/customers/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+
+    await mode(page); // Set the desired mode after login
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
+
+test('Create Customer', async () => {
+    test.setTimeout(config.mediumTimeout);
 
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Create Customer');
 
         await page.click('button.primary-button:visible');
 
@@ -78,45 +95,16 @@ test('Create Customer', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Customer', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Edit Customer');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -170,45 +158,16 @@ test('Edit Customer', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Add Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Add Address');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -261,45 +220,16 @@ test('Add Address', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Edit Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Edit Address');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -356,45 +286,16 @@ test('Edit Address', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Set Default Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Set Default Address');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -424,45 +325,16 @@ test('Set Default Address', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Delete Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Delete Address');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -494,45 +366,16 @@ test('Delete Address', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Add Note', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Add Note');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -550,45 +393,16 @@ test('Add Note', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Delete Account', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Delete Account');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -612,45 +426,16 @@ test('Delete Account', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Order', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const loginResult = await logIn(page);
-        if (! loginResult) {
-            console.log('Login failed, exiting test.');
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Create Order');
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -665,45 +450,16 @@ test('Create Order', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('login as Customer', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('login as Customer');
 
         await page.waitForSelector('.icon-login', { timeout: 3000 }).catch(() => null);
 
@@ -718,45 +474,16 @@ test('login as Customer', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Mass Delete Customers', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Mass Delete Customers');
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -795,45 +522,16 @@ test('Mass Delete Customers', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Mass Update Customers', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
-        await mode(page);
+        console.log('Mass Update Customers');
 
         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
@@ -882,9 +580,5 @@ test('Mass Update Customers', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });

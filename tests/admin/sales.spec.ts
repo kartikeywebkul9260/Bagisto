@@ -6,41 +6,59 @@ import * as readlineSync from 'readline-sync';
 import * as forms from '../../Helpers/admin/formHelper';
 import address from '../../Helpers/admin/addressHelper';
 
-const baseUrl = config.baseUrl;
 const { chromium, firefox, webkit } = require('playwright');
+const baseUrl = config.baseUrl;
+
+let browser;
+let context;
+let page;
+
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
+    } else {
+        browser = await chromium.launch();
+    }
+
+    // Create a new context
+    context = await browser.newContext({
+        recordVideo: {
+            dir: 'videos/admin/sales/',
+            size: { width: 1280, height: 720 }
+        }
+    });
+
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+
+    await mode(page); // Set the desired mode after login
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
 
 test('Create Orders', async () => {
     test.setTimeout(config.highTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
-        await mode(page);
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
+
+        console.log('Create Orders');
 
         await page.click('button.primary-button:visible');
 
@@ -102,7 +120,7 @@ test('Create Orders', async () => {
                     let i = Math.floor(Math.random() * 10) + 1;
 
                     if (
-                        i % 2 == 1 
+                        i % 2 == 1
                         || cartBtns.length < 2
                     ) {
                         await inputQty[count].scrollIntoViewIfNeeded();
@@ -147,7 +165,7 @@ test('Create Orders', async () => {
             const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
 
             if (
-                index >= 0 
+                index >= 0
                 && index < radio.length
             ) {
                 await addressNames[index].click();
@@ -181,7 +199,7 @@ test('Create Orders', async () => {
                 const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
 
                 if (
-                    index >= 0 
+                    index >= 0
                     && index < radio.length
                 ) {
                     await addressNames[index].click();
@@ -218,7 +236,7 @@ test('Create Orders', async () => {
             const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
 
             if (
-                index >= 0 
+                index >= 0
                 && index < radio.length
             ) {
                 await radio[index].click();
@@ -245,7 +263,7 @@ test('Create Orders', async () => {
             const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
 
             if (
-                index >= 0 
+                index >= 0
                 && index < radio.length
             ) {
                 await radio[index].click();
@@ -274,45 +292,17 @@ test('Create Orders', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Comment on Order', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
-        await mode(page);
+        console.log('Comment on Orders');
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -335,46 +325,17 @@ test('Comment on Order', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Cancel Order', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
-        await mode(page);
+        console.log('Cancel Orders');
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -413,46 +374,17 @@ test('Cancel Order', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Reorder', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
-        await mode(page);
+        console.log('Reorder');
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -471,7 +403,7 @@ test('Reorder', async () => {
                     const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
 
                     if (
-                        index >= 0 
+                        index >= 0
                         && index < radio.length
                     ) {
                         await addressNames[index].click();
@@ -506,7 +438,7 @@ test('Reorder', async () => {
                         const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
 
                         if (
-                            index >= 0 
+                            index >= 0
                             && index < radio.length
                         ) {
                             await addressNames[index].click();
@@ -545,7 +477,7 @@ test('Reorder', async () => {
                     const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
 
                     if (
-                        index >= 0 
+                        index >= 0
                         && index < radio.length
                     ) {
                         await radio[index].click();
@@ -572,7 +504,7 @@ test('Reorder', async () => {
                     const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
 
                     if (
-                        index >= 0 
+                        index >= 0
                         && index < radio.length
                     ) {
                         await radio[index].click();
@@ -607,45 +539,16 @@ test('Reorder', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Invoice', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
-        await mode(page);
+        console.log('Create Invoice');
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -680,46 +583,16 @@ test('Create Invoice', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Shipment', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
-        await mode(page);
+        console.log('Create Shipment');
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -756,46 +629,16 @@ test('Create Shipment', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Create Refund', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
-        await mode(page);
+        console.log('Create Refund');
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -841,46 +684,17 @@ test('Create Refund', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Mail Invoice', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/invoices`);
 
-        await mode(page);
+        console.log('Mail Invoice');
+
         const iconEye = await page.$$('.cursor-pointer.rounded-md.text-2xl.transition-all.icon-view');
 
         if (iconEye.length > 0) {
@@ -902,46 +716,17 @@ test('Mail Invoice', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
 
 test('Print Invoice', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/admin/sales/invoices`);
 
-        await mode(page);
+        console.log('Print Invoice');
+
         const iconEye = await page.$$('.cursor-pointer.rounded-md.text-2xl.transition-all.icon-view');
 
         if (iconEye.length > 0) {
@@ -955,9 +740,5 @@ test('Print Invoice', async () => {
         }
     } catch (error) {
         console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
     }
 });
