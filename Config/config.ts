@@ -22,6 +22,7 @@ const config = {
   // Timeout settings
   mediumTimeout: 120000, // 2 minutes
   highTimeout: 240000,   // 4 minutes
+  maxTimeout: 1200000,   // 4 minutes
 };
 
 export default config;
