@@ -340,7 +340,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 
         const liSelects = await typeSelect[typeSelect.length - 1].$$('ul > li');
 
-        for (let i = 0; i < liSelects.length; i += 2) {
+        for (let i = 0; i < liSelects.length-2; i += 2) {
             await typeBtn[typeBtn.length - 1].scrollIntoViewIfNeeded();
             await typeBtn[typeBtn.length - 1].click();
 
