@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/Catalog/attributeFamilies/',
+            dir: 'videos/admin/Catalog/attributeFamilies/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -164,6 +164,7 @@ test('Edit Attribute Family', async () => {
         console.log('Edit Attribute Family');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -269,6 +270,7 @@ test('Delete Attribute Family', async () => {
         console.log('Delete Attribute Family');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconDelete.length > 0) {

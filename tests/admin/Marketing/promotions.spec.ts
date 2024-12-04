@@ -192,6 +192,8 @@ test('Edit Cart Rule', async () => {
 
         console.log('Edit Cart Rule');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -325,6 +327,8 @@ test('Delete Cart Rule', async () => {
         await page.goto(`${baseUrl}/admin/marketing/promotions/cart-rules`);
 
         console.log('Delete Cart Rule');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -493,6 +497,8 @@ test('Edit Catalog Rule', async () => {
 
         console.log('Edit Catalog Rule');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -627,6 +633,8 @@ test('Delete Catalog Rule', async () => {
 
         console.log('Delete Catalog Rule');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconDelete.length > 0) {

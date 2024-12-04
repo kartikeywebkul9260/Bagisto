@@ -303,6 +303,8 @@ test('Comment on Order', async () => {
 
         console.log('Comment on Orders');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -335,6 +337,8 @@ test('Cancel Order', async () => {
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
         console.log('Cancel Orders');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
@@ -384,6 +388,8 @@ test('Reorder', async () => {
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
         console.log('Reorder');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
@@ -549,6 +555,9 @@ test('Create Invoice', async () => {
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
         console.log('Create Invoice');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -593,6 +602,9 @@ test('Create Shipment', async () => {
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
         console.log('Create Shipment');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -639,6 +651,9 @@ test('Create Refund', async () => {
         await page.goto(`${baseUrl}/admin/sales/orders`);
 
         console.log('Create Refund');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a > span.icon-sort-right.cursor-pointer.text-2xl');
 
         if (iconRight.length > 0) {
@@ -695,6 +710,8 @@ test('Mail Invoice', async () => {
 
         console.log('Mail Invoice');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEye = await page.$$('.cursor-pointer.rounded-md.text-2xl.transition-all.icon-view');
 
         if (iconEye.length > 0) {
@@ -727,6 +744,8 @@ test('Print Invoice', async () => {
 
         console.log('Print Invoice');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconEye = await page.$$('.cursor-pointer.rounded-md.text-2xl.transition-all.icon-view');
 
         if (iconEye.length > 0) {

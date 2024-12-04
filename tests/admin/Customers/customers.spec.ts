@@ -26,7 +26,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/Customers/customers/',
+            dir: 'videos/admin/Customers/customers/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -106,6 +106,8 @@ test('Edit Customer', async () => {
 
         console.log('Edit Customer');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconRight.length > 0) {
@@ -169,6 +171,8 @@ test('Add Address', async () => {
 
         console.log('Add Address');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconRight.length > 0) {
@@ -230,6 +234,8 @@ test('Edit Address', async () => {
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
         console.log('Edit Address');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -297,6 +303,8 @@ test('Set Default Address', async () => {
 
         console.log('Set Default Address');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconRight.length > 0) {
@@ -335,6 +343,8 @@ test('Delete Address', async () => {
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
         console.log('Delete Address');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -377,6 +387,8 @@ test('Add Note', async () => {
 
         console.log('Add Note');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconRight.length > 0) {
@@ -403,6 +415,8 @@ test('Delete Account', async () => {
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
         console.log('Delete Account');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -437,6 +451,8 @@ test('Create Order', async () => {
 
         console.log('Create Order');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconRight = await page.$$('a[class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconRight.length > 0) {
@@ -461,7 +477,7 @@ test('login as Customer', async () => {
 
         console.log('login as Customer');
 
-        await page.waitForSelector('.icon-login', { timeout: 3000 }).catch(() => null);
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconEdit = await page.$$('.icon-login');
 
@@ -484,6 +500,8 @@ test('Mass Delete Customers', async () => {
         await page.goto(`${baseUrl}/admin/customers/customers`);
 
         console.log('Mass Delete Customers');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -533,7 +551,8 @@ test('Mass Update Customers', async () => {
 
         console.log('Mass Update Customers');
 
-        await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {

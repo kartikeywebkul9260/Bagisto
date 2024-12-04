@@ -121,6 +121,8 @@ test('Edit URL Rewrite', async () => {
 
         console.log('Edit URL Rewrite');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -190,6 +192,8 @@ test('Delete URL Rewrite', async () => {
 
         console.log('Delete URL Rewrite');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {
@@ -222,6 +226,8 @@ test('Mass Delete URL Rewrite', async () => {
         await page.goto(`${baseUrl}/admin/marketing/search-seo/url-rewrites`);
 
         console.log('Mass Delete URL Rewrite');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -336,6 +342,8 @@ test('Edit Search Term', async () => {
 
         console.log('Edit Search Term');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -407,6 +415,8 @@ test('Delete Search Term', async () => {
 
         console.log('Delete Search Term');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {
@@ -439,6 +449,8 @@ test('Mass Delete Search Term', async () => {
         await page.goto(`${baseUrl}/admin/marketing/search-seo/search-terms`);
 
         console.log('Mass Delete Search Term');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -535,6 +547,8 @@ test('Edit Search Synonym', async () => {
 
         console.log('Edit Search Synonym');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -588,6 +602,8 @@ test('Delete Search Synonym', async () => {
 
         console.log('Delete Search Synonym');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {
@@ -620,6 +636,8 @@ test('Mass Delete Search Synonym', async () => {
         await page.goto(`${baseUrl}/admin/marketing/search-seo/search-synonyms`);
 
         console.log('Mass Delete Search Synonym');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -716,6 +734,8 @@ test('Edit Sitemap', async () => {
 
         console.log('Edit Sitemap');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -769,6 +789,8 @@ test('Delete Sitemap', async () => {
 
         console.log('Delete Sitemap');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {

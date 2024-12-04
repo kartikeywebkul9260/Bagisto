@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/Catalog/products/',
+            dir: 'videos/admin/Catalog/products/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -330,8 +330,6 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
         console.log('Edit Product(simple, virtual, downloadable)');
-
-        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         await page.click('span[class="icon-filter text-2xl"]:visible');
 
@@ -931,8 +929,6 @@ test('Edit Product(bundle)', async () => {
 
         console.log('Edit Product(bundle)');
 
-        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-
         await page.click('span[class="icon-filter text-2xl"]:visible');
 
         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
@@ -1508,8 +1504,6 @@ test('Edit Product(grouped)', async () => {
 
         console.log('Edit Product(grouped)');
 
-        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-
         await page.click('span[class="icon-filter text-2xl"]:visible');
 
         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
@@ -2064,8 +2058,6 @@ test('Edit Product(configurable)', async () => {
 
         console.log('Edit Product(configurable)');
 
-        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
-
         await page.click('span[class="icon-filter text-2xl"]:visible');
 
         const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
@@ -2343,6 +2335,7 @@ test('Mass Delete Products', async () => {
         console.log('Mass Delete Products');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {
@@ -2392,6 +2385,7 @@ test('Mass Update Products', async () => {
         console.log('Mass Update Products');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {

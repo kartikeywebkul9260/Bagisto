@@ -135,6 +135,8 @@ test('Edit Channel', async () => {
 
         console.log('Edit Channel');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -214,6 +216,8 @@ test('Delete Channel', async () => {
 
         console.log('Delete Channel');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
         if (iconDelete.length > 0) {

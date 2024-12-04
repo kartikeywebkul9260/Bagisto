@@ -131,6 +131,8 @@ test('Edit Email Template', async () => {
 
         console.log('Edit Email Template');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -209,6 +211,8 @@ test('Delete Email Template', async () => {
         await page.goto(`${baseUrl}/admin/marketing/communications/email-templates`);
 
         console.log('Delete Email Template');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -294,6 +298,8 @@ test('Edit Event', async () => {
 
         console.log('Edit Event');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -350,6 +356,8 @@ test('Delete Event', async () => {
         await page.goto(`${baseUrl}/admin/marketing/communications/events`);
 
         console.log('Delete Event');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
@@ -453,6 +461,8 @@ test('Edit Campaign', async () => {
 
         console.log('Edit Campaign');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -527,6 +537,8 @@ test('Delete Campaign', async () => {
         await page.goto(`${baseUrl}/admin/marketing/communications/campaigns`);
 
         console.log('Delete Campaign');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -616,6 +628,8 @@ test('Delete Newsletter Subscriber', async () => {
 
         console.log('Delete Newsletter Subscriber');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {

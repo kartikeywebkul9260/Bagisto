@@ -24,7 +24,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/Customers/reviews/',
+            dir: 'videos/admin/Customers/reviews/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -56,6 +56,8 @@ test('Update Status of Review', async () => {
         await page.goto(`${baseUrl}/admin/customers/reviews`);
 
         console.log('Update Status of Review');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconRight = await page.$$('span[class="icon-sort-right rtl:icon-sort-left cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
@@ -109,6 +111,8 @@ test('Delete Review', async () => {
 
         console.log('Delete Review');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"]');
 
         if (iconDelete.length > 0) {
@@ -141,6 +145,8 @@ test('Mass Delete Reviews', async () => {
         await page.goto(`${baseUrl}/admin/customers/reviews`);
 
         console.log('Mass Delete Reviews');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -188,9 +194,10 @@ test('Mass Update Reviews', async () => {
     try {
         await page.goto(`${baseUrl}/admin/customers/reviews`);
 
-        console.log(' Review');
+        console.log('Mass Update Review');
 
-        await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const checkboxs = await page.$$('.icon-uncheckbox');
 
         if (checkboxs.length > 0) {

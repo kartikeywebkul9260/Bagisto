@@ -145,6 +145,8 @@ test('Edit Tax Rate', async () => {
 
         console.log('Edit Tax Rate');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
 
         if (iconEdit.length > 0) {
@@ -229,6 +231,8 @@ test('Delete Tax Rate', async () => {
         await page.goto(`${baseUrl}/admin/settings/taxes/rates`);
 
         console.log('Delete Tax Rate');
+
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
         const iconDelete = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -325,6 +329,8 @@ test('Edit Tax Category', async () => {
 
         console.log('Edit Tax Category');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -393,6 +399,8 @@ test('Delete Tax Category', async () => {
 
         console.log('Delete Tax Category');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {

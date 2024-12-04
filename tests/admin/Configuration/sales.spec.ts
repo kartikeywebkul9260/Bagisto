@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/Configuration/sales/',
+            dir: 'videos/admin/Configuration/sales/',
             size: { width: 1280, height: 720 }
         }
     });

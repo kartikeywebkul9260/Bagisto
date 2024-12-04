@@ -123,6 +123,8 @@ test('Edit Locale', async () => {
 
         console.log('Edit Locale');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+
         const iconEdit = await page.$$('span[class="icon-edit cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconEdit.length > 0) {
@@ -186,6 +188,8 @@ test('Delete Locale', async () => {
 
         console.log('Delete Locale');
 
+        await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
+        
         const iconDelete = await page.$$('span[class="icon-delete cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"]');
 
         if (iconDelete.length > 0) {
