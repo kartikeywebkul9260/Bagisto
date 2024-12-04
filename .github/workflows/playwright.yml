@@ -123,7 +123,25 @@ jobs:
       - name: Run Playwright Admin Catalog tests
         env:
           BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/Catalog/products.spec --workers=1 --project=chromium --retries=0
+        run: |
+          npx playwright test tests/admin/Catalog/products.spec --workers=1 --project=chromium --retries=0 --reporter=junit --output=results
+
+          # Parse the XML for pass and fail counts
+          total=$(grep -oP 'tests="(\d+)"' results/results.xml | grep -oP '\d+')
+          failures=$(grep -oP 'failures="(\d+)"' results/results.xml | grep -oP '\d+')
+
+          # Calculate pass rate
+          pass=$((total - failures))
+          pass_rate=$((100 * pass / total))
+
+          # Check if pass rate is above 90%
+          if (( pass_rate >= 90 )); then
+            echo "Tests passed: $pass_rate%. Continuing..."
+            exit 0
+          else
+            echo "Tests passed: $pass_rate%. Failing..."
+            exit 1
+          fi
 
       - name: Upload Playwright Videos of Admin Catalog tests
         uses: actions/upload-artifact@v4

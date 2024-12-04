@@ -43,7 +43,7 @@ test.beforeAll(async () => {
 });
 
 test('Create Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -314,7 +314,7 @@ test('Create Product(simple, virtual, downloadable)', async () => {
 });
 
 test('Edit Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -621,7 +621,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 });
 
 test('Create Product(bundle)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -906,7 +906,7 @@ test('Create Product(bundle)', async () => {
 });
 
 test('Edit Product(bundle)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -1226,7 +1226,7 @@ test('Edit Product(bundle)', async () => {
 });
 
 test('Create Product(grouped)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -1473,7 +1473,7 @@ test('Create Product(grouped)', async () => {
 });
 
 test('Edit Product(grouped)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -1754,7 +1754,7 @@ test('Edit Product(grouped)', async () => {
 });
 
 test('Create Product(configurable)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -2021,7 +2021,7 @@ test('Create Product(configurable)', async () => {
 });
 
 test('Edit Product(configurable)', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -2295,7 +2295,7 @@ test('Edit Product(configurable)', async () => {
 });
 
 test('Mass Delete Products', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -2345,7 +2345,7 @@ test('Mass Delete Products', async () => {
 });
 
 test('Mass Update Products', async () => {
-    test.setTimeout(config.highTimeout);
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
