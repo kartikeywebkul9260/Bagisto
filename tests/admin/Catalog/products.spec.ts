@@ -360,8 +360,14 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
             liSelects[i].click();
         }
 
-        await page.$('button[type="button"][class="secondary-button w-full"]:visible').scrollIntoViewIfNeeded();
+        const button = await page.$('button[type="button"][class="secondary-button w-full"]:visible');
 
+        if (button) {
+            await button.scrollIntoViewIfNeeded();
+        } else {
+            throw new Error('Button not found');
+        }
+        
         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
         await page.waitForSelector('a > span.icon-sort-right.cursor-pointer.text-2xl:visible', { timeout: 5000 }).catch(() => null);
@@ -949,7 +955,13 @@ test('Edit Product(bundle)', async () => {
         liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
         liSelects[liSelects.length - 1].click();
 
-        await page.$('button[type="button"][class="secondary-button w-full"]:visible').scrollIntoViewIfNeeded();
+        const button = await page.$('button[type="button"][class="secondary-button w-full"]:visible');
+
+        if (button) {
+            await button.scrollIntoViewIfNeeded();
+        } else {
+            throw new Error('Button not found');
+        }
 
         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
@@ -1521,7 +1533,13 @@ test('Edit Product(grouped)', async () => {
         liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
         liSelects[3].click();
 
-        await page.$('button[type="button"][class="secondary-button w-full"]:visible').scrollIntoViewIfNeeded();
+        const button = await page.$('button[type="button"][class="secondary-button w-full"]:visible');
+
+        if (button) {
+            await button.scrollIntoViewIfNeeded();
+        } else {
+            throw new Error('Button not found');
+        }
 
         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
@@ -2071,7 +2089,13 @@ test('Edit Product(configurable)', async () => {
         liSelects[liSelects.length - 1].scrollIntoViewIfNeeded();
         liSelects[1].click();
 
-        await page.$('button[type="button"][class="secondary-button w-full"]:visible').scrollIntoViewIfNeeded();
+        const button = await page.$('button[type="button"][class="secondary-button w-full"]:visible');
+
+        if (button) {
+            await button.scrollIntoViewIfNeeded();
+        } else {
+            throw new Error('Button not found');
+        }
 
         await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
