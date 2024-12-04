@@ -16,9 +16,6 @@ const config = {
   userInput: process.env.USER_INPUT === 'true' || false,
   validInputs: process.env.VALID_INPUTS === 'true' || true,
 
-  // File path for file uploads
-  filePath: `/home/user/bagisto/packages/Webkul/Shop/src/Resources/assets/images/`,
-
   // Browser settings
   browser: process.env.BROWSER || 'chromium',
 

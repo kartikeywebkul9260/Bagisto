@@ -3,7 +3,11 @@ import config from "../../Config/config";
 const fs = require('fs');
 const path = require('path');
 
-function getRandomImageFile(directory = config.filePath) {
+function getRandomImageFile(directory = path.resolve(__dirname, '../../packages/Webkul/Shop/src/Resources/assets/images/')) {
+    if (!fs.existsSync(directory)) {
+        throw new Error(`Directory does not exist: ${directory}`);
+    }
+
     const files = fs.readdirSync(directory); // Read all files in the directory
     const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file)); // Filter image files
 
@@ -29,11 +33,11 @@ const testForm = async (page) => {
         return null;
     } else {
         const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-        
+
         if (iconExists) {
             const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
             const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-            
+
             message = await messages[0].evaluate(el => el.parentNode.innerText);
             await icons[0].click();
             console.log(message);
@@ -64,24 +68,24 @@ const form = {
 function generateRandomPassword(minLength, maxLength) {
     if (isValid) {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-        const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength; 
+        const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
         let password = '';
 
         for (let i = 0; i < length; i++) {
             password += characters.charAt(Math.floor(Math.random() * characters.length));
         }
-        
+
         return password;
     } else {
         const invalidCharacters = '€£¥©®✓';
         const randomInvalidCharacter = invalidCharacters.charAt(Math.floor(Math.random() * invalidCharacters.length));
-    
+
         // Invalid case: Length less than `minLength`
         if (Math.random() < 0.5) {
             const shortPassword = randomInvalidCharacter.repeat(minLength - 1);
             return shortPassword;
         }
-    
+
         // Invalid case: Length greater than `maxLength`
         const longPassword = randomInvalidCharacter.repeat(maxLength + 1);
         return longPassword;
@@ -104,11 +108,11 @@ function generateRandomStringWithSpaces(length) {
     } else {
         const invalidCharacters = '€£¥©®✓ ';
         let result = '';
-    
+
         for (let i = 0; i < length; i++) {
             result += invalidCharacters.charAt(Math.floor(Math.random() * invalidCharacters.length));
         }
-    
+
         // Ensure at least one invalid characteristic
         if (Math.random() < 0.5) {
             result = ' '.repeat(length); // Only spaces
@@ -153,7 +157,7 @@ function generateRandomHtmlContent() {
         const randomElement = elements[Math.floor(Math.random() * elements.length)];
         const randomText = Math.random().toString(36).substring(7);
         const randomHref = `https://example.com/${Math.random().toString(36).substring(7)}`;
-        
+
         switch (randomElement) {
             case 'a':
                 return `<a href="${randomHref}">${randomText}</a>`;
@@ -175,10 +179,10 @@ function generateRandomHtmlContent() {
     } else {
         const invalidTags = ['<invalid>', '<unsupported>', '<>', '</>', '<div>>'];
         const randomInvalidTag = invalidTags[Math.floor(Math.random() * invalidTags.length)];
-        
+
         // Random invalid text
         const randomText = Math.random().toString(36).substring(7);
-    
+
         if (Math.random() < 0.5) {
             return `${randomInvalidTag}${randomText}`;
         }
@@ -188,8 +192,8 @@ function generateRandomHtmlContent() {
 
 async function fillParagraphWithRandomHtml(multi) {
     const randomHtmlContent = new Array(multi).fill('')
-        .map(() => generateRandomHtmlContent()) 
-        .join(' ');  
+        .map(() => generateRandomHtmlContent())
+        .join(' ');
 
     return randomHtmlContent;
 }

@@ -3,7 +3,11 @@ import config from "../../Config/config";
 const fs = require('fs');
 const path = require('path');
 
-function getRandomImageFile(directory = config.filePath) {
+function getRandomImageFile(directory = path.resolve(__dirname, '../../packages/Webkul/Shop/src/Resources/assets/images/')) {
+    if (!fs.existsSync(directory)) {
+        throw new Error(`Directory does not exist: ${directory}`);
+    }
+
     const files = fs.readdirSync(directory); // Read all files in the directory
     const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file)); // Filter image files
 
@@ -29,10 +33,10 @@ const testForm = async (page) => {
         return null;
     } else {
         const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 5000 }).catch(() => null);
-        
+
         if (iconExists) {
             const icons = await page.$$('.break-words + .icon-cancel');
-            
+
             message = await icons[0].evaluate(el => el.parentNode.innerText);
             await icons[0].click();
             console.log(message);
