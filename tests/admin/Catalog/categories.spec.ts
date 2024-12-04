@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/Catalog/categories/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -55,6 +55,8 @@ test('Create Category', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/categories`);
+
+        console.log('Create Categories');
 
         await page.click('div.primary-button:visible');
 
@@ -177,6 +179,8 @@ test('Edit Category', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/categories`);
+
+        console.log('Edit Categories');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-edit"]');
@@ -309,6 +313,8 @@ test('Delete Category', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/categories`);
 
+        console.log('Delete Categories');
+
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const iconEdit = await page.$$('span[class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center icon-delete"]');
 
@@ -340,6 +346,8 @@ test('Mass Delete Categories', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/categories`);
+
+        console.log('Mass Delete Categories');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
@@ -387,6 +395,8 @@ test('Mass Update Categories', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/categories`);
+
+        console.log('Mass Update Categories');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);

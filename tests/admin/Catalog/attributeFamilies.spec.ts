@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/Catalog/attributeFamilies',
+            dir: 'videos/Catalog/attributeFamilies/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -282,7 +282,7 @@ test('Delete Attribute Family', async () => {
         if (iconDelete.length > 0) {
             await iconDelete[Math.floor(Math.random() * ((iconDelete.length - 1) - 0 + 1)) + 0].click();
 
-            await page.hover('button.transparent-button + button.primary-button:visible');
+            await page.click('button.transparent-button + button.primary-button:visible');
 
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
 

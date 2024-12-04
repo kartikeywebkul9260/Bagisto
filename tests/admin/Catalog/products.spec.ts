@@ -25,7 +25,7 @@ test.beforeAll(async () => {
     // Create a new context
     context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/Catalog/products/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -55,6 +55,8 @@ test('Create Product(simple, virtual, downloadable)', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+        console.log('Create Product(simple, virtual, downloadable)');
 
         await page.click('button.primary-button:visible');
 
@@ -326,6 +328,8 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+        console.log('Edit Product(simple, virtual, downloadable)');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
@@ -628,6 +632,8 @@ test('Create Product(bundle)', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
+        console.log('Create Product(bundle)');
+
         await page.click('button.primary-button:visible');
 
         await page.selectOption('select[name="type"]:visible', 'bundle');
@@ -914,6 +920,8 @@ test('Edit Product(bundle)', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+        console.log('Edit Product(bundle)');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
@@ -1232,6 +1240,8 @@ test('Create Product(grouped)', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
+        console.log('Create Product(grouped)');
+
         await page.click('button.primary-button:visible');
 
         await page.selectOption('select[name="type"]:visible', 'grouped');
@@ -1480,6 +1490,8 @@ test('Edit Product(grouped)', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+        console.log('Edit Product(grouped)');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
@@ -1758,6 +1770,8 @@ test('Create Product(configurable)', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
+        console.log('Create Product(configurable)');
+
         await page.click('button.primary-button:visible');
 
         await page.selectOption('select[name="type"]:visible', 'configurable');
@@ -2024,6 +2038,8 @@ test('Edit Product(configurable)', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+        console.log('Edit Product(configurable)');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
@@ -2293,6 +2309,8 @@ test('Mass Delete Products', async () => {
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
+        console.log('Mass Delete Products');
+
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
 
@@ -2339,6 +2357,8 @@ test('Mass Update Products', async () => {
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
+
+        console.log('Mass Update Products');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
         const checkboxs = await page.$$('.icon-uncheckbox');
