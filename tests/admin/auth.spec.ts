@@ -27,6 +27,10 @@ test('Login', async () => {
     await logIn(page);
   } catch (error) {
     console.log('Error during test execution:', error.message);
+  } finally {
+    await page.close();
+    await context.close();
+    await browser.close();
   }
 });
 
@@ -71,5 +75,9 @@ test('Logout', async () => {
     }
   } catch (error) {
     console.log('Error during test execution:', error.message);
+  } finally {
+    await page.close();
+    await context.close();
+    await browser.close();
   }
 });

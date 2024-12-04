@@ -42,9 +42,16 @@ test.beforeAll(async () => {
     await mode(page); // Set the desired mode after login
 });
 
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
+});
 
 test('Create Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -315,7 +322,7 @@ test('Create Product(simple, virtual, downloadable)', async () => {
 });
 
 test('Edit Product(simple, virtual, downloadable)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -622,7 +629,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
 });
 
 test('Create Product(bundle)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -907,7 +914,7 @@ test('Create Product(bundle)', async () => {
 });
 
 test('Edit Product(bundle)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -1227,7 +1234,7 @@ test('Edit Product(bundle)', async () => {
 });
 
 test('Create Product(grouped)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -1474,7 +1481,7 @@ test('Create Product(grouped)', async () => {
 });
 
 test('Edit Product(grouped)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -1755,7 +1762,7 @@ test('Edit Product(grouped)', async () => {
 });
 
 test('Create Product(configurable)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -2022,7 +2029,7 @@ test('Create Product(configurable)', async () => {
 });
 
 test('Edit Product(configurable)', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
@@ -2296,30 +2303,12 @@ test('Edit Product(configurable)', async () => {
 });
 
 test('Mass Delete Products', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
         console.log('Mass Delete Products');
-
-        await page.click('span[class="icon-filter text-2xl"]:visible');
-
-        const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
-
-        for (let i = 0; i < clearBtn.length; i++) {
-            await clearBtn[i].click();
-        }
-
-        const button = await page.$('button[type="button"][class="secondary-button w-full"]:visible');
-
-        if (button) {
-            await button.scrollIntoViewIfNeeded();
-        } else {
-            throw new Error('Button not found');
-        }
-
-        await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
@@ -2364,30 +2353,12 @@ test('Mass Delete Products', async () => {
 });
 
 test('Mass Update Products', async () => {
-    test.setTimeout(config.maxTimeout);
+    test.setTimeout(config.highTimeout);
 
     try {
         await page.goto(`${baseUrl}/admin/catalog/products`);
 
         console.log('Mass Update Products');
-
-        await page.click('span[class="icon-filter text-2xl"]:visible');
-
-        const clearBtn = await page.$$('p[class="cursor-pointer text-xs font-medium leading-6 text-blue-600"]:visible');
-
-        for (let i = 0; i < clearBtn.length; i++) {
-            await clearBtn[i].click();
-        }
-
-        const button = await page.$('button[type="button"][class="secondary-button w-full"]:visible');
-
-        if (button) {
-            await button.scrollIntoViewIfNeeded();
-        } else {
-            throw new Error('Button not found');
-        }
-
-        await page.click('button[type="button"][class="secondary-button w-full"]:visible');
 
         await page.waitForSelector('div#not_available', { timeout: 5000 }).catch(() => null);
 
