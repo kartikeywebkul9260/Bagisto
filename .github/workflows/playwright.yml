@@ -66,6 +66,8 @@ jobs:
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=bagisto-test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=webkul/' .env
+          sed -i 's/APP_DEBUG=.*/APP_DEBUG=false/' .env
+          sed -i 's/APP_URL=.*/APP_URL=http://127.0.0.1:8000/' .env
 
       - name: Install PHP and dependencies
         uses: shivammathur/setup-php@v2
