@@ -32,12 +32,6 @@ test.beforeAll(async () => {
 
     // Open a new page
     page = await context.newPage();
-
-    // Log in once
-    const log = await logIn(page);
-    if (log == null) {
-        throw new Error('Login failed. Tests will not proceed.');
-    }
 });
 
 function getRandomDate(start, end) {
@@ -50,6 +44,11 @@ test('Profile Edit', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/account/profile`);
+
+        const log = await logIn(page);
+        if (log == null) {
+            throw new Error('Login failed. Tests will not proceed.');
+        }
 
         console.log('Profile Edit');
 
@@ -173,6 +172,11 @@ test('Delete Profile', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/profile`);
 
+        const log = await logIn(page);
+        if (log == null) {
+            throw new Error('Login failed. Tests will not proceed.');
+        }
+
         console.log('Delete Profile');
 
         await page.click('.primary-button.rounded-2xl.px-11.py-3');
@@ -215,6 +219,11 @@ test('Add Address', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/account/addresses`);
+
+        const log = await logIn(page);
+        if (log == null) {
+            throw new Error('Login failed. Tests will not proceed.');
+        }
 
         console.log('Add Address');
 
