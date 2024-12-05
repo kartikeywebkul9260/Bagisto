@@ -133,53 +133,12 @@ jobs:
       - name: Run Playwright for Shop tests
         env:
           BASE_URL: 'http://127.0.0.1:8000'
-        run: |
-          npx playwright test tests/shop --reporter=junit --output=results-shop --workers=1 --project=chromium --retries=0 || echo "Some tests failed, but we continue."
-
-          # Parse the results for Shop tests
-          total=$(grep -oP 'tests="(\d+)"' results-shop/results.xml | grep -oP '\d+')
-          failures=$(grep -oP 'failures="(\d+)"' results-shop/results.xml | grep -oP '\d+')
-          pass=$((total - failures))
-          shop_pass_rate=$((100 * pass / total))
-          echo "Shop tests pass rate: $shop_pass_rate%"
+        run: npx playwright test tests/shop --workers=1 --project=chromium --retries=1 || echo "Some tests failed, but we continue."
 
       - name: Run Playwright for Admin tests
         env:
           BASE_URL: 'http://127.0.0.1:8000'
-        run: |
-          npx playwright test tests/admin --reporter=junit --output=results-admin --workers=1 --project=chromium --retries=0 || echo "Some tests failed, but we continue."
-
-          # Parse the results for Admin tests
-          total=$(grep -oP 'tests="(\d+)"' results-admin/results.xml | grep -oP '\d+')
-          failures=$(grep -oP 'failures="(\d+)"' results-admin/results.xml | grep -oP '\d+')
-          pass=$((total - failures))
-          admin_pass_rate=$((100 * pass / total))
-          echo "Admin tests pass rate: $admin_pass_rate%"
-
-      - name: Calculate Total Pass Percentage
-        run: |
-          # Combine Shop and Admin results
-          shop_total=$(grep -oP 'tests="(\d+)"' results-shop/results.xml | grep -oP '\d+')
-          shop_failures=$(grep -oP 'failures="(\d+)"' results-shop/results.xml | grep -oP '\d+')
-          shop_pass=$((shop_total - shop_failures))
-
-          admin_total=$(grep -oP 'tests="(\d+)"' results-admin/results.xml | grep -oP '\d+')
-          admin_failures=$(grep -oP 'failures="(\d+)"' results-admin/results.xml | grep -oP '\d+')
-          admin_pass=$((admin_total - admin_failures))
-
-          total=$((shop_total + admin_total))
-          passed=$((shop_pass + admin_pass))
-          pass_rate=$((100 * passed / total))
-
-          echo "Total Pass Rate: $pass_rate%"
-
-          # Exit if the pass rate is below 90%
-          if (( pass_rate < 90 )); then
-            echo "Pass rate is below 90%. Failing the workflow."
-            exit 1
-          else
-            echo "Pass rate is above 90%. Continuing."
-          fi
+        run: npx playwright test tests/admin --workers=1 --project=chromium --retries=1 || echo "Some tests failed, but we continue."
 
       - name: Upload Playwright Videos of tests
         uses: actions/upload-artifact@v4

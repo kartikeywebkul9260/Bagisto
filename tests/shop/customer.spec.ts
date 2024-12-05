@@ -32,6 +32,12 @@ test.beforeAll(async () => {
 
     // Open a new page
     page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
 });
 
 function getRandomDate(start, end) {
@@ -45,9 +51,16 @@ test('Profile Edit', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/profile`);
 
-        const log = await logIn(page);
-        if (log == null) {
-            throw new Error('Login failed. Tests will not proceed.');
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/profile`);
         }
 
         console.log('Profile Edit');
@@ -113,6 +126,18 @@ test('Change Password', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/profile`);
 
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/profile`);
+        }
+
         console.log('Change Password');
 
         await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
@@ -172,9 +197,16 @@ test('Delete Profile', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/profile`);
 
-        const log = await logIn(page);
-        if (log == null) {
-            throw new Error('Login failed. Tests will not proceed.');
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/profile`);
         }
 
         console.log('Delete Profile');
@@ -220,9 +252,16 @@ test('Add Address', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/addresses`);
 
-        const log = await logIn(page);
-        if (log == null) {
-            throw new Error('Login failed. Tests will not proceed.');
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/addresses`);
         }
 
         console.log('Add Address');
@@ -277,6 +316,18 @@ test('Edit Address', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/account/addresses`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/addresses`);
+        }
 
         console.log('Edit Address');
 
@@ -341,6 +392,18 @@ test('Delete Address', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/addresses`);
 
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/addresses`);
+        }
+
         console.log('Delete Address');
 
         const addExists = await page.waitForSelector('.icon-more.cursor-pointer.rounded-md.py-1.text-2xl.text-zinc-500.transition-all', { timeout: 10000 }).catch(() => null);
@@ -391,6 +454,18 @@ test('Default Address', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/addresses`);
 
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/addresses`);
+        }
+
         console.log('Default Address');
 
         const addExists = await page.waitForSelector('.icon-more.cursor-pointer.rounded-md.py-1.text-2xl.text-zinc-500.transition-all', { timeout: 10000 }).catch(() => null);
@@ -425,6 +500,18 @@ test('Reorder', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/account/orders`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/orders`);
+        }
 
         console.log('Reorder');
 
@@ -469,6 +556,18 @@ test('Cancel Order', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/account/orders`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/orders`);
+        }
 
         console.log('Cancel Order');
 
@@ -518,6 +617,18 @@ test('Print Invoice', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/orders`);
 
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/orders`);
+        }
+
         console.log('Print Invoice');
 
         const addExists = await page.waitForSelector('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye', { timeout: 10000 }).catch(() => null);
@@ -562,6 +673,18 @@ test('Downloadable Orders', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/downloadable-products`);
 
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/downloadable-products`);
+        }
+
         console.log('Downloadable Orders');
 
         const addExists = await page.waitForSelector('.row.grid.items-center.border-b.bg-white.px-6.py-4.font-medium.text-gray-600.transition-all > p', { timeout: 10000 }).catch(() => null);
@@ -601,6 +724,18 @@ test('Wishlist to Cart', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/wishlist`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/wishlist`);
+        }
 
         console.log('Wishlist to Cart');
 
@@ -654,6 +789,18 @@ test('Remove from Wishlist', async () => {
     try {
         await page.goto(`${baseUrl}/customer/wishlist`);
 
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/wishlist`);
+        }
+
         console.log('Remove from Wishlist');
 
         const addExists = await page.waitForSelector('a.flex.cursor-pointer.justify-end.text-base.text-blue-700:visible', { timeout: 10000 }).catch(() => null);
@@ -701,6 +848,18 @@ test('Clear Wishlist', async () => {
 
     try {
         await page.goto(`${baseUrl}/customer/wishlist`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/wishlist`);
+        }
 
         console.log('Clear Wishlist');
 
