@@ -230,6 +230,16 @@ test('Create Product(simple, virtual, downloadable)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
             if (addButtons.length > 3) {
@@ -537,6 +547,16 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
             if (addButtons.length > 3) {
@@ -793,6 +813,16 @@ test('Create Product(bundle)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -852,6 +882,16 @@ test('Create Product(bundle)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -1112,6 +1152,16 @@ test('Edit Product(bundle)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -1172,6 +1222,16 @@ test('Edit Product(bundle)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -1398,6 +1458,16 @@ test('Create Product(grouped)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -1679,6 +1749,16 @@ test('Edit Product(grouped)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -1941,6 +2021,16 @@ test('Create Product(configurable)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
@@ -2259,6 +2349,16 @@ test('Edit Product(configurable)', async () => {
                     }
 
                     page.click('div.primary-button:visible');
+
+                    await page.waitForSelector('div#not_avaliable', { timeout: 1000 }).catch(() => null);
+
+                    const crosses = await page.$$('div.absolute.top-3 > span.icon-cross.cursor-pointer.text-3xl:visible');
+
+                    if (crosses.length > 0) {
+                        for (let cross of crosses) {
+                            await cross.click({ timeout: 1000 }).catch(() => null);
+                        }
+                    }
                 }
             }
 
