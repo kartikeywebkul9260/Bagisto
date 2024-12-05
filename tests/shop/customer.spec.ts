@@ -114,7 +114,7 @@ test('Change Password', async () => {
     try {
         await page.goto(`${baseUrl}/customer/account/profile`);
 
-        console.log('ProfChange Passwordile');
+        console.log('Change Password');
 
         await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
 

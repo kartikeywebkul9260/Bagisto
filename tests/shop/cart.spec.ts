@@ -29,7 +29,7 @@ test('Add To Cart', async () => {
     try {
         await page.goto(`${baseUrl}`);
 
-        console.log('Mass Delete Page');
+        console.log('Add to cart');
 
         await addToCart(page);
 

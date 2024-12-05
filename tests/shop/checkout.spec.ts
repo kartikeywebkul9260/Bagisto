@@ -144,13 +144,6 @@ test('Customer CheckOut', async () => {
       const radio = await page.$$('input[name="payment[method]"] + label');
       const methods = await page.$$('input[name="payment[method]"] + label + label > div');
 
-      console.log('Select a Payment Method:');
-
-      for (let index = 0; index < radio.length; index++) {
-        const method = await methods[index].evaluate(el => (el as HTMLElement).innerText);
-        console.log(`${index + 1}: Method- ${method}`);
-      }
-
       const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
 
       if (
@@ -247,13 +240,6 @@ test('Guest CheckOut', async () => {
     if (existspay) {
       const radio = await page.$$('input[name="payment[method]"] + label');
       const methods = await page.$$('input[name="payment[method]"] + label + label > div');
-
-      console.log('Select a Payment Method:');
-
-      for (let index = 0; index < radio.length; index++) {
-        const method = await methods[index].evaluate(el => (el as HTMLElement).innerText);
-        console.log(`${index + 1}: Method- ${method}`);
-      }
 
       const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
 

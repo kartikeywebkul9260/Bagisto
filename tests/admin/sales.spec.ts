@@ -125,7 +125,7 @@ test('Create Orders', async () => {
             }
         }
 
-        const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 10000 }).catch(() => null);
+        const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
 
         if (iconExists) {
             const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -137,7 +137,7 @@ test('Create Orders', async () => {
         } else {
             await page.click('.flex.items-center.justify-between > button.primary-button:visible');
 
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 10000 }).catch(() => null);
+            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
 
             if (iconExists) {
                 const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
@@ -244,13 +244,6 @@ test('Create Orders', async () => {
         if (existspay) {
             const radio = await page.$$('input[name="payment_method"] + label');
             const methods = await page.$$('input[name="payment_method"] + label + p');
-
-            console.log('Select a Payment Method:');
-
-            for (let index = 0; index < radio.length; index++) {
-                const method = await methods[index].evaluate(el => (el as HTMLElement).innerText);
-                console.log(`${index + 1}: Method- ${method}`);
-            }
 
             const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
 
@@ -491,13 +484,6 @@ test('Reorder', async () => {
                 if (existspay) {
                     const radio = await page.$$('input[name="payment_method"] + label');
                     const methods = await page.$$('input[name="payment_method"] + label + p');
-
-                    console.log('Select a Payment Method:');
-
-                    for (let index = 0; index < radio.length; index++) {
-                        const method = await methods[index].evaluate(el => (el as HTMLElement).innerText);
-                        console.log(`${index + 1}: Method- ${method}`);
-                    }
 
                     const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
 
