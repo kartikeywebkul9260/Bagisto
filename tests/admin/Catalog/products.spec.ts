@@ -861,7 +861,7 @@ test('Create Product(bundle)', async () => {
                     const randomProduct = forms.generateRandomProductName();
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
 
-                    await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+                    await page.waitForSelector('div#not_available', { timeout: 3000 }).catch(() => null);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
@@ -1201,7 +1201,7 @@ test('Edit Product(bundle)', async () => {
 
                     await page.fill('input[type="text"][class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', randomProduct);
 
-                    await page.waitForSelector('div#not_available', { timeout: 1000 }).catch(() => null);
+                    await page.waitForSelector('div#not_available', { timeout: 3000 }).catch(() => null);
 
                     const exists = await page.waitForSelector('input[type="checkbox"] + label.icon-uncheckbox', { timeout: 5000 }).catch(() => null);
 
