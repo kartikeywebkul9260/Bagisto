@@ -99,7 +99,7 @@ test('Create Orders', async () => {
             await page.click('button.primary-button:visible');
         } else {
             await page.click('p.flex.flex-col.gap-1.text-base.font-semibold + button.secondary-button');
-            await page.fill('input[class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', forms.generateRandomProductName());
+            await page.fill('input[class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"]', 'arct');
 
             const exists = await page.waitForSelector('button.cursor-pointer.text-sm.text-blue-600.transition-all', { timeout: 5000 }).catch(() => null);
 
@@ -117,7 +117,7 @@ test('Create Orders', async () => {
                     ) {
                         await inputQty[count].scrollIntoViewIfNeeded();
                         const qty = Math.floor(Math.random() * ((10) - 2 + 1)) + 2;
-                        
+
                         await inputQty[count].fill(qty.toString());
                         await cartBtn.click();
 

@@ -130,15 +130,15 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # - name: Run Playwright for Shop tests
-      #   env:
-      #     BASE_URL: 'http://127.0.0.1:8000'
-      #   run: npx playwright test tests/shop --workers=1 --project=chromium --retries=1 || echo "Some tests failed, but we continue."
+      - name: Run Playwright for Shop tests
+        env:
+          BASE_URL: 'http://127.0.0.1:8000'
+        run: npx playwright test tests/shop --workers=1 --project=chromium --retries=1 || echo "Some tests failed, but we continue."
 
       - name: Run Playwright for Admin tests
         env:
           BASE_URL: 'http://127.0.0.1:8000'
-        run: npx playwright test tests/admin/sales.spec --workers=1 --project=chromium --retries=1 || echo "Some tests failed, but we continue."
+        run: npx playwright test tests/admin --workers=1 --project=chromium --retries=1 || echo "Some tests failed, but we continue."
 
       - name: Upload Playwright Videos of tests
         uses: actions/upload-artifact@v4
