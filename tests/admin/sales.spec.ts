@@ -117,8 +117,11 @@ test('Create Orders', async () => {
                     ) {
                         await inputQty[count].scrollIntoViewIfNeeded();
                         const qty = Math.floor(Math.random() * ((10) - 2 + 1)) + 2;
+                        
                         await inputQty[count].fill(qty.toString());
                         await cartBtn.click();
+
+                        break;
                     }
                     count++;
                 }
