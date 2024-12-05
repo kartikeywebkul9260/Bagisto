@@ -138,6 +138,12 @@ test('Create Orders', async () => {
             await icons[0].click();
             console.log(message);
         } else {
+            const checkboxs = await page.$$('input[type="checkbox"]:not(:checked) + label, input[type="radio"]:not(:checked) + label');
+
+            for (let checkbox of checkboxs) {
+                await checkbox.click();
+            }
+
             await page.click('.flex.items-center.justify-between > button.primary-button:visible');
 
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
