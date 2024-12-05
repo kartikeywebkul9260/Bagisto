@@ -134,7 +134,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop --workers=1 --project=chromium --retries=0 --reporter=junit --output=results-shop || echo "Some tests failed, but we continue."
+          npx playwright test tests/shop --reporter=junit --output=results-shop --workers=1 --project=chromium --retries=0 || echo "Some tests failed, but we continue."
 
           # Parse the results for Shop tests
           total=$(grep -oP 'tests="(\d+)"' results-shop/results.xml | grep -oP '\d+')
@@ -147,7 +147,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin --workers=1 --project=chromium --retries=0 --reporter=junit --output=results-admin || echo "Some tests failed, but we continue."
+          npx playwright test tests/admin --reporter=junit --output=results-admin --workers=1 --project=chromium --retries=0 || echo "Some tests failed, but we continue."
 
           # Parse the results for Admin tests
           total=$(grep -oP 'tests="(\d+)"' results-admin/results.xml | grep -oP '\d+')
@@ -180,7 +180,7 @@ jobs:
           else
             echo "Pass rate is above 90%. Continuing."
           fi
-          
+
       - name: Upload Playwright Videos of tests
         uses: actions/upload-artifact@v4
         if: always()
