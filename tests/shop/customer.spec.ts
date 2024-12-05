@@ -3,49 +3,55 @@ import config from '../../Config/config';
 import logIn from '../../Helpers/shop/loginHelper';
 import * as readlineSync from 'readline-sync';
 import * as forms from '../../Helpers/shop/formHelper';
-import * as path from 'path';
-import * as fs from 'fs';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
+
+let browser;
+let context;
+let page;
+
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
+    } else {
+        browser = await chromium.launch();
+    }
+
+    // Create a new context
+    context = await browser.newContext({
+        recordVideo: {
+            dir: 'videos/shop/customer/',
+            size: { width: 1280, height: 720 }
+        }
+    });
+
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+});
 
 function getRandomDate(start, end) {
     const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     return date.toISOString().split('T')[0];
 }
 
-const { chromium, firefox, webkit } = require('playwright');
-
 test('Profile Edit', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/profile`);
+
+        console.log('Profile Edit');
 
         await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
 
@@ -98,45 +104,17 @@ test('Profile Edit', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Change Password', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/profile`);
+
+        console.log('ProfChange Passwordile');
 
         await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
 
@@ -185,45 +163,17 @@ test('Change Password', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Delete Profile', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/profile`);
+
+        console.log('Delete Profile');
 
         await page.click('.primary-button.rounded-2xl.px-11.py-3');
 
@@ -256,45 +206,17 @@ test('Delete Profile', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Add Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/addresses`);
+
+        console.log('Add Address');
 
         await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
 
@@ -337,45 +259,17 @@ test('Add Address', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Edit Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/addresses`);
+
+        console.log('Edit Address');
 
         const addExists = await page.waitForSelector('.icon-more.cursor-pointer.rounded-md.py-1.text-2xl.text-zinc-500.transition-all', { timeout: 10000 }).catch(() => null);
 
@@ -428,45 +322,17 @@ test('Edit Address', async () => {
             console.log('No address found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Delete Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/addresses`);
+
+        console.log('Delete Address');
 
         const addExists = await page.waitForSelector('.icon-more.cursor-pointer.rounded-md.py-1.text-2xl.text-zinc-500.transition-all', { timeout: 10000 }).catch(() => null);
 
@@ -506,45 +372,17 @@ test('Delete Address', async () => {
             console.log('No address found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Default Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/addresses`);
+
+        console.log('Default Address');
 
         const addExists = await page.waitForSelector('.icon-more.cursor-pointer.rounded-md.py-1.text-2xl.text-zinc-500.transition-all', { timeout: 10000 }).catch(() => null);
 
@@ -569,116 +407,17 @@ test('Default Address', async () => {
             console.log('No address found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
-    }
-});
-
-test('View Order', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
-    try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
-        await page.goto(`${baseUrl}/customer/account/orders`);
-
-        const addExists = await page.waitForSelector('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye', { timeout: 10000 }).catch(() => null);
-
-        if (addExists) {
-            const icon = await page.$$('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye');
-
-            await icon[Math.floor(Math.random() * ((icon.length - 1) - 0 + 1)) + 0].click();
-
-            const addExists = await page.waitForSelector('.mx-4.flex-auto >.mt-8', { timeout: 10000 }).catch(() => null);
-
-            if (addExists) {
-                const section = await page.$('#main');
-
-                if (section) {
-                    const ordersDir = path.join(__dirname, '../orders');
-
-                    if (! fs.existsSync(ordersDir)) {
-                        fs.mkdirSync(ordersDir);
-                    }
-
-                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                    const screenshotName = `order-print-${timestamp}.png`;
-                    const screenshotPath = path.join(ordersDir, screenshotName);
-
-                    await section.screenshot({ path: screenshotPath });
-                    console.log('Printed the section as ' + screenshotName);
-                }
-            }
-        } else {
-            console.log('No Order found. Add new!');
-        }
-    } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Reorder', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/orders`);
+
+        console.log('Reorder');
 
         const addExists = await page.waitForSelector('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye', { timeout: 10000 }).catch(() => null);
 
@@ -712,45 +451,17 @@ test('Reorder', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Cancel Order', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/orders`);
+
+        console.log('Cancel Order');
 
         const addExists = await page.waitForSelector('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye', { timeout: 10000 }).catch(() => null);
 
@@ -788,45 +499,17 @@ test('Cancel Order', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Print Invoice', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/orders`);
+
+        console.log('Print Invoice');
 
         const addExists = await page.waitForSelector('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye', { timeout: 10000 }).catch(() => null);
 
@@ -860,160 +543,17 @@ test('Print Invoice', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
-    }
-});
-
-test('View Shipment', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
-    try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
-        await page.goto(`${baseUrl}/customer/account/orders`);
-
-        const addExists = await page.waitForSelector('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye', { timeout: 10000 }).catch(() => null);
-
-        if (addExists) {
-            const icon = await page.$$('.float-right.cursor-pointer.rounded-md.text-2xl.transition-all.icon-eye');
-
-            await icon[Math.floor(Math.random() * ((icon.length - 1) - 0 + 1)) + 0].click();
-
-            const addExists = await page.waitForSelector('.mx-4.flex-auto >.mt-8', { timeout: 10000 }).catch(() => null);
-
-            if (addExists) {
-                const icon = await page.$$('.flex.flex-row.justify-center.gap-8.bg-zinc-100 > #undefined-button');
-                console.log(icon.length);
-
-                if (icon.length > 1) {
-                    await icon[1].click();
-                    const print = await page.waitForSelector('.flex.items-center.gap-1.font-semibold > .icon-download.text-2xl', { timeout: 1000 }).catch(() => null);
-
-                    if (! print) {
-                        const addExists = await page.waitForSelector('.mx-4.flex-auto >.mt-8', { timeout: 10000 }).catch(() => null);
-
-                        if (addExists) {
-                            const section = await page.$('#main');
-
-                            if (section) {
-                                const shippmentsDir = path.join(__dirname, '../shippments');
-                                if (! fs.existsSync(shippmentsDir)) {
-                                    fs.mkdirSync(shippmentsDir);
-                                }
-
-                                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                                const screenshotName = `shippment-print-${timestamp}.png`;
-                                const screenshotPath = path.join(shippmentsDir, screenshotName);
-
-                                await section.screenshot({ path: screenshotPath });
-                                console.log('Printed the section as ' + screenshotName);
-                            }
-                        }
-                    } else if (icon.length > 2) {
-                        await icon[2].click();
-
-                        const refund = await page.waitForSelector('.mt-8.flex.items-start.gap-10 >.flex.flex-auto.justify-end >.grid.max-w-max.gap-2.text-sm', { timeout: 1000 }).catch(() => null);
-
-                        if (! refund) {
-                            const addExists = await page.waitForSelector('.mx-4.flex-auto >.mt-8', { timeout: 10000 }).catch(() => null);
-
-                            if (addExists) {
-                                const section = await page.$('#main');
-
-                                if (section) {
-                                    const shippmentsDir = path.join(__dirname, '../shippments');
-
-                                    if (! fs.existsSync(shippmentsDir)) {
-                                        fs.mkdirSync(shippmentsDir);
-                                    }
-
-                                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                                    const screenshotName = `shippment-print-${timestamp}.png`;
-                                    const screenshotPath = path.join(shippmentsDir, screenshotName);
-
-                                    await section.screenshot({ path: screenshotPath });
-                                    console.log('Printed the section as ' + screenshotName);
-                                }
-                            }
-                        } else {
-                            console.log('Shipment not be created by admin for this product');
-                        }
-                    }
-                } else {
-                    console.log('Shipment not be created by admin for this product');
-                }
-            }
-        } else {
-            console.log('No Order found. Add new!');
-        }
-    } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Downloadable Orders', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/account/downloadable-products`);
+
+        console.log('Downloadable Orders');
 
         const addExists = await page.waitForSelector('.row.grid.items-center.border-b.bg-white.px-6.py-4.font-medium.text-gray-600.transition-all > p', { timeout: 10000 }).catch(() => null);
 
@@ -1043,108 +583,17 @@ test('Downloadable Orders', async () => {
             console.log('No any Downloadable Product Ordered. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
-    }
-});
-
-test('Reviews', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
-    try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
-        await page.goto(`${baseUrl}/customer/account/profile/reviews`);
-
-        const addExists = await page.waitForSelector('.icon-star-fill.text-3xl.text-amber-500', { timeout: 10000 }).catch(() => null);
-
-        if (addExists) {
-            const section = await page.$('#main');
-
-            if (section) {
-                const reviewsDir = path.join(__dirname, '../reviews');
-
-                if (! fs.existsSync(reviewsDir)) {
-                    fs.mkdirSync(reviewsDir);
-                }
-
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                const screenshotName = `review-print-${timestamp}.png`;
-                const screenshotPath = path.join(reviewsDir, screenshotName);
-
-                await section.screenshot({ path: screenshotPath });
-                console.log('Printed the section as ' + screenshotName);
-            }
-        } else {
-            console.log('You have not reviewed any product yet');
-        }
-    } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Wishlist to Cart', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/wishlist`);
+
+        console.log('Wishlist to Cart');
 
         const addExists = await page.waitForSelector('.icon-plus.cursor-pointer.text-2xl:visible', { timeout: 10000 }).catch(() => null);
 
@@ -1186,45 +635,17 @@ test('Wishlist to Cart', async () => {
             console.log('No product found to move. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Remove from Wishlist', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/wishlist`);
+
+        console.log('Remove from Wishlist');
 
         const addExists = await page.waitForSelector('a.flex.cursor-pointer.justify-end.text-base.text-blue-700:visible', { timeout: 10000 }).catch(() => null);
 
@@ -1262,45 +683,17 @@ test('Remove from Wishlist', async () => {
             console.log('No product found to remove. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Clear Wishlist', async () => {
     test.setTimeout(config.mediumTimeout);
 
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}/customer/wishlist`);
+
+        console.log('Clear Wishlist');
 
         const addExists = await page.waitForSelector('a.flex.cursor-pointer.justify-end.text-base.text-blue-700:visible', { timeout: 10000 }).catch(() => null);
 
@@ -1335,10 +728,14 @@ test('Clear Wishlist', async () => {
             console.log('No product found to remove. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
 });

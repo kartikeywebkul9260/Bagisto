@@ -87,11 +87,11 @@ test('Settings of Email', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -136,11 +136,11 @@ test('Notifications of Email', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 

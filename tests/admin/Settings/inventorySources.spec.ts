@@ -137,11 +137,11 @@ test('Create Inventory Sources', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -252,7 +252,7 @@ test('Edit Inventory Sources', async () => {
             console.log('No  Inventory Sources found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -281,13 +281,13 @@ test('Delete Inventory Sources', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         } else {
             console.log('No Inventory Sources found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 

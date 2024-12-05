@@ -82,11 +82,11 @@ test('Create Customer', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -151,7 +151,7 @@ test('Edit Customer', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -215,7 +215,7 @@ test('Add Address', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -283,7 +283,7 @@ test('Edit Address', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -320,11 +320,11 @@ test('Set Default Address', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -363,11 +363,11 @@ test('Delete Address', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -396,7 +396,7 @@ test('Add Note', async () => {
             await forms.testForm(page);
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -427,11 +427,11 @@ test('Delete Account', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -457,7 +457,7 @@ test('Create Order', async () => {
             console.log(page.url());
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -481,7 +481,7 @@ test('login as Customer', async () => {
             console.log('No customer found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -531,7 +531,7 @@ test('Mass Delete Customers', async () => {
             console.log('No customer found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -590,7 +590,7 @@ test('Mass Update Customers', async () => {
             console.log('No customer found, create first.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 

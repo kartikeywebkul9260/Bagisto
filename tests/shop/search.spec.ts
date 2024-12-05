@@ -3,32 +3,41 @@ import config from '../../Config/config';
 import { generateRandomProductName } from '../../Helpers/admin/formHelper'
 import * as forms from '../../Helpers/shop/formHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-test('Search by query', async () => {
-    const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/shop/compare/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+});
 
+test('Search by query', async () => {
     try {
         await page.goto(`${baseUrl}`);
+
+        console.log('Search by query');
 
         const query = generateRandomProductName();
 
@@ -45,39 +54,17 @@ test('Search by query', async () => {
             console.log(`No Product found`);
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Search by image', async () => {
     test.setTimeout(config.mediumTimeout);
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
         await page.goto(`${baseUrl}`);
+
+        console.log('Search by image');
 
         const filePath = forms.getRandomImageFile();
         await page.setInputFiles('input[type="file"]#v-image-search-19', filePath);
@@ -105,10 +92,14 @@ test('Search by image', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
 });

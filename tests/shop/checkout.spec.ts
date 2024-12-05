@@ -5,29 +5,38 @@ import logIn from '../../Helpers/shop/loginHelper';
 import address from '../../Helpers/shop/addressHelper';
 import * as forms from '../../Helpers/shop/formHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
+
+let browser;
+let context;
+let page;
+
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
+    } else {
+        browser = await chromium.launch();
+    }
+
+    // Create a new context
+    context = await browser.newContext({
+        recordVideo: {
+            dir: 'videos/shop/checkout/',
+            size: { width: 1280, height: 720 }
+        }
+    });
+
+    // Open a new page
+    page = await context.newPage();
+});
 
 test('Customer CheckOut', async () => {
   test.setTimeout(config.highTimeout);
-  const { chromium, firefox, webkit } = require('playwright');
-
-  var browser;
-
-  if (config.browser == 'firefox') {
-    browser = await firefox.launch();
-  } else if (config.browser == 'webkit') {
-    browser = await webkit.launch();
-  } else {
-    browser = await chromium.launch();
-  }
-
-  const context = await browser.newContext({
-    recordVideo: {
-      dir: 'videos/',
-      size: { width: 1280, height: 720 }
-    }
-  });
-  const page = await context.newPage();
 
   try {
     const log = await logIn(page);
@@ -41,6 +50,8 @@ test('Customer CheckOut', async () => {
     if (cart == null) {
       return;
     }
+
+    console.log('Customer CheckOut')
 
     await page.click('.icon-cart');
 
@@ -171,36 +182,12 @@ test('Customer CheckOut', async () => {
       }
     }
   } catch (error) {
-    console.log('Error during test execution:', error.message);
-  } finally {
-    await page.close();
-    await context.close();
-    await browser.close();
+    console.error('Error during test execution:', error.message);
   }
 });
 
 test('Guest CheckOut', async () => {
   test.setTimeout(config.highTimeout);
-  const { chromium, firefox, webkit } = require('playwright');
-
-  var browser;
-
-  if (config.browser == 'firefox') {
-    browser = await firefox.launch();
-  } else if (config.browser == 'webkit') {
-    browser = await webkit.launch();
-  } else {
-    browser = await chromium.launch();
-  }
-
-  const context = await browser.newContext({
-    recordVideo: {
-      dir: 'videos/',
-      size: { width: 1280, height: 720 }
-    }
-  });
-
-  const page = await context.newPage();
 
   try {
     const cart = await addToCart(page);
@@ -208,6 +195,8 @@ test('Guest CheckOut', async () => {
     if (cart == null) {
       return;
     }
+
+    console.log('Guest CheckOut');
 
     await page.click('.icon-cart');
 
@@ -297,10 +286,14 @@ test('Guest CheckOut', async () => {
       }
     }
   } catch (error) {
-    console.log('Error during test execution:', error.message);
-  } finally {
+    console.error('Error during test execution:', error.message);
+  }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-  }
+    console.info('Browser session closed.');
 });

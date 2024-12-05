@@ -2,32 +2,42 @@ import { test } from '@playwright/test';
 import config from '../../Config/config';
 import logIn from '../../Helpers/shop/loginHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-test('Category Page', async () => {
-    const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/shop/compare/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+});
+
+test('Category Page', async () => {
 
     try {
         await page.goto(`${baseUrl}`);
+
+        console.log('Category Page');
 
         const addExists = await page.waitForSelector('.group.relative.flex.items-center.border-b-4.border-transparent', { timeout: 10000 }).catch(() => null);
 
@@ -65,38 +75,16 @@ test('Category Page', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Product Page', async () => {
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
         await page.goto(`${baseUrl}`);
+
+        console.log('Product Page');
 
         const addExists = await page.waitForSelector('.container.mt-20 > .flex.justify-between + .flex.gap-8.mt-10.overflow-auto.scroll-smooth.scrollbar-hide > .group.w-full.rounded-md', { timeout: 10000 }).catch(() => null);
 
@@ -115,36 +103,12 @@ test('Product Page', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Review Product', async () => {
     test.setTimeout(config.mediumTimeout);
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
         const log = await logIn(page);
@@ -154,6 +118,8 @@ test('Review Product', async () => {
         }
 
         await page.goto(`${baseUrl}`);
+
+        console.log('Review Product');
 
         const addExists = await page.waitForSelector('.container.mt-20 > .flex.justify-between + .flex.gap-8.mt-10.overflow-auto.scroll-smooth.scrollbar-hide > .group.w-full.rounded-md', { timeout: 10000 }).catch(() => null);
 
@@ -210,10 +176,14 @@ test('Review Product', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
 });

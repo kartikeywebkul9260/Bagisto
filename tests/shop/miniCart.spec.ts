@@ -2,35 +2,47 @@ import { test } from '@playwright/test';
 import config from '../../Config/config';
 import addToCart from '../../Helpers/shop/cartHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
 
-test('Increment', async () => {
-    test.setTimeout(config.mediumTimeout);
-    const { chromium, firefox, webkit } = require('playwright');
+let browser;
+let context;
+let page;
 
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
     } else {
-      browser = await chromium.launch();
-    } 
+        browser = await chromium.launch();
+    }
 
-    const context = await browser.newContext({
+    // Create a new context
+    context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/shop/miniCart/',
             size: { width: 1280, height: 720 }
         }
     });
 
-    const page = await context.newPage();
+    // Open a new page
+    page = await context.newPage();
+});
+
+test('Increment', async () => {
+    test.setTimeout(config.mediumTimeout);
 
     try {
         await page.goto(`${baseUrl}`);
 
         await addToCart(page);
+
+        console.log('Mini Cart')
+
+        console.log('Increment');
 
         await page.click('.icon-cart');
 
@@ -51,41 +63,21 @@ test('Increment', async () => {
             console.log('Increment button working properly');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Decrement', async () => {
     test.setTimeout(config.mediumTimeout);
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
         await page.goto(`${baseUrl}`);
 
         await addToCart(page);
+
+        console.log('Mini Cart')
+
+        console.log('Decrement');
 
         await page.click('.icon-cart');
 
@@ -112,41 +104,21 @@ test('Decrement', async () => {
             console.log('Decrement button working properly');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Remove', async () => {
     test.setTimeout(config.mediumTimeout);
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-
-    const page = await context.newPage();
 
     try {
         await page.goto(`${baseUrl}`);
 
         await addToCart(page);
+
+        console.log('Mini Cart')
+
+        console.log('Remove');
 
         await page.click('.icon-cart');
 
@@ -169,7 +141,7 @@ test('Remove', async () => {
                 const icons = await page.$$('.break-words + .icon-cancel');
 
                 const message = await icons[0].evaluate(el => el.parentNode.innerText);
-                console.log(message);
+                console.info(message);
 
                 await icons[0].click();
             }
@@ -177,10 +149,14 @@ test('Remove', async () => {
             console.log('Remove button working properly');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
+});
+
+// Clean up after all tests
+test.afterAll(async () => {
+    await page.close();
+    await context.close();
+    await browser.close();
+    console.info('Browser session closed.');
 });

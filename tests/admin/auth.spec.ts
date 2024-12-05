@@ -26,7 +26,7 @@ test('Login', async () => {
   try {
     await logIn(page);
   } catch (error) {
-    console.log('Error during test execution:', error.message);
+    console.error('Error during test execution:', error.message);
   } finally {
     await page.close();
     await context.close();
@@ -74,7 +74,7 @@ test('Logout', async () => {
       console.log('Still logedIn');
     }
   } catch (error) {
-    console.log('Error during test execution:', error.message);
+    console.error('Error during test execution:', error.message);
   } finally {
     await page.close();
     await context.close();

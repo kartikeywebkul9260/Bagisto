@@ -21,7 +21,7 @@ test('Register', async () => {
 
   const context = await browser.newContext({
     recordVideo: {
-      dir: 'videos/',
+      dir: 'videos/shop/auth',
       size: { width: 1280, height: 720 }
     }
   });
@@ -45,7 +45,7 @@ test('Register', async () => {
 
     await forms.testForm(page);
   } catch (error) {
-    console.log('Error during test execution:', error.message);
+    console.error('Error during test execution:', error.message);
   } finally {
     await page.close();
     await context.close();
@@ -68,7 +68,7 @@ test('Login', async () => {
 
   const context = await browser.newContext({
     recordVideo: {
-      dir: 'videos/',
+      dir: 'videos/shop/auth',
       size: { width: 1280, height: 720 }
     }
   });
@@ -77,7 +77,7 @@ test('Login', async () => {
   try {
     await logIn(page);
   } catch (error) {
-    console.log('Error during test execution:', error.message);
+    console.error('Error during test execution:', error.message);
   } finally {
     await page.close();
     await context.close();
@@ -100,7 +100,7 @@ test('Logout', async () => {
 
   const context = await browser.newContext({
     recordVideo: {
-      dir: 'videos/',
+      dir: 'videos/shop/auth',
       size: { width: 1280, height: 720 }
     }
   });
@@ -125,9 +125,8 @@ test('Logout', async () => {
     } else {
       console.log('Still logedIn');
     }
-
   } catch (error) {
-    console.log('Error during test execution:', error.message);
+    console.error('Error during test execution:', error.message);
   } finally {
     await page.close();
     await context.close();

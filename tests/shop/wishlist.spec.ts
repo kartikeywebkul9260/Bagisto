@@ -2,39 +2,49 @@ import { test } from '@playwright/test';
 import config from '../../Config/config';
 import logIn from '../../Helpers/shop/loginHelper';
 
+const { chromium, firefox, webkit } = require('playwright');
 const baseUrl = config.baseUrl;
+
+let browser;
+let context;
+let page;
+
+// Perform login once before all tests
+test.beforeAll(async () => {
+    // Launch the specified browser
+    if (config.browser === 'firefox') {
+        browser = await firefox.launch();
+    } else if (config.browser === 'webkit') {
+        browser = await webkit.launch();
+    } else {
+        browser = await chromium.launch();
+    }
+
+    // Create a new context
+    context = await browser.newContext({
+        recordVideo: {
+            dir: 'videos/shop/compare/',
+            size: { width: 1280, height: 720 }
+        }
+    });
+
+    // Open a new page
+    page = await context.newPage();
+
+    // Log in once
+    const log = await logIn(page);
+    if (log == null) {
+        throw new Error('Login failed. Tests will not proceed.');
+    }
+});
 
 test('Add To Wishlist', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}`);
+
+        console.log('Add To Wishlist');
 
         const exists = await page.waitForSelector('.cursor-pointer.text-2xl.icon-heart', { timeout: 20000 }).catch(() => null);
 
@@ -73,45 +83,17 @@ test('Add To Wishlist', async () => {
             console.log('No any product found in page.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });
 
 test('Remove from Wishlist', async () => {
     test.setTimeout(config.mediumTimeout);
 
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-  
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    } 
-
-    const context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
-    });
-    const page = await context.newPage();
-
     try {
-        const log = await logIn(page);
-
-        if (log == null) {
-            return;
-        }
-
         await page.goto(`${baseUrl}`);
+
+        console.log('Remove To Wishlist');
 
         const exists = await page.waitForSelector('.cursor-pointer.text-2xl.icon-heart-fill.text-red-600', { timeout: 20000 }).catch(() => null);
 
@@ -150,10 +132,6 @@ test('Remove from Wishlist', async () => {
             console.log('No any wishlist product found in page.');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
+        console.error('Error during test execution:', error.message);
     }
 });

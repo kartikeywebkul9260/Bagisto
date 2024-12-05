@@ -145,7 +145,7 @@ test('Create Orders', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             }
         }
 
@@ -283,7 +283,7 @@ test('Create Orders', async () => {
             }
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -318,7 +318,7 @@ test('Comment on Order', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -349,7 +349,7 @@ test('Cancel Order', async () => {
 
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                console.log(message);
+                console.info(message);
             } else {
                 const exists = await page.waitForSelector('span.label-canceled.text-sm:visible', { timeout: 500 }).catch(() => null);
 
@@ -369,7 +369,7 @@ test('Cancel Order', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -536,7 +536,7 @@ test('Reorder', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -583,7 +583,7 @@ test('Create Invoice', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -632,7 +632,7 @@ test('Create Shipment', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -690,7 +690,7 @@ test('Create Refund', async () => {
             console.log('No Order found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -724,7 +724,7 @@ test('Mail Invoice', async () => {
             console.log('No Invoice found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 
@@ -750,7 +750,7 @@ test('Print Invoice', async () => {
             console.log('No Invoice found. Add new!');
         }
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     }
 });
 

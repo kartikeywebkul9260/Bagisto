@@ -8,18 +8,18 @@ test('Add To Cart', async () => {
     const { chromium, firefox, webkit } = require('playwright');
 
     var browser;
-  
+
     if (config.browser == 'firefox') {
       browser = await firefox.launch();
     } else if (config.browser == 'webkit') {
       browser = await webkit.launch();
     } else {
       browser = await chromium.launch();
-    } 
+    }
 
     const context = await browser.newContext({
         recordVideo: {
-            dir: 'videos/',
+            dir: 'videos/shop/cart/',
             size: { width: 1280, height: 720 }
         }
     });
@@ -28,10 +28,13 @@ test('Add To Cart', async () => {
 
     try {
         await page.goto(`${baseUrl}`);
+
+        console.log('Mass Delete Page');
+
         await addToCart(page);
 
     } catch (error) {
-        console.log('Error during test execution:', error.message);
+        console.error('Error during test execution:', error.message);
     } finally {
         await page.close();
         await context.close();
