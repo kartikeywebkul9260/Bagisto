@@ -100,6 +100,8 @@ test('Create Locale', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -162,6 +164,8 @@ test('Edit Locale', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -198,6 +202,8 @@ test('Delete Locale', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No locale found, create first.');

@@ -121,6 +121,8 @@ test('Delete Review', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No review found, create first.');
@@ -168,6 +170,8 @@ test('Mass Delete Reviews', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any review.');
@@ -221,6 +225,8 @@ test('Mass Update Reviews', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any review.');

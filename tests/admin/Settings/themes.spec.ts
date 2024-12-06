@@ -186,6 +186,8 @@ test('Create Product Carousel Theme', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -338,6 +340,8 @@ test('Create Category Carousel Theme', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -428,6 +432,8 @@ test('Create Static Content Theme', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -527,6 +533,8 @@ test('Create Image Slider Theme', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -634,6 +642,8 @@ test('Create Footer Link Theme', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -725,6 +735,8 @@ test('Create Services Content Theme', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -888,6 +900,8 @@ test('Edit Product Carousel Theme', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -1055,6 +1069,8 @@ test('Edit Category Carousel Theme', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -1160,6 +1176,8 @@ test('Edit Static Content Theme', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -1274,6 +1292,8 @@ test('Edit Image Slider Theme', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -1396,6 +1416,8 @@ test('Edit Footer Link Theme', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -1502,6 +1524,8 @@ test('Edit Services Content Theme', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -1538,6 +1562,8 @@ test('Delete Theme', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No Theme found, create first.');

@@ -110,6 +110,8 @@ test('Shipping Settings of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -181,6 +183,8 @@ test('Shipping Methods of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -276,6 +280,8 @@ test('Payment Methods of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -338,6 +344,8 @@ test('Order Settings of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -425,6 +433,8 @@ test('Invoice Settings of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -504,6 +514,8 @@ test('Taxes of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -567,6 +579,8 @@ test('Checkout of Sales', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {

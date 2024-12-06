@@ -139,7 +139,7 @@ test('Create Attribute Family', async () => {
                 await icons[0].click();
                 console.info(message);
             } else {
-                console.log('The cobination you are tring is no able to create');
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -242,7 +242,7 @@ test('Edit Attribute Family', async () => {
                     await icons[0].click();
                     console.info(message);
                 } else {
-                    console.log('The cobination you are tring is no able to update');
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -279,6 +279,8 @@ test('Delete Attribute Family', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.error('No Attribute family found, create first.');

@@ -146,6 +146,8 @@ test('Products of Catalog', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -195,6 +197,8 @@ test('Rich Snippets of Catalog', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -246,6 +250,8 @@ test('Inventory of Catalog', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {

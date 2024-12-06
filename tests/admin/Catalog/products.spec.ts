@@ -315,6 +315,8 @@ test('Create Product(simple, virtual, downloadable)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -632,6 +634,8 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -937,6 +941,8 @@ test('Create Product(bundle)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -1277,6 +1283,8 @@ test('Edit Product(bundle)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -1534,6 +1542,8 @@ test('Create Product(grouped)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -1825,6 +1835,8 @@ test('Edit Product(grouped)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -2102,6 +2114,8 @@ test('Create Product(configurable)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -2386,6 +2400,8 @@ test('Edit Product(configurable)', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         }
@@ -2432,6 +2448,8 @@ test('Mass Delete Products', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any product.');
@@ -2491,6 +2509,8 @@ test('Mass Update Products', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any product.');

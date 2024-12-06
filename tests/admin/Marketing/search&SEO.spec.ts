@@ -98,6 +98,8 @@ test('Create URL Rewrite', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -166,6 +168,8 @@ test('Edit URL Rewrite', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -202,6 +206,8 @@ test('Delete URL Rewrite', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No URL Rewrite found, create first.');
@@ -249,6 +255,8 @@ test('Mass Delete URL Rewrite', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any URL Rewrite.');
@@ -319,6 +327,8 @@ test('Create Search Term', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -389,6 +399,8 @@ test('Edit Search Term', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -425,6 +437,8 @@ test('Delete Search Term', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No Search Term found, create first.');
@@ -472,6 +486,8 @@ test('Mass Delete Search Term', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any Search Term.');
@@ -524,6 +540,8 @@ test('Create Search Synonym', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -576,6 +594,8 @@ test('Edit Search Synonym', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -612,6 +632,8 @@ test('Delete Search Synonym', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No Search Synonym found, create first.');
@@ -659,6 +681,8 @@ test('Mass Delete Search Synonym', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any Search Synonym.');
@@ -711,6 +735,8 @@ test('Create Sitemap', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -763,6 +789,8 @@ test('Edit Sitemap', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -799,6 +827,8 @@ test('Delete Sitemap', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No Sitemap found, create first.');

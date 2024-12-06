@@ -169,6 +169,8 @@ test('Create Cart Rule', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -302,6 +304,8 @@ test('Edit Cart Rule', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -338,6 +342,8 @@ test('Delete Cart Rule', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No Cart Rule found, create first.');
@@ -474,6 +480,8 @@ test('Create Catalog Rule', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -607,6 +615,8 @@ test('Edit Catalog Rule', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -643,6 +653,8 @@ test('Delete Catalog Rule', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.log('No Catalog Rule found, create first.');

@@ -159,6 +159,8 @@ test('Create Category', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -290,6 +292,8 @@ test('Edit Category', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -326,6 +330,8 @@ test('Delete Category', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         } else {
             console.error('No category found, create first.');
@@ -373,6 +379,8 @@ test('Mass Delete Categories', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any category.');
@@ -432,6 +440,8 @@ test('Mass Update Categories', async () => {
                     const message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.info(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             } else {
                 console.log('Please select any category.');

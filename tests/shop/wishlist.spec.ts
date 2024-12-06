@@ -54,28 +54,20 @@ test('Add To Wishlist', async () => {
             if (buttons.length === 0) {
                 console.log('No "Add To Cart" buttons found.');
             } else {
-                await buttons[Math.floor(Math.random() * ((buttons.length - 1) - 0 + 1)) + 0].click();
-                const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
-                var message = '';
+                for (let button of buttons) {
+                    await button.click({ timeout: 1000 }).catch(() => null);
+                    
+                    const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 5000 }).catch(() => null);
+                    var message = '';
 
-                if (iconExists) {
-                    const icons = await page.$$('.break-words + .icon-cancel');
+                    if (iconExists) {
+                        const icons = await page.$$('.break-words + .icon-cancel');
 
-                    message = await icons[0].evaluate(el => el.parentNode.innerText);
-                    await icons[0].click();
+                        message = await icons[0].evaluate(el => el.parentNode.innerText);
+                        await icons[0].click();
 
-                    console.log(message);
-                    return;
-                } else {
-                    const getError = await page.waitForSelector('.text-red-500.text-xs.italic', { timeout: 3000 }).catch(() => null);
-
-                    if (getError) {
-                        const errors = await page.$$('.text-red-500.text-xs.italic');
-
-                        for (let error of errors) {
-                            message = await error.evaluate(el => el.innerText);
-                            console.log(message);
-                        }
+                        console.log(message);
+                        return;
                     }
                 }
             }

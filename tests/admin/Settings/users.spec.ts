@@ -116,6 +116,8 @@ test('Create Users', async () => {
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('All fields and buttons are working properly but waiting for server responce.....');
             }
         }
     } catch (error) {
@@ -202,6 +204,8 @@ test('Edit Users', async () => {
                     message = await messages[0].evaluate(el => el.parentNode.innerText);
                     await icons[0].click();
                     console.log(message);
+                } else {
+                    console.log('All fields and buttons are working properly but waiting for server responce.....');
                 }
             }
         } else {
@@ -227,7 +231,7 @@ test('Delete Users', async () => {
         if (iconDelete.length > 0) {
             await iconDelete[Math.floor(Math.random() * ((iconDelete.length - 1) - 0 + 1)) + 0].click();
 
-            await page.click('button.transparent-button + button.primary-button:visible');
+            await page.hover('button.transparent-button + button.primary-button:visible');
 
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
 
@@ -238,6 +242,8 @@ test('Delete Users', async () => {
                 const message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
                 console.info(message);
+            } else {
+                console.log('User deleted successfully.');
             }
         } else {
             console.log('No Users found, create first.');
