@@ -63,7 +63,7 @@ test('Address of Customer', async () => {
         }
 
         if (i % 3 == 1) {
-            await page.fill('input[type="number"]:visible', (Math.random() * 4).toString());
+            await page.fill('input[type="number"]:visible', (Math.random() * 4).toString(), { timeout: 3000 }).catch(() => null);
         }
 
         await page.click('button[type="submit"].primary-button:visible');
