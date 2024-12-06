@@ -305,6 +305,18 @@ test('Edit Event', async () => {
         if (iconEdit.length > 0) {
             await iconEdit[Math.floor(Math.random() * ((iconEdit.length - 1) - 0 + 1)) + 0].click();
 
+            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 3000 }).catch(() => null);
+
+            if (iconExists) {
+                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
+                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
+
+                message = await messages[0].evaluate(el => el.parentNode.innerText);
+                await icons[0].click();
+                
+                throw new Error(message);
+            }
+
             page.hover('input[name="name"]');
 
             const inputs = await page.$$('textarea.rounded-md:visible, input[type="text"].rounded-md:visible');

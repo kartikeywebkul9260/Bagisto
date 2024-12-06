@@ -67,7 +67,24 @@ test('Search by image', async () => {
         console.log('Search by image');
 
         const filePath = forms.getRandomImageFile();
+
+        await page.evaluate((content) => {
+            const input = document.querySelector('input[type="file"]#v-image-search-19');
+
+            if (input instanceof HTMLInputElement) {
+                input.classList.remove(content);
+            }
+        }, 'hidden');
+
         await page.setInputFiles('input[type="file"]#v-image-search-19', filePath);
+
+        await page.evaluate((content) => {
+            const input = document.querySelector('input[type="file"]#v-image-search-19');
+
+            if (input instanceof HTMLInputElement) {
+                input.classList.add(content);
+            }
+        }, 'hidden');
 
         const exists = await page.waitForSelector('img.relative.bg-zinc-100.transition-all.duration-300', { timeout: 20000 }).catch(() => null);
 
