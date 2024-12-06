@@ -776,7 +776,7 @@ test('Edit Product Carousel Theme', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -942,7 +942,7 @@ test('Edit Category Carousel Theme', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -1109,7 +1109,7 @@ test('Edit Static Content Theme', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -1214,7 +1214,7 @@ test('Edit Image Slider Theme', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -1328,7 +1328,7 @@ test('Edit Footer Link Theme', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -1450,7 +1450,7 @@ test('Edit Services Content Theme', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }

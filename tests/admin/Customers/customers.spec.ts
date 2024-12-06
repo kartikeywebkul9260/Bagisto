@@ -353,7 +353,7 @@ test('Delete Address', async () => {
 
             await createBtn[createBtn.length - 1].click();
 
-            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
 
@@ -417,7 +417,7 @@ test('Delete Account', async () => {
 
             await page.click('.icon-cancel:visible');
 
-            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
             const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
 
@@ -452,7 +452,7 @@ test('Create Order', async () => {
 
             await page.click('.icon-cart:visible');
 
-            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+            await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
             console.log(page.url());
         }

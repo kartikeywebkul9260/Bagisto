@@ -501,7 +501,7 @@ test('Edit Product(simple, virtual, downloadable)', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -1106,7 +1106,7 @@ test('Edit Product(bundle)', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -1703,7 +1703,7 @@ test('Edit Product(grouped)', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -2042,7 +2042,7 @@ test('Create Product(configurable)', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }
@@ -2271,7 +2271,7 @@ test('Edit Product(configurable)', async () => {
                 if (i % 3 == 1) {
                     await deleteBtn.click();
 
-                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button')
+                    await page.click('button[type="button"].transparent-button + button[type="button"].primary-button');
 
                     break;
                 }

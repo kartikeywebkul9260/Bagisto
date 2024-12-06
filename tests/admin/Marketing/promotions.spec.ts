@@ -123,7 +123,7 @@ test('Create Cart Rule', async () => {
             }
         }
 
-        await page.click('button[type="submit"][class="primary-button"]:visible')
+        await page.click('button[type="submit"][class="primary-button"]:visible');
 
         const firstErrors = await page.$$('#discount_amount, input[type="text"].border-red-500, input[type="text"][class="border !border-red-600 hover:border-red-600 w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
 
@@ -146,7 +146,7 @@ test('Create Cart Rule', async () => {
         }
 
         if (firstErrors.length > 0) {
-            await page.click('button[type="submit"][class="primary-button"]:visible')
+            await page.click('button[type="submit"][class="primary-button"]:visible');
         }
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
@@ -256,7 +256,7 @@ test('Edit Cart Rule', async () => {
                 }
             }
 
-            await page.click('button[type="button"][class="primary-button"]:visible')
+            await page.click('button[type="button"][class="primary-button"]:visible');
 
             const firstErrors = await page.$$('#discount_amount, input[type="text"].border-red-500, input[type="text"][class="border !border-red-600 hover:border-red-600 w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
 
@@ -279,7 +279,7 @@ test('Edit Cart Rule', async () => {
             }
 
             if (firstErrors.length > 0) {
-                await page.click('button[type="button"][class="primary-button"]:visible')
+                await page.click('button[type="button"][class="primary-button"]:visible');
             }
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
@@ -428,7 +428,7 @@ test('Create Catalog Rule', async () => {
             }
         }
 
-        await page.click('button[type="submit"][class="primary-button"]:visible')
+        await page.click('button[type="submit"][class="primary-button"]:visible');
 
         const firstErrors = await page.$$('#discount_amount, input[type="text"].border-red-500, input[type="text"][class="border !border-red-600 hover:border-red-600 w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
 
@@ -451,7 +451,7 @@ test('Create Catalog Rule', async () => {
         }
 
         if (firstErrors.length > 0) {
-            await page.click('button[type="submit"][class="primary-button"]:visible')
+            await page.click('button[type="submit"][class="primary-button"]:visible');
         }
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
@@ -561,7 +561,7 @@ test('Edit Catalog Rule', async () => {
                 }
             }
 
-            await page.click('button[type="submit"][class="primary-button"]:visible')
+            await page.click('button[type="submit"][class="primary-button"]:visible');
 
             const firstErrors = await page.$$('#discount_amount, input[type="text"].border-red-500, input[type="text"][class="border !border-red-600 hover:border-red-600 w-full rounded-md border px-3 py-2.5 text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400"]:visible');
 
@@ -584,7 +584,7 @@ test('Edit Catalog Rule', async () => {
             }
 
             if (firstErrors.length > 0) {
-                await page.click('button[type="submit"][class="primary-button"]:visible')
+                await page.click('button[type="submit"][class="primary-button"]:visible');
             }
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);

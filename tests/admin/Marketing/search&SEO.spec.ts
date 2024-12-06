@@ -76,7 +76,7 @@ test('Create URL Rewrite', async () => {
             await input.fill(forms.generateRandomStringWithSpaces(200));
         }
 
-        await page.click('button[class="primary-button"]:visible')
+        await page.click('button[class="primary-button"]:visible');
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
         var message = '';
@@ -144,7 +144,7 @@ test('Edit URL Rewrite', async () => {
                 await input.fill(forms.generateRandomStringWithSpaces(200));
             }
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';
@@ -297,7 +297,7 @@ test('Create Search Term', async () => {
 
         page.fill('input[name="redirect_url"]:visible', forms.generateRandomUrl());
 
-        await page.click('button[class="primary-button"]:visible')
+        await page.click('button[class="primary-button"]:visible');
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
         var message = '';
@@ -367,7 +367,7 @@ test('Edit Search Term', async () => {
 
             page.fill('input[name="redirect_url"]:visible', forms.generateRandomUrl());
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';
@@ -502,7 +502,7 @@ test('Create Search Synonym', async () => {
             await input.fill(forms.generateRandomStringWithSpaces(200));
         }
 
-        await page.click('button[class="primary-button"]:visible')
+        await page.click('button[class="primary-button"]:visible');
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
         var message = '';
@@ -554,7 +554,7 @@ test('Edit Search Synonym', async () => {
                 await input.fill(forms.generateRandomStringWithSpaces(200));
             }
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';
@@ -689,7 +689,7 @@ test('Create Sitemap', async () => {
             await input.fill(forms.generateRandomStringWithSpaces(200));
         }
 
-        await page.click('button[class="primary-button"]:visible')
+        await page.click('button[class="primary-button"]:visible');
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
         var message = '';
@@ -741,7 +741,7 @@ test('Edit Sitemap', async () => {
                 await input.fill(forms.generateRandomStringWithSpaces(200));
             }
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';

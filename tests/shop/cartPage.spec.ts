@@ -38,7 +38,7 @@ test('Increment', async () => {
     try {
         await addToCart(page);
 
-        console.log('Cart Page')
+        console.log('Cart Page');
 
         console.log('Increment');
 
@@ -81,7 +81,7 @@ test('Decrement', async () => {
     try {
         await addToCart(page);
 
-        console.log('Cart Page')
+        console.log('Cart Page');
 
         console.log('Decrement');
 
@@ -131,7 +131,7 @@ test('Remove One', async () => {
     try {
         await addToCart(page);
 
-        console.log('Cart Page')
+        console.log('Cart Page');
 
         console.log('Remove One');
 
@@ -172,7 +172,7 @@ test('Remove All', async () => {
     try {
         await addToCart(page);
 
-        console.log('Cart Page')
+        console.log('Cart Page');
 
         console.log('Remove All');
 
@@ -214,7 +214,7 @@ test('Apply Coupon', async () => {
     try {
         await addToCart(page);
 
-        console.log('Cart Page')
+        console.log('Cart Page');
 
         console.log('Apply Coupon');
 

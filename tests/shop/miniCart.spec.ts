@@ -40,7 +40,7 @@ test('Increment', async () => {
 
         await addToCart(page);
 
-        console.log('Mini Cart')
+        console.log('Mini Cart');
 
         console.log('Increment');
 
@@ -75,7 +75,7 @@ test('Decrement', async () => {
 
         await addToCart(page);
 
-        console.log('Mini Cart')
+        console.log('Mini Cart');
 
         console.log('Decrement');
 
@@ -116,7 +116,7 @@ test('Remove', async () => {
 
         await addToCart(page);
 
-        console.log('Mini Cart')
+        console.log('Mini Cart');
 
         console.log('Remove');
 

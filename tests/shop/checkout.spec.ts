@@ -51,7 +51,7 @@ test('Customer CheckOut', async () => {
       return;
     }
 
-    console.log('Customer CheckOut')
+    console.log('Customer CheckOut');
 
     await page.click('.icon-cart');
 
@@ -201,7 +201,7 @@ test('Guest CheckOut', async () => {
       return;
     } else {
       await page.goto(`${baseUrl}/checkout/onepage`);
-      page.waitForNavigation()
+      await page.waitForNavigation({ timeout: 20000 }).catch(() => null);
 
       if (page.url().includes('/login')) {
         console.log('Guest Checkout not allowed on products in cart');
@@ -257,7 +257,7 @@ test('Guest CheckOut', async () => {
         if (Checked) {
           console.log(Checked);
         } else {
-          page.waitForNavigation()
+          page.waitForNavigation();
 
           if (page.url() == `${baseUrl}/onepage/success`) {
             console.log(`Order success`);

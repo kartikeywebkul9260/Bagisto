@@ -253,7 +253,7 @@ test('Create Event', async () => {
 
         await page.fill('input[name="date"]', time.from);
 
-        await page.click('button[class="primary-button"]:visible')
+        await page.click('button[class="primary-button"]:visible');
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
         var message = '';
@@ -309,7 +309,7 @@ test('Edit Event', async () => {
 
             await page.fill('input[name="date"]', time.from);
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';
@@ -416,7 +416,7 @@ test('Create Campaign', async () => {
             await page.click('input[type="checkbox"] + label.peer');
         }
 
-        await page.click('button[class="primary-button"]:visible')
+        await page.click('button[class="primary-button"]:visible');
 
         const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
         var message = '';
@@ -490,7 +490,7 @@ test('Edit Campaign', async () => {
                 await page.click('input[type="checkbox"] + label.peer');
             }
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';
@@ -580,7 +580,7 @@ test('Edit Newsletter Subscriber', async () => {
 
             let i = Math.floor(Math.random() * 10) + 1;
 
-            await page.click('button[class="primary-button"]:visible')
+            await page.click('button[class="primary-button"]:visible');
 
             const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
             var message = '';
