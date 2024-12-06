@@ -120,132 +120,6 @@ test('Profile Edit', async () => {
     }
 });
 
-test('Change Password', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/customer/account/profile`);
-
-        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
-
-        if (page.url().includes('login')) {
-            // Log in once
-            const log = await logIn(page);
-            if (log == null) {
-                throw new Error('Login failed. Tests will not proceed.');
-            }
-
-            await page.goto(`${baseUrl}/customer/account/profile`);
-        }
-
-        console.log('Change Password');
-
-        await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
-
-        const userInput = config.userInput;
-        const phoneValue = await page.inputValue('input[name="phone"]');
-
-        if (phoneValue === '') {
-            await page.fill('input[name="phone"]', userInput ? readlineSync.question('Enter the Contact Number: ') : forms.form.phone);
-        }
-
-        const selectValue = await page.inputValue('select[name="gender"]');
-
-        if (selectValue === '') {
-            await page.selectOption('select[name="gender"]', 'Male');
-        }
-
-        await page.fill('input[name="current_password"]', userInput ? readlineSync.question('Enter the Password: ') : config.customerPassword);
-
-        const pass = userInput ? readlineSync.question('Enter the Password: ') : forms.generateRandomPassword(8, 20);
-
-        await page.fill('input[name="new_password"]', pass);
-        await page.fill('input[name="new_password_confirmation"]', pass);
-
-        await page.press('input[name="new_password_confirmation"]', 'Enter');
-
-        const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
-        var message = '';
-
-        if (iconExists) {
-            const icons = await page.$$('.break-words + .icon-cancel');
-
-            message = await icons[0].evaluate(el => el.parentNode.innerText);
-            await icons[0].click();
-
-            console.log(message);
-        } else {
-            const getError = await page.waitForSelector('.text-red-500.text-xs.italic', { timeout: 3000 }).catch(() => null);
-
-            if (getError) {
-                const errors = await page.$$('.text-red-500.text-xs.italic');
-
-                for (let error of errors) {
-                    message = await error.evaluate(el => el.innerText);
-                    console.log(message);
-                }
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
-});
-
-test('Delete Profile', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/customer/account/profile`);
-
-        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
-
-        if (page.url().includes('login')) {
-            // Log in once
-            const log = await logIn(page);
-            if (log == null) {
-                throw new Error('Login failed. Tests will not proceed.');
-            }
-
-            await page.goto(`${baseUrl}/customer/account/profile`);
-        }
-
-        console.log('Delete Profile');
-
-        await page.click('.primary-button.rounded-2xl.px-11.py-3');
-
-        const userInput = config.userInput;
-
-        await page.fill('input[name="password"]', userInput ? readlineSync.question('Enter the Password: ') : config.customerPassword);
-
-        await page.press('input[name="password"]', 'Enter');
-
-        const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
-        var message = '';
-
-        if (iconExists) {
-            const icons = await page.$$('.break-words + .icon-cancel');
-
-            message = await icons[0].evaluate(el => el.parentNode.innerText);
-            await icons[0].click();
-
-            console.log(message);
-        } else {
-            const getError = await page.waitForSelector('.text-red-500.text-xs.italic', { timeout: 3000 }).catch(() => null);
-
-            if (getError) {
-                const errors = await page.$$('.text-red-500.text-xs.italic');
-
-                for (let error of errors) {
-                    message = await error.evaluate(el => el.innerText);
-                    console.log(message);
-                }
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
-});
-
 test('Add Address', async () => {
     test.setTimeout(config.mediumTimeout);
 
@@ -642,7 +516,6 @@ test('Print Invoice', async () => {
 
             if (addExists) {
                 const icon = await page.$$('.flex.flex-row.justify-center.gap-8.bg-zinc-100 > #undefined-button');
-                console.log(icon.length);
 
                 if (icon.length > 1) {
                     await icon[1].click();
@@ -900,10 +773,135 @@ test('Clear Wishlist', async () => {
     }
 });
 
+test('Delete Profile', async () => {
+    test.setTimeout(config.mediumTimeout);
+
+    try {
+        await page.goto(`${baseUrl}/customer/account/profile`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/profile`);
+        }
+
+        console.log('Delete Profile');
+
+        await page.click('.primary-button.rounded-2xl.px-11.py-3');
+
+        const userInput = config.userInput;
+
+        await page.fill('input[name="password"]', userInput ? readlineSync.question('Enter the Password: ') : config.customerPassword);
+
+        await page.press('input[name="password"]', 'Enter');
+
+        const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
+        var message = '';
+
+        if (iconExists) {
+            const icons = await page.$$('.break-words + .icon-cancel');
+
+            message = await icons[0].evaluate(el => el.parentNode.innerText);
+            await icons[0].click();
+
+            console.log(message);
+        } else {
+            const getError = await page.waitForSelector('.text-red-500.text-xs.italic', { timeout: 3000 }).catch(() => null);
+
+            if (getError) {
+                const errors = await page.$$('.text-red-500.text-xs.italic');
+
+                for (let error of errors) {
+                    message = await error.evaluate(el => el.innerText);
+                    console.log(message);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error during test execution:', error.message);
+    }
+});
+
+test('Change Password', async () => {
+    test.setTimeout(config.mediumTimeout);
+
+    try {
+        await page.goto(`${baseUrl}/customer/account/profile`);
+
+        await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
+
+        if (page.url().includes('login')) {
+            // Log in once
+            const log = await logIn(page);
+            if (log == null) {
+                throw new Error('Login failed. Tests will not proceed.');
+            }
+
+            await page.goto(`${baseUrl}/customer/account/profile`);
+        }
+
+        console.log('Change Password');
+
+        await page.click('.secondary-button.border-zinc-200.px-5.py-3.font-normal');
+
+        const userInput = config.userInput;
+        const phoneValue = await page.inputValue('input[name="phone"]');
+
+        if (phoneValue === '') {
+            await page.fill('input[name="phone"]', userInput ? readlineSync.question('Enter the Contact Number: ') : forms.form.phone);
+        }
+
+        const selectValue = await page.inputValue('select[name="gender"]');
+
+        if (selectValue === '') {
+            await page.selectOption('select[name="gender"]', 'Male');
+        }
+
+        await page.fill('input[name="current_password"]', userInput ? readlineSync.question('Enter the Password: ') : config.customerPassword);
+
+        const pass = userInput ? readlineSync.question('Enter the Password: ') : forms.generateRandomPassword(8, 20);
+
+        await page.fill('input[name="new_password"]', pass);
+        await page.fill('input[name="new_password_confirmation"]', pass);
+
+        await page.press('input[name="new_password_confirmation"]', 'Enter');
+
+        const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
+        var message = '';
+
+        if (iconExists) {
+            const icons = await page.$$('.break-words + .icon-cancel');
+
+            message = await icons[0].evaluate(el => el.parentNode.innerText);
+            await icons[0].click();
+
+            console.log(message);
+        } else {
+            const getError = await page.waitForSelector('.text-red-500.text-xs.italic', { timeout: 3000 }).catch(() => null);
+
+            if (getError) {
+                const errors = await page.$$('.text-red-500.text-xs.italic');
+
+                for (let error of errors) {
+                    message = await error.evaluate(el => el.innerText);
+                    console.log(message);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error during test execution:', error.message);
+    }
+});
+
 // Clean up after all tests
 test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.info('Browser session closed.');
 });

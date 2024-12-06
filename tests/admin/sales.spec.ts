@@ -261,7 +261,6 @@ test('Create Orders', async () => {
                 && index < radio.length
             ) {
                 await radio[index].click();
-                console.log(`Selected Method ${methods[index + 1].evaluate(el => (el as HTMLElement).innerText)}`);
 
                 const nextButton = await page.$$('button.primary-button.w-max.px-11.py-3');
                 await nextButton[nextButton.length - 1].click();
@@ -501,7 +500,6 @@ test('Reorder', async () => {
                         && index < radio.length
                     ) {
                         await radio[index].click();
-                        console.log(`Selected Method ${methods[index + 1].evaluate(el => (el as HTMLElement).innerText)}`);
 
                         const nextButton = await page.$$('button.primary-button.w-max.px-11.py-3');
                         await nextButton[nextButton.length - 1].click();
@@ -754,5 +752,4 @@ test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.info('Browser session closed.');
 });

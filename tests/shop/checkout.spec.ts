@@ -151,7 +151,6 @@ test('Customer CheckOut', async () => {
         && index < radio.length
       ) {
         await radio[index].click();
-        console.log(`Selected Method ${methods[index + 1].evaluate(el => (el as HTMLElement).innerText)}`);
 
         const nextButton = await page.$$('button.primary-button');
         await nextButton[nextButton.length - 1].click();
@@ -248,7 +247,6 @@ test('Guest CheckOut', async () => {
         && index < radio.length
       ) {
         await radio[index].click();
-        console.log(`Selected Method ${methods[index + 1]}`);
 
         const nextButton = await page.$$('button.primary-button');
         await nextButton[nextButton.length - 1].click();
@@ -281,5 +279,4 @@ test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.info('Browser session closed.');
 });

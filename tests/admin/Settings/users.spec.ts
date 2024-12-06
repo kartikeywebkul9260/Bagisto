@@ -252,5 +252,4 @@ test.afterAll(async () => {
     await page.close();
     await context.close();
     await browser.close();
-    console.info('Browser session closed.');
 });
