@@ -23,12 +23,7 @@ test.beforeAll(async () => {
     }
 
     // Create a new context
-    context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/admin/Marketing/communications/',
-            size: { width: 1280, height: 720 }
-        }
-    });
+    context = await browser.newContext();
 
     // Open a new page
     page = await context.newPage();
@@ -313,7 +308,7 @@ test('Edit Event', async () => {
 
                 message = await messages[0].evaluate(el => el.parentNode.innerText);
                 await icons[0].click();
-                
+
                 throw new Error(message);
             }
 

@@ -19,12 +19,7 @@ test('Register', async () => {
     browser = await chromium.launch();
   }
 
-  const context = await browser.newContext({
-    recordVideo: {
-      dir: 'videos/shop/auth',
-      size: { width: 1280, height: 720 }
-    }
-  });
+  const context = await browser.newContext();
   const page = await context.newPage();
 
   try {
@@ -66,12 +61,7 @@ test('Login', async () => {
     browser = await chromium.launch();
   }
 
-  const context = await browser.newContext({
-    recordVideo: {
-      dir: 'videos/shop/auth',
-      size: { width: 1280, height: 720 }
-    }
-  });
+  const context = await browser.newContext();
   const page = await context.newPage();
 
   try {
@@ -98,12 +88,7 @@ test('Logout', async () => {
     browser = await chromium.launch();
   }
 
-  const context = await browser.newContext({
-    recordVideo: {
-      dir: 'videos/shop/auth',
-      size: { width: 1280, height: 720 }
-    }
-  });
+  const context = await browser.newContext();
 
   const page = await context.newPage();
 

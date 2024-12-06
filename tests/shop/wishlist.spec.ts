@@ -21,12 +21,7 @@ test.beforeAll(async () => {
     }
 
     // Create a new context
-    context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/shop/compare/',
-            size: { width: 1280, height: 720 }
-        }
-    });
+    context = await browser.newContext();
 
     // Open a new page
     page = await context.newPage();
@@ -56,7 +51,7 @@ test('Add To Wishlist', async () => {
             } else {
                 for (let button of buttons) {
                     await button.click({ timeout: 1000 }).catch(() => null);
-                    
+
                     const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 5000 }).catch(() => null);
                     var message = '';
 

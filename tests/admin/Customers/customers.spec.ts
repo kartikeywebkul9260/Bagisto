@@ -24,12 +24,7 @@ test.beforeAll(async () => {
     }
 
     // Create a new context
-    context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/admin/Customers/customers/',
-            size: { width: 1280, height: 720 }
-        }
-    });
+    context = await browser.newContext();
 
     // Open a new page
     page = await context.newPage();
@@ -400,7 +395,7 @@ test('Add Note', async () => {
 
             const lorem100 = forms.generateRandomStringWithSpaces(500);
             page.fill('textarea[name="note"]', lorem100);
-            
+
             await page.click('input[name="customer_notified"] + span');
 
             await page.click('button[type="submit"].secondary-button:visible');

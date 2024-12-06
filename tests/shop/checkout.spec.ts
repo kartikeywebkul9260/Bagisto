@@ -24,12 +24,7 @@ test.beforeAll(async () => {
     }
 
     // Create a new context
-    context = await browser.newContext({
-        recordVideo: {
-            dir: 'videos/shop/checkout/',
-            size: { width: 1280, height: 720 }
-        }
-    });
+    context = await browser.newContext();
 
     // Open a new page
     page = await context.newPage();
@@ -202,9 +197,8 @@ test('Guest CheckOut', async () => {
       await page.goto(`${baseUrl}/checkout/onepage`);
       await page.waitForNavigation({ timeout: 20000 }).catch(() => null);
 
-      if (page.url().includes('/login')) {
-        console.log('Guest Checkout not allowed on products in cart');
-        return;
+      if (! page.url().includes('onepage')) {
+        throw new Error('Guest Checkout not allowed on products in cart');
       }
     }
 
