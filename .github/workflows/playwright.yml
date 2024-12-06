@@ -140,7 +140,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Auth
           path: playwright-report/
           retention-days: 30
 
@@ -154,7 +154,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Cart
           path: playwright-report/
           retention-days: 30
 
@@ -168,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Mini-Cart
           path: playwright-report/
           retention-days: 30
 
@@ -182,7 +182,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Cart-Page
           path: playwright-report/
           retention-days: 30
 
@@ -196,7 +196,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Wishlist
           path: playwright-report/
           retention-days: 30
 
@@ -210,7 +210,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Checkout
           path: playwright-report/
           retention-days: 30
 
@@ -224,7 +224,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Compare
           path: playwright-report/
           retention-days: 30
 
@@ -238,7 +238,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Product-Category
           path: playwright-report/
           retention-days: 30
 
@@ -252,7 +252,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Customer
           path: playwright-report/
           retention-days: 30
 
@@ -266,7 +266,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Shop-Search
           path: playwright-report/
           retention-days: 30
 
@@ -280,7 +280,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Auth
           path: playwright-report/
           retention-days: 30
 
@@ -294,7 +294,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Sales
           path: playwright-report/
           retention-days: 30
 
@@ -308,7 +308,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Catalog
           path: playwright-report/
           retention-days: 30
 
@@ -322,7 +322,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Customers
           path: playwright-report/
           retention-days: 30
 
@@ -336,7 +336,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-CMS
           path: playwright-report/
           retention-days: 30
 
@@ -350,7 +350,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Marketing
           path: playwright-report/
           retention-days: 30
 
@@ -364,7 +364,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Settings
           path: playwright-report/
           retention-days: 30
 
@@ -378,6 +378,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-Admin-Configuration
           path: playwright-report/
           retention-days: 30
