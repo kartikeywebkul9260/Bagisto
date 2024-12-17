@@ -70,7 +70,7 @@ jobs:
           sed -i 's|APP_URL=.*|APP_URL=http://127.0.0.1:8000/|' .env
 
       - name: Install PHP and dependencies
-        uses: shivammathur/setup-php@v2
+        uses: test/setup-php@v2
         with:
           php-version: '8.1'
           extensions: mbstring, intl, bcmath, gd, pdo_mysql, mysql
