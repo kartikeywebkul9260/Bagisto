@@ -92,14 +92,12 @@
 
                         <!-- Modal Footer -->
                         <x-slot:footer>
-                            <div class="flex items-center gap-x-2.5">
-                                <button
-                                    type="submit"
-                                    class="primary-button"
-                                >
-                                    @lang('admin::app.sales.invoices.view.send')
-                                </button>
-                            </div>
+                            <!-- Save Button -->
+                            <x-admin::button
+                                button-type="button"
+                                class="primary-button"
+                                :title="trans('admin::app.sales.invoices.view.send')"
+                            />
                         </x-slot>
                     </x-admin::modal>
                 </x-admin::form>
@@ -143,7 +141,7 @@
 
                                 <div class="grid place-content-start gap-1.5">
                                     <!-- Item Name -->
-                                    <p class="text-base font-semibold text-gray-800 dark:text-white">
+                                    <p class="break-all text-base font-semibold text-gray-800 dark:text-white">
                                         {{ $item->name }}
                                     </p>
 
