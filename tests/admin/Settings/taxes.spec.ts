@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import config from '../../Config/config';
+import config from '../../../Config/config';
 
 test('Create Tax Rate', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
@@ -22,18 +22,18 @@ test('Create Tax Rate', async ({page}) => {
     await page.locator('.relative > label').click();
     await page.getByText('Zip From Zip To').click();
     await page.getByPlaceholder('Zip From').click();
-    await page.getByPlaceholder('Zip From')234234');
+    await page.getByPlaceholder('Zip From').fill('234234');
     await page.getByPlaceholder('Zip To').click();
-    await page.getByPlaceholder('Zip To')2344234');
+    await page.getByPlaceholder('Zip To').fill('2344234');
     await page.getByRole('button', { name: 'Save Tax Rate' }).click();
 });
 
 test('Edit Tax Rate', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address')admin@example.com');
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password')admin123');
+    await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Taxes' }).click();

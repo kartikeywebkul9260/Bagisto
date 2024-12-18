@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import config from '../../Config/config';
+import config from '../../../Config/config';
 
 test('Create Group', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);

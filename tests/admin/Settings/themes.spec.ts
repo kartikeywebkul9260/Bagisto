@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import config from '../../Config/config';
+import config from '../../../Config/config';
 
 test('Create Product Carousel Theme', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
@@ -315,7 +315,7 @@ test('Edit Footer Link Theme', async ({page}) => {
     await page.getByPlaceholder('Email Address').click();
     await page.getByPlaceholder('Email Address').fill('admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password')admin123');
+    await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Themes' }).click();
@@ -323,7 +323,7 @@ test('Edit Footer Link Theme', async ({page}) => {
     await page.getByPlaceholder('Name').click();
     await page.getByPlaceholder('Name').fill('Demo_hsdguiwe');
     await page.getByPlaceholder('Sort Order').click();
-    await page.getByPlaceholder('Sort Order')23');
+    await page.getByPlaceholder('Sort Order').fill('23');
     await page.locator('select[name="type"]').selectOption('footer_links');
     await page.getByRole('button', { name: 'Save Theme' }).click();
     await page.getByText('Add Link').click();

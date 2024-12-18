@@ -36,9 +36,7 @@ test('logout', async ({ page }) => {
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
-  await page.getByPlaceholder('email@example.com')');
-  await page.getByPlaceholder('email@example.com').press('CapsLock');
-  await page.getByPlaceholder('email@example.com')testUser@gmail.com');
+  await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
   await page.getByPlaceholder('Password').click();
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import config from '../../Config/config';
+import config from '../../../Config/config';
 
 test('Create Create Template', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
@@ -157,9 +157,9 @@ test('Edit Campaign', async ({page}) => {
 test('Delete Campaign', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address')admin@example.com');
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password')admin123');
+    await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
@@ -171,9 +171,9 @@ test('Delete Campaign', async ({page}) => {
 test('Edit Newsletter Subscriber', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address')admin@example.com');
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password')admin123');
+    await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
@@ -186,9 +186,9 @@ test('Edit Newsletter Subscriber', async ({page}) => {
 test('Delete Newsletter Subscriber', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address')admin@example.com');
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password')admin123');
+    await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
