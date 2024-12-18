@@ -76,9 +76,6 @@ jobs:
           extensions: mbstring, intl, bcmath, gd, pdo_mysql, mysql
           tools: composer
 
-      - name: Install Composer dependencies
-        run: composer install
-
       - name: Test MySQL Connectivity
         run: |
           echo "Testing MySQL connection..."
