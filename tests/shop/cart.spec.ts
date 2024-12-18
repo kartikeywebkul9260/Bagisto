@@ -1,38 +1,8 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import config from '../../Config/config';
-import addToCart from '../../Helpers/shop/cartHelper';
 
-const baseUrl = config.baseUrl;
-
-test('Add To Cart', async () => {
-    const { chromium, firefox, webkit } = require('playwright');
-
-    var browser;
-
-    if (config.browser == 'firefox') {
-      browser = await firefox.launch();
-    } else if (config.browser == 'webkit') {
-      browser = await webkit.launch();
-    } else {
-      browser = await chromium.launch();
-    }
-
-    const context = await browser.newContext();
-
-    const page = await context.newPage();
-
-    try {
-        await page.goto(`${baseUrl}`);
-
-        console.log('Add to cart');
-
-        await addToCart(page);
-
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    } finally {
-        await page.close();
-        await context.close();
-        await browser.close();
-    }
+test('Add to cart', async ({ page }) => {
+  await page.goto(`${config.baseUrl}`);
+  await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').first().click();
+  await page.locator('.icon-cancel').first().click();
 });

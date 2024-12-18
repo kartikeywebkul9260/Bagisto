@@ -1,276 +1,85 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import config from '../../Config/config';
-import addToCart from '../../Helpers/shop/cartHelper';
-import logIn from '../../Helpers/shop/loginHelper';
-import address from '../../Helpers/shop/addressHelper';
-import * as forms from '../../Helpers/shop/formHelper';
 
-const { chromium, firefox, webkit } = require('playwright');
-const baseUrl = config.baseUrl;
-
-let browser;
-let context;
-let page;
-
-// Perform login once before all tests
-test.beforeAll(async () => {
-    // Launch the specified browser
-    if (config.browser === 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser === 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    // Create a new context
-    context = await browser.newContext();
-
-    // Open a new page
-    page = await context.newPage();
+test('Customer CheckOut', async ({page}) => {
+  await page.goto(`${config.baseUrl}`);
+  await page.getByLabel('Profile').click();
+  await page.getByRole('link', { name: 'Sign In' }).click();
+  await page.getByPlaceholder('email@example.com').click();
+  await page.getByPlaceholder('email@example.com').fill('rahul@gmail.com');
+  await page.getByPlaceholder('email@example.com').press('Tab');
+  await page.getByPlaceholder('Password').fill('rahul@123');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(2).click();
+  await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').first().click();
+  await page.goto(`${config.baseUrl}/checkout/onepage`);
+  await page.locator('#billing_address_id_1').nth(1).click();
+  await page.getByText('Use same address for shipping?').click();
+  await page.locator('#steps-container form div').filter({ hasText: 'Shipping Address kartikey' }).getByRole('button').click();
+  await page.getByPlaceholder('Company Name').click();
+  await page.getByPlaceholder('Company Name').fill('webkul');
+  await page.getByPlaceholder('First Name').click();
+  await page.getByPlaceholder('First Name').fill('webkul');
+  await page.getByPlaceholder('Last Name').click();
+  await page.getByPlaceholder('Last Name').fill('jasdgh');
+  await page.getByPlaceholder('email@example.com').click();
+  await page.getByPlaceholder('email@example.com').fill('awsdas@jsj.sdf');
+  await page.locator('#steps-container form div').filter({ hasText: 'Street Address' }).nth(1).click();
+  await page.getByPlaceholder('Street Address').fill('sdfs sdhgd');
+  await page.locator('select[name="shipping\\.country"]').selectOption('AW');
+  await page.getByPlaceholder('State').click();
+  await page.getByPlaceholder('State').fill('sdfsadfs');
+  await page.getByPlaceholder('City').click();
+  await page.getByPlaceholder('City').fill('sdfsadfwe');
+  await page.getByPlaceholder('Zip/Postcode').click();
+  await page.getByPlaceholder('Zip/Postcode').fill('fqwe');
+  await page.getByPlaceholder('Telephone').click();
+  await page.getByPlaceholder('Telephone').fill('31452345345');
+  await page.locator('#save_address').nth(1).click();
+  await page.getByRole('button', { name: 'Save' }).click();
+  await page.getByPlaceholder('Zip/Postcode').click();
+  await page.getByPlaceholder('Zip/Postcode').click();
+  await page.getByPlaceholder('Zip/Postcode').fill('123214');
+  await page.getByRole('button', { name: 'Save' }).click();
+  await page.getByText('kartikey dubey (webkul) 123ghds, noida, UP, IN,').nth(1).click();
+  await page.getByRole('button', { name: 'Proceed' }).click();
+  await page.locator('label').filter({ hasText: '$20.00Flat Rate - Flat Rate' }).click();
+  await page.locator('label').filter({ hasText: 'Cash On DeliveryCash On' }).click();
+  await page.getByRole('button', { name: 'Place Order' }).click();
 });
 
-test('Customer CheckOut', async () => {
-  test.setTimeout(config.highTimeout);
-
-  try {
-    const log = await logIn(page);
-
-    if (log == null) {
-      return;
-    }
-
-    const cart = await addToCart(page);
-
-    if (cart == null) {
-      return;
-    }
-
-    console.log('Customer CheckOut');
-
-    await page.click('.icon-cart');
-
-    const exists = await page.waitForSelector('.icon-plus.cursor-pointer', { timeout: 2000 }).catch(() => null);
-
-    if (!exists) {
-      console.log('No any item in cart');
-      return;
-    } else {
-      await page.goto(`${baseUrl}/checkout/onepage`);
-    }
-
-    const existsbill = await page.waitForSelector('input[name="billing.company_name"]', { timeout: 20000 }).catch(() => null);
-
-    if (existsbill) {
-      if (await address(page) != 'done') {
-        return;
-      }
-    }
-
-    const iconExists = await page.waitForSelector('input[name="billing.id"]', { timeout: 20000 }).catch(() => null);
-
-    const radio = await page.$$('input[name="billing.id"]');
-
-    const addressNames = await page.$$('.icon-checkout-address + div p');
-
-    const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
-
-    if (
-      index >= 0
-      && index < radio.length
-    ) {
-      await addressNames[index].click();
-    } else {
-      console.log('Invalid selection.');
-      return;
-    }
-
-    const checkbox = await page.$$('input[name="billing.use_for_shipping"]');
-
-    if (Math.floor(Math.random() * 20) % 3 == 1 ? false : true) {
-      if (!checkbox[0].isChecked()) {
-        await page.click('input[name="billing.use_for_shipping"] + label');
-      }
-    } else {
-      if (checkbox[0].isChecked()) {
-        await page.click('input[name="billing.use_for_shipping"] + label');
-      }
-
-      const radio = await page.$$('input[name="shipping.id"]');
-
-      const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
-
-      if (
-        index >= 0
-        && index < radio.length
-      ) {
-        await radio[index].click();
-      } else {
-        console.log('Invalid selection.');
-
-        return;
-      }
-    }
-
-    const nextButton = await page.$$('button.primary-button:visible');
-    await nextButton[0].click();
-
-    const existsship = await page.waitForSelector('input[name="shipping_method"] + label', { timeout: 10000 }).catch(() => null);
-
-    if (existsship) {
-      const radio = await page.$$('input[name="shipping_method"] + label');
-
-      const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
-
-      if (
-        index >= 0
-        && index < radio.length
-      ) {
-        await radio[index].click();
-      } else {
-        console.log('Invalid selection.');
-        return;
-      }
-    }
-
-    const existspay = await page.waitForSelector('input[name="payment[method]"] + label', { timeout: 10000 }).catch(() => null);
-
-    if (existspay) {
-      const radio = await page.$$('input[name="payment[method]"] + label');
-      const methods = await page.$$('input[name="payment[method]"] + label + label > div');
-
-      const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
-
-      if (
-        index >= 0
-        && index < radio.length
-      ) {
-        await radio[index].click();
-
-        const nextButton = await page.$$('button.primary-button');
-        await nextButton[nextButton.length - 1].click();
-        const Checked = await forms.testForm(page);
-
-        if (Checked) {
-          console.log(Checked);
-        } else {
-          page.waitForNavigation();
-
-          if (page.url() == `${baseUrl}/onepage/success`) {
-            console.log(`Order success`);
-          } else {
-            console.log(page.url());
-          }
-        }
-      } else {
-        console.log('Invalid selection.');
-
-        return;
-      }
-    }
-  } catch (error) {
-    console.error('Error during test execution:', error.message);
-  }
-});
-
-test('Guest CheckOut', async () => {
-  test.setTimeout(config.highTimeout);
-
-  try {
-    const cart = await addToCart(page);
-
-    if (cart == null) {
-      return;
-    }
-
-    console.log('Guest CheckOut');
-
-    await page.click('.icon-cart');
-
-    const exists = await page.waitForSelector('.icon-plus.cursor-pointer', { timeout: 2000 }).catch(() => null);
-
-    if (!exists) {
-      console.log('No any item in cart');
-
-      return;
-    } else {
-      await page.goto(`${baseUrl}/checkout/onepage`);
-      await page.waitForNavigation({ timeout: 20000 }).catch(() => null);
-
-      if (! page.url().includes('onepage')) {
-        throw new Error('Guest Checkout not allowed on products in cart');
-      }
-    }
-
-    const existsbill = await page.waitForSelector('input[name="billing.company_name"]', { timeout: 20000 }).catch(() => null);
-
-    if (existsbill) {
-      if (await address(page) != 'done') {
-        return;
-      }
-    }
-
-    const existsship = await page.waitForSelector('input[name="shipping_method"] + label', { timeout: 10000 }).catch(() => null);
-
-    if (existsship) {
-      const radio = await page.$$('input[name="shipping_method"] + label');
-
-      const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1)) + 0;
-
-      if (
-        index >= 0
-        && index < radio.length
-      ) {
-        await radio[index].click();
-      } else {
-        console.log('Invalid selection.');
-        return;
-      }
-    }
-
-    const existspay = await page.waitForSelector('input[name="payment[method]"] + label', { timeout: 10000 }).catch(() => null);
-
-    if (existspay) {
-      const radio = await page.$$('input[name="payment[method]"] + label');
-      const methods = await page.$$('input[name="payment[method]"] + label + label > div');
-
-      const index = Math.floor(Math.random() * ((radio.length - 1) - 0 + 1));
-
-      if (
-        index >= 0
-        && index < radio.length
-      ) {
-        await radio[index].click();
-
-        const nextButton = await page.$$('button.primary-button');
-        await nextButton[nextButton.length - 1].click();
-        const Checked = await forms.testForm(page);
-
-        if (Checked) {
-          console.log(Checked);
-        } else {
-          page.waitForNavigation();
-
-          if (page.url() == `${baseUrl}/onepage/success`) {
-            console.log(`Order success`);
-          } else {
-            console.log(page.url());
-          }
-        }
-      } else {
-        console.log('Invalid selection.');
-
-        return;
-      }
-    }
-  } catch (error) {
-    console.error('Error during test execution:', error.message);
-  }
-});
-
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
+test('Guest CheckOut', async ({page}) => {
+  await page.goto(`${config.baseUrl}`);
+  await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').first().click();
+  await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(1).click();
+  await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(2).click();
+  await page.goto(`${config.baseUrl}/checkout/onepage`);
+  await page.getByPlaceholder('Company Name').click();
+  await page.getByPlaceholder('Company Name').fill('WEBKUL');
+  await page.getByPlaceholder('First Name').click();
+  await page.getByPlaceholder('First Name').fill('ASHGDAS');
+  await page.getByPlaceholder('First Name').press('Tab');
+  await page.getByPlaceholder('Last Name').fill('JASGDSH');
+  await page.getByPlaceholder('Last Name').press('Tab');
+  await page.getByRole('textbox', { name: 'email@example.com' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'email@example.com' }).fill('ashdghsd@hjdg.sad');
+  await page.getByRole('textbox', { name: 'email@example.com' }).press('Tab');
+  await page.getByPlaceholder('Street Address').fill('sdhgfs2367');
+  await page.getByPlaceholder('Street Address').press('Tab');
+  await page.locator('select[name="billing\\.country"]').selectOption('AI');
+  await page.getByPlaceholder('State').click();
+  await page.getByPlaceholder('State').fill('sfsyftg');
+  await page.getByPlaceholder('City').click();
+  await page.getByPlaceholder('City').fill('dgwuyeg');
+  await page.getByPlaceholder('Zip/Postcode').click();
+  await page.getByPlaceholder('Zip/Postcode').fill('djsbfuweh');
+  await page.getByPlaceholder('Telephone').click();
+  await page.getByPlaceholder('Telephone').fill('9023723564');
+  await page.getByRole('button', { name: 'Proceed' }).click();
+  await page.getByPlaceholder('Zip/Postcode').click();
+  await page.getByPlaceholder('Zip/Postcode').fill('2673854');
+  await page.getByRole('button', { name: 'Proceed' }).click();
+  await page.locator('label').filter({ hasText: '$30.00Flat Rate - Flat Rate' }).click();
+  await page.locator('label').filter({ hasText: 'Cash On DeliveryCash On' }).click();
+  await page.getByRole('button', { name: 'Place Order' }).click();
 });

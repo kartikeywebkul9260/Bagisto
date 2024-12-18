@@ -1,292 +1,92 @@
-import { test } from '@playwright/test';
-import logIn from '../../../Helpers/admin/loginHelper';
-import mode from '../../../Helpers/admin/modeHelper';
-import config from '../../../Config/config';
-import * as forms from '../../../Helpers/admin/formHelper';
+import { test, expect } from '@playwright/test';
+import config from '../../Config/config';
 
-const { chromium, firefox, webkit } = require('playwright');
-const baseUrl = config.baseUrl;
-
-let browser;
-let context;
-let page;
-
-// Perform login once before all tests
-test.beforeAll(async () => {
-    // Launch the specified browser
-    if (config.browser === 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser === 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    // Create a new context
-    context = await browser.newContext();
-
-    // Open a new page
-    page = await context.newPage();
-
-    // Log in once
-    const log = await logIn(page);
-    if (log == null) {
-        throw new Error('Login failed. Tests will not proceed.');
-    }
-
-    await mode(page); // Set the desired mode after login
+test('General of General', async ({page}) => {
+    await page.goto(`${config.baseUrl}/admin/login`);
+    await page.getByPlaceholder('Email Address').click();
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByLabel('Sign In').click();
+    await page.getByRole('link', { name: ' Configure' }).click();
+    await page.getByRole('link', { name: 'General Set units options.' }).click();
+    await page.getByLabel('Weight Unit Default').selectOption('lbs');
+    await page.locator('label > div').click();
+    await page.getByRole('button', { name: 'Save Configuration' }).click();
 });
 
-test('General of General', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/admin/configuration/general/general`);
-
-        console.log('General of General');
-
-        await page.click('select.custom-select');
-
-        const select = await page.$('select.custom-select');
-
-        let i = Math.floor(Math.random() * 10) + 1;
-
-        if (i % 3 == 1) {
-            const options = await select.$$eval('option', (options) => {
-                return options.map(option => option.value);
-            });
-
-            if (options.length > 0) {
-                const randomIndex = Math.floor(Math.random() * options.length);
-
-                await select.selectOption(options[randomIndex]);
-            }
-        }
-
-        if (i % 2 == 1) {
-            await page.click('input[type="checkbox"] + div.peer');
-        }
-
-        await page.click('button[type="submit"].primary-button:visible');
-
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
-
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
-
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.info(message);
-            } else {
-                console.log('All fields and buttons are working properly but waiting for server responce.....');
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
+test('Content of General', async ({page}) => {
+    await page.goto(`${config.baseUrl}/admin/login`);
+    await page.getByPlaceholder('Email Address').click();
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByLabel('Sign In').click();
+    await page.getByRole('link', { name: ' Configure' }).click();
+    await page.getByRole('link', { name: 'Content Set compare options,' }).click();
+    await page.getByLabel('Offer Title').click();
+    await page.getByLabel('Offer Title').fill('Get UPTO 40% OFF on your 1st orderd');
+    await page.getByLabel('Redirection Title').click();
+    await page.getByLabel('Redirection Title').fill('SHOP NOWs');
+    await page.getByLabel('Redirection Link').click();
+    await page.getByLabel('Redirection Link').click();
+    await page.getByLabel('Redirection Link').fill(`${config.baseUrl}/admin/configuration/general/content');
+    await page.getByLabel('Custom CSS Default').click();
+    await page.getByLabel('Custom CSS Default').fill('qqwee');
+    await page.getByLabel('Custom Javascript Default').click();
+    await page.getByLabel('Custom Javascript Default').fill('wqqwqw');
+    await page.getByRole('button', { name: 'Save Configuration' }).click();
 });
 
-test('Content of General', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/admin/configuration/general/content`);
-
-        console.log('Content of General');
-
-        await page.click('input[type="text"].rounded-md:visible');
-
-        const inputs = await page.$$('textarea.rounded-md:visible, input[type="text"].rounded-md:visible');
-
-        for (let input of inputs) {
-
-            let i = Math.floor(Math.random() * 10) + 1;
-
-            if (i % 3 != 1) {
-                await input.fill(forms.generateRandomStringWithSpaces(200));
-            }
-        }
-
-        await page.click('button[type="submit"].primary-button:visible');
-
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
-
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
-
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.info(message);
-            } else {
-                console.log('All fields and buttons are working properly but waiting for server responce.....');
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
+test('Design of General', async ({page}) => {
+    await page.goto(`${config.baseUrl}/admin/login`);
+    await page.getByPlaceholder('Email Address').click();
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByLabel('Sign In').click();
+    await page.getByRole('link', { name: ' Configure' }).click();
+    await page.getByRole('link', { name: 'Design Set logo and favicon' }).click();
+    await page.getByLabel('Logo Image').click();
+    await page.getByLabel('Logo Image').setInputFiles('user.png');
+    await page.getByLabel('Favicon').click();
+    await page.getByLabel('Favicon').setInputFiles('screenshot_1732536834544.png');
+    await page.locator('[id="general\\[design\\]\\[admin_logo\\]\\[favicon\\]\\[delete\\]"]').nth(1).click();
+    await page.getByRole('button', { name: 'Save Configuration' }).click();
 });
 
-test('Design of General', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/admin/configuration/general/design`);
-
-        console.log('Design of General');
-
-        await page.click('input[type="file"]');
-
-        const inputs = await page.$$('input[type="file"]');
-
-        for (let input of inputs) {
-            const filePath = forms.getRandomImageFile();
-
-            await input.setInputFiles(filePath);
-        }
-
-        const checkboxs = await page.$$('input[type="checkbox"] + label.icon-uncheckbox:visible');
-
-        for (let checkbox of checkboxs) {
-            let i = Math.floor(Math.random() * 10) + 1;
-
-            if (i % 2 == 1) {
-                await checkbox.click();
-            }
-        }
-
-        await page.click('button[type="submit"].primary-button:visible');
-
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
-
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
-
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.info(message);
-            } else {
-                console.log('All fields and buttons are working properly but waiting for server responce.....');
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
-});
-
-test('Magic AI of General', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/admin/configuration/general/magic_ai`);
-
-        console.log('Magic AI of General');
-
-        await page.click('input[type="checkbox"] + div.peer');
-
-        const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
-
-        for (let checkbox of checkboxs) {
-            let i = Math.floor(Math.random() * 10) + 1;
-
-            if (i % 2 == 1) {
-                await checkbox.click();
-            }
-        }
-
-        const selects = await page.$$('select.custom-select');
-
-        for (let select of selects) {
-            let i = Math.floor(Math.random() * 10) + 1;
-
-            if (i % 3 == 1) {
-                const options = await select.$$eval('option', (options) => {
-                    return options.map(option => option.value);
-                });
-
-                if (options.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * options.length);
-
-                    await select.selectOption(options[randomIndex]);
-                }
-            }
-        }
-
-        const inputs = await page.$$('textarea.rounded-md:visible, input[type="text"].rounded-md:visible');
-
-        for (let input of inputs) {
-            await input.fill(forms.generateRandomStringWithSpaces(200));
-        }
-
-        await page.click('button[type="submit"].primary-button:visible');
-
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
-
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
-
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.info(message);
-            } else {
-                console.log('All fields and buttons are working properly but waiting for server responce.....');
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
-});
-
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
+test('Magic AI of General', async ({page}) => {
+    await page.goto(`${config.baseUrl}/admin/login`);
+    await page.getByPlaceholder('Email Address').click();
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByLabel('Sign In').click();
+    await page.getByRole('link', { name: ' Configure' }).click();
+    await page.getByRole('link', { name: 'Magic AI Set Magic AI options.' }).click();
+    await page.locator('label > div').first().click();
+    await page.getByLabel('API Key Default').click();
+    await page.getByLabel('API Key Default').fill('asds asdasdsa');
+    await page.getByLabel('Organization Default').click();
+    await page.getByLabel('Organization Default').fill('asdqwqw sad');
+    await page.getByLabel('LLM API Domain Default').click();
+    await page.getByLabel('LLM API Domain Default').fill('asdqw sdsd');
+    await page.locator('div:nth-child(4) > div > .mb-4 > .relative > div').click();
+    await page.getByLabel('Product Short Description').click();
+    await page.getByLabel('Product Short Description').fill('asd saadssa');
+    await page.getByLabel('Product Description Prompt').click();
+    await page.getByLabel('Product Description Prompt').fill('sadqwdwe sdasdas');
+    await page.getByLabel('Category Description Prompt').click();
+    await page.getByLabel('Category Description Prompt').fill('dasdweq');
+    await page.getByLabel('CMS Page Content Prompt').click();
+    await page.getByLabel('CMS Page Content Prompt').fill('sadawdqwwwwww');
+    await page.locator('div:nth-child(6) > div > .mb-4 > .relative > div').click();
+    await page.locator('div:nth-child(8) > div > .mb-4 > .relative > div').click();
+    await page.locator('[id="general\\[magic_ai\\]\\[review_translation\\]\\[model\\]"]').selectOption('llava');
+    await page.locator('div:nth-child(10) > div > .mb-4').first().click();
+    await page.locator('div:nth-child(10) > div > .mb-4 > .relative > div').click();
+    await page.locator('[id="general\\[magic_ai\\]\\[checkout_message\\]\\[model\\]"]').selectOption('llama2:70b');
+    await page.getByLabel('Prompt DefaultEnglish').click();
+    await page.getByLabel('Prompt DefaultEnglish').fill('qwqwasdf');
+    await page.getByRole('button', { name: 'Save Configuration' }).click();
 });

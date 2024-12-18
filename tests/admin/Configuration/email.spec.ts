@@ -1,151 +1,45 @@
-import { test } from '@playwright/test';
-import logIn from '../../../Helpers/admin/loginHelper';
-import mode from '../../../Helpers/admin/modeHelper';
-import config from '../../../Config/config';
-import * as forms from '../../../Helpers/admin/formHelper';
+import { test, expect } from '@playwright/test';
+import config from '../../Config/config';
 
-const { chromium, firefox, webkit } = require('playwright');
-const baseUrl = config.baseUrl;
-
-let browser;
-let context;
-let page;
-
-// Perform login once before all tests
-test.beforeAll(async () => {
-    // Launch the specified browser
-    if (config.browser === 'firefox') {
-        browser = await firefox.launch();
-    } else if (config.browser === 'webkit') {
-        browser = await webkit.launch();
-    } else {
-        browser = await chromium.launch();
-    }
-
-    // Create a new context
-    context = await browser.newContext();
-
-    // Open a new page
-    page = await context.newPage();
-
-    // Log in once
-    const log = await logIn(page);
-    if (log == null) {
-        throw new Error('Login failed. Tests will not proceed.');
-    }
-
-    await mode(page); // Set the desired mode after login
+test('Settings of Email', async ({page}) => {
+    await page.goto(`${config.baseUrl}/admin/login`);
+    await page.getByPlaceholder('Email Address').click();
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByLabel('Sign In').click();
+    await page.getByRole('link', { name: ' Configure' }).click();
+    await page.getByRole('link', { name: 'Email Settings Set email' }).click();
+    await page.getByLabel('Email Sender Name Default').click();
+    await page.getByLabel('Email Sender Name Default').fill('Kartikey Dubey');
+    await page.getByLabel('Shop Email Address Default').click();
+    await page.getByLabel('Shop Email Address Default').fill('kartikey@gmail.com');
+    await page.getByLabel('Admin Name Default').click();
+    await page.getByLabel('Admin Name Default').fill('Admin');
+    await page.getByLabel('Admin Email Default').click();
+    await page.getByLabel('Admin Email Default').fill('Admin@gmail.com');
+    await page.getByLabel('Contact Name Default').click();
+    await page.getByLabel('Contact Name Default').fill('Name');
+    await page.getByLabel('Contact Email Default').click();
+    await page.getByLabel('Contact Email Default').fill('Kartikey@example.com');
+    await page.getByRole('button', { name: 'Save Configuration' }).click();
 });
 
-test('Settings of Email', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/admin/configuration/emails/configure`);
-
-        console.log('Settings of Email');
-
-        await page.click('input[type="text"].rounded-md:visible');
-
-        const inputs = await page.$$('input[type="text"].rounded-md:visible');
-
-        let i = 0;
-
-        for (let input of inputs) {
-            if (i % 2 == 0) {
-                await input.fill(forms.generateRandomStringWithSpaces(50));
-            } else {
-                await input.fill(forms.form.email);
-            }
-
-            i++;
-        }
-
-        await page.click('button[type="submit"].primary-button:visible');
-
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
-
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
-
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.info(message);
-            } else {
-                console.log('All fields and buttons are working properly but waiting for server responce.....');
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
-});
-
-test('Notifications of Email', async () => {
-    test.setTimeout(config.mediumTimeout);
-
-    try {
-        await page.goto(`${baseUrl}/admin/configuration/emails/general`);
-
-        console.log('Notifications of Email');
-
-        await page.click('input[type="checkbox"] + div.peer');
-
-        const checkboxs = await page.$$('input[type="checkbox"] + div.peer');
-
-        for (let checkbox of checkboxs) {
-            let i = Math.floor(Math.random() * 10) + 1;
-
-            if (i % 2 == 1) {
-                await checkbox.click();
-            }
-        }
-
-        await page.click('button[type="submit"].primary-button:visible');
-
-        const getError = await page.waitForSelector('.text-red-600.text-xs.italic', { timeout: 3000 }).catch(() => null);
-        var message = '';
-
-        if (getError) {
-            const errors = await page.$$('.text-red-600.text-xs.italic');
-
-            for (let error of errors) {
-                message = await error.evaluate(el => el.innerText);
-                console.log(message);
-            }
-        } else {
-            const iconExists = await page.waitForSelector('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl', { timeout: 5000 }).catch(() => null);
-
-            if (iconExists) {
-                const messages = await page.$$('.flex.items-center.break-all.text-sm > .icon-toast-done.rounded-full.bg-white.text-2xl');
-                const icons = await page.$$('.flex.items-center.break-all.text-sm + .cursor-pointer.underline');
-
-                message = await messages[0].evaluate(el => el.parentNode.innerText);
-                await icons[0].click();
-                console.info(message);
-            } else {
-                console.log('All fields and buttons are working properly but waiting for server responce.....');
-            }
-        }
-    } catch (error) {
-        console.error('Error during test execution:', error.message);
-    }
-});
-
-// Clean up after all tests
-test.afterAll(async () => {
-    await page.close();
-    await context.close();
-    await browser.close();
+test('Notifications of Email', async ({page}) => {
+    await page.goto(`${config.baseUrl}/admin/login`);
+    await page.getByPlaceholder('Email Address').click();
+    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByLabel('Sign In').click();await page.getByText('Dashboard Sales Orders').click();
+    await page.getByRole('link', { name: ' Configure' }).click();
+    await page.getByRole('link', { name: 'Notifications To configure,' }).click();
+    await page.locator('.mb-4 > .mb-4').first().click();
+    await page.locator('label > div').first().click();
+    await page.locator('div:nth-child(4) > .mb-4').click();
+    await page.locator('div:nth-child(6) > .mb-4 > .relative > div').click();
+    await page.locator('div:nth-child(8) > .mb-4 > .relative > div').click();
+    await page.locator('div:nth-child(12) > .mb-4 > .relative > div').click();
+    await page.locator('div:nth-child(20) > .mb-4 > .relative > div').click();
+    await page.getByRole('button', { name: 'Save Configuration' }).click();
 });

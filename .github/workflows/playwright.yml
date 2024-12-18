@@ -2,9 +2,9 @@ name: Bagisto Playwright Tests
 
 on:
   push:
-    branches: [v2.2.2]
+    branches: [master]
   pull_request:
-    branches: [v2.2.2]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
