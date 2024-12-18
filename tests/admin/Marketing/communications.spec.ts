@@ -13,9 +13,9 @@ test('Create Create Template', async ({page}) => {
     await page.getByRole('link', { name: 'Create Template' }).click();
     await page.locator('select[name="status"]').selectOption('active');
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('kartikey');
+    await page.getByPlaceholder('Name').fill('Demo_User');
     await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByRole('paragraph').click();
-    await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').fill('wsdbwdhwasd');
+    await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').fill('Demo_wsdbwdhwasd');
     await page.getByRole('button', { name: 'Save Template' }).click();
 });
 
@@ -28,12 +28,12 @@ test('Edit Create Template', async ({page}) => {
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
-    await page.locator('div').filter({ hasText: /^1kartikeyActive$/ }).locator('span').first().click();
+    await page.locator('div').filter({ hasText: /^1UserActive$/ }).locator('span').first().click();
     await page.locator('select[name="status"]').selectOption('active');
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('kartikey');
+    await page.getByPlaceholder('Name').fill('Demo_User');
     await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByRole('paragraph').click();
-    await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').fill('wsdbwdhwasd');
+    await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').fill('Demo_wsdbwdhwasd');
     await page.getByRole('button', { name: 'Save Template' }).click();
 });
 
@@ -46,7 +46,7 @@ test('Delete Create Template', async ({page}) => {
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
-    await page.locator('div').filter({ hasText: /^1kartikeyActive$/ }).locator('span').nth(1).click();
+    await page.locator('div').filter({ hasText: /^1UserActive$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
 });
 
@@ -62,9 +62,9 @@ test('Create Event', async ({page}) => {
     await page.getByRole('link', { name: 'Events' }).click();
     await page.getByText('Create Event').click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('My');
+    await page.getByPlaceholder('Name').fill('Demo_My');
     await page.locator('#description').click();
-    await page.locator('#description').fill('jkhfw sdhskd');
+    await page.locator('#description').fill('Demo_jkhfw sdhskd');
     await page.getByPlaceholder('Date').click();
     await page.getByLabel('December 12,').click();
     await page.getByPlaceholder('Date').fill('2024-12-12');
@@ -83,9 +83,9 @@ test('Edit Event', async ({page}) => {
     await page.getByRole('link', { name: 'Events' }).click();
     await page.locator('div').filter({ hasText: /^2My2024-12-12$/ }).locator('a').first().click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('My');
+    await page.getByPlaceholder('Name').fill('Demo_My');
     await page.locator('#description').click();
-    await page.locator('#description').fill('jkhfw sdhskd');
+    await page.locator('#description').fill('Demo_jkhfw sdhskd');
     await page.getByPlaceholder('Date').click();
     await page.getByLabel('December 12,').click();
     await page.getByPlaceholder('Date').fill('2024-12-12');
@@ -118,9 +118,9 @@ test('Create Campaign', async ({page}) => {
     await page.getByRole('link', { name: 'Campaigns' }).click();
     await page.getByRole('link', { name: 'Create Campaign' }).click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('Kartikey');
+    await page.getByPlaceholder('Name').fill('Demo_User');
     await page.getByPlaceholder('Subject').click();
-    await page.getByPlaceholder('Subject').fill('sdgfjsdfg');
+    await page.getByPlaceholder('Subject').fill('Demo_sdgfjsdfg');
     await page.getByText('Event', { exact: true }).click();
     await page.locator('select[name="marketing_event_id"]').selectOption('1');
     await page.locator('select[name="marketing_template_id"]').selectOption('2');
@@ -142,9 +142,9 @@ test('Edit Campaign', async ({page}) => {
     await page.getByRole('link', { name: 'Campaigns' }).click();
     await page.locator('div').filter({ hasText: /^1dfgsdefgdfgsdActive$/ }).locator('span').first().click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('Kartikey');
+    await page.getByPlaceholder('Name').fill('Demo_User');
     await page.getByPlaceholder('Subject').click();
-    await page.getByPlaceholder('Subject').fill('sdgfjsdfg');
+    await page.getByPlaceholder('Subject').fill('Demo_sdgfjsdfg');
     await page.getByText('Event', { exact: true }).click();
     await page.locator('select[name="marketing_event_id"]').selectOption('1');
     await page.locator('select[name="marketing_template_id"]').selectOption('2');
@@ -157,9 +157,9 @@ test('Edit Campaign', async ({page}) => {
 test('Delete Campaign', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address')admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password')admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
@@ -171,14 +171,14 @@ test('Delete Campaign', async ({page}) => {
 test('Edit Newsletter Subscriber', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address')admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password')admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
     await page.getByRole('link', { name: 'Newsletter Subscriptions' }).click();
-    await page.locator('div').filter({ hasText: /^2Truerahul@gmail\.coma$/ }).locator('a').first().click();
+    await page.locator('div').filter({ hasText: /^2TruetestUser@gmail\.coma$/ }).locator('a').first().click();
     await page.locator('select[name="is_subscribed"]').selectOption('0');
     await page.getByRole('button', { name: 'Save Subscriber' }).click();
 });
@@ -186,13 +186,13 @@ test('Edit Newsletter Subscriber', async ({page}) => {
 test('Delete Newsletter Subscriber', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address')admin@example.com');
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password')admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Communications' }).click();
     await page.getByRole('link', { name: 'Newsletter Subscriptions' }).click();
-    await page.locator('div').filter({ hasText: /^2Falserahul@gmail\.coma$/ }).locator('a').nth(1).click();
+    await page.locator('div').filter({ hasText: /^2FalsetestUser@gmail\.coma$/ }).locator('a').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
 });

@@ -13,7 +13,7 @@ test('Create Locale', async ({page}) => {
     await page.getByPlaceholder('Code').click();
     await page.getByPlaceholder('Code').fill('we');
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('web');
+    await page.getByPlaceholder('Name').fill('Demo_web');
     await page.locator('#direction').selectOption('rtl');
     await page.getByRole('button', { name: 'Save Locale' }).click();
 });
@@ -30,7 +30,7 @@ test('Edit Locale', async ({page}) => {
     await page.getByPlaceholder('Code').click();
     await page.getByPlaceholder('Code').fill('we');
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('web');
+    await page.getByPlaceholder('Name').fill('Demo_web');
     await page.locator('#direction').selectOption('rtl');
     await page.getByRole('button', { name: 'Save Locale' }).click();
 });

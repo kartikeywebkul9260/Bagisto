@@ -13,9 +13,9 @@ test('Create URL Rewrite', async ({page}) => {
     await page.getByText('Create URL Rewrite').click();
     await page.locator('select[name="entity_type"]').selectOption('product');
     await page.getByPlaceholder('Request Path').click();
-    await page.getByPlaceholder('Request Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites');
+    await page.getByPlaceholder('Request Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites`);
     await page.getByPlaceholder('Target Path').click();
-    await page.getByPlaceholder('Target Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites');
+    await page.getByPlaceholder('Target Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites`);
     await page.locator('select[name="redirect_type"]').selectOption('302');
     await page.locator('select[name="locale"]').selectOption('tr');
     await page.getByRole('button', { name: 'Save URL Rewrite' }).click();
@@ -33,9 +33,9 @@ test('Edit URL Rewrite', async ({page}) => {
     await page.locator('.row > .flex > a').first().click();
     await page.locator('select[name="entity_type"]').selectOption('product');
     await page.getByPlaceholder('Request Path').click();
-    await page.getByPlaceholder('Request Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites');
+    await page.getByPlaceholder('Request Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites`);
     await page.getByPlaceholder('Target Path').click();
-    await page.getByPlaceholder('Target Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites');
+    await page.getByPlaceholder('Target Path').fill(`${config.baseUrl}/admin/marketing/search-seo/url-rewrites`);
     await page.locator('select[name="redirect_type"]').selectOption('302');
     await page.locator('select[name="locale"]').selectOption('tr');
     await page.getByRole('button', { name: 'Save URL Rewrite' }).click();
@@ -82,9 +82,9 @@ test('Create Search Term', async ({page}) => {
     await page.getByRole('link', { name: 'Search Terms' }).click();
     await page.getByText('Create Search Term').click();
     await page.getByPlaceholder('Search Query').click();
-    await page.getByPlaceholder('Search Query').fill('asdwed');
+    await page.getByPlaceholder('Search Query').fill('Demo_asdwed');
     await page.getByPlaceholder('Redirect Url').click();
-    await page.getByPlaceholder('Redirect Url').fill(`${config.baseUrl}/admin/marketing/search-seo/search-terms');
+    await page.getByPlaceholder('Redirect Url').fill(`${config.baseUrl}/admin/marketing/search-seo/search-terms`);
     await page.locator('select[name="channel_id"]').selectOption('1');
     await page.locator('select[name="locale"]').selectOption('it');
     await page.getByRole('button', { name: 'Save Search Term' }).click();
@@ -102,9 +102,9 @@ test('Edit Search Term', async ({page}) => {
     await page.getByRole('link', { name: 'Search Terms' }).click();
     await page.locator('.row > .flex > a').first().click();
     await page.getByPlaceholder('Search Query').click();
-    await page.getByPlaceholder('Search Query').fill('asdwed');
+    await page.getByPlaceholder('Search Query').fill('Demo_asdwed');
     await page.getByPlaceholder('Redirect Url').click();
-    await page.getByPlaceholder('Redirect Url').fill(`${config.baseUrl}/admin/marketing/search-seo/search-terms');
+    await page.getByPlaceholder('Redirect Url').fill(`${config.baseUrl}/admin/marketing/search-seo/search-terms`);
     await page.locator('select[name="channel_id"]').selectOption('1');
     await page.locator('select[name="locale"]').selectOption('it');
     await page.getByRole('button', { name: 'Save Search Term' }).click();
@@ -152,9 +152,9 @@ test('Create Search Synonym', async ({page}) => {
     await page.getByRole('link', { name: 'Search Synonyms' }).click();
     await page.getByText('Create Search Synonym').click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('kahsyg');
+    await page.getByPlaceholder('Name').fill('Demo_kahsyg');
     await page.getByPlaceholder('Terms').click();
-    await page.getByPlaceholder('Terms').fill('sdjfghhfdw');
+    await page.getByPlaceholder('Terms').fill('Demo_sdjfghhfdw');
     await page.getByRole('button', { name: 'Save Search Synonym' }).click();
 });
 
@@ -170,9 +170,9 @@ test('Edit Search Synonym', async ({page}) => {
     await page.getByRole('link', { name: 'Search Synonyms' }).click();
     await page.locator('div').filter({ hasText: /^1kahsygsdjfghhfdw$/ }).locator('a').first().click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('kahsyg');
+    await page.getByPlaceholder('Name').fill('Demo_kahsyg');
     await page.getByPlaceholder('Terms').click();
-    await page.getByPlaceholder('Terms').fill('sdjfghhfdw');
+    await page.getByPlaceholder('Terms').fill('Demo_sdjfghhfdw');
     await page.getByRole('button', { name: 'Save Search Synonym' }).click();
 });
 

@@ -32,7 +32,7 @@ test('Captcha of Customer', async ({page}) => {
     await page.getByLabel('Site Key Default').click();
     await page.getByLabel('Site Key Default').fill('asded@werwe/tyuyhg');
     await page.getByLabel('Secret Key Default').click();
-    await page.getByLabel('Secret Key Default').fill('tyutyu yut');
+    await page.getByLabel('Secret Key Default').fill('Demo_tyutyu yut');
     await page.locator('label > div').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
 });

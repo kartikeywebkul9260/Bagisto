@@ -11,9 +11,9 @@ test('Settings of Email', async ({page}) => {
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Email Settings Set email' }).click();
     await page.getByLabel('Email Sender Name Default').click();
-    await page.getByLabel('Email Sender Name Default').fill('Kartikey Dubey');
+    await page.getByLabel('Email Sender Name Default').fill('User _test');
     await page.getByLabel('Shop Email Address Default').click();
-    await page.getByLabel('Shop Email Address Default').fill('kartikey@gmail.com');
+    await page.getByLabel('Shop Email Address Default').fill('Demo_User@gmail.com');
     await page.getByLabel('Admin Name Default').click();
     await page.getByLabel('Admin Name Default').fill('Admin');
     await page.getByLabel('Admin Email Default').click();
@@ -21,7 +21,7 @@ test('Settings of Email', async ({page}) => {
     await page.getByLabel('Contact Name Default').click();
     await page.getByLabel('Contact Name Default').fill('Name');
     await page.getByLabel('Contact Email Default').click();
-    await page.getByLabel('Contact Email Default').fill('Kartikey@example.com');
+    await page.getByLabel('Contact Email Default').fill('Demo_User@example.com');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
 });
 

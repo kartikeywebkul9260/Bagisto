@@ -76,7 +76,7 @@ test('Products of Catalog', async ({page}) => {
     await page.locator('div:nth-child(10) > .mb-4 > .relative > div').click();
     await page.locator('div:nth-child(14) > .mb-4 > .relative > div').click();
     await page.getByLabel('Share Message').click();
-    await page.getByLabel('Share Message').fill('qwsqc');
+    await page.getByLabel('Share Message').fill('Demo_qwsqc');
     await page.getByText('Products Back Save Configuration Default Default English Arabic Bengali').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
 });

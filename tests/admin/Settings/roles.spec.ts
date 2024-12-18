@@ -28,9 +28,9 @@ test('Create Role', async ({page}) => {
     await page.locator('div').filter({ hasText: /^ImportsCreateEditDeleteImport$/ }).locator('label').nth(3).click();
     await page.locator('label').filter({ hasText: 'Dashboard' }).locator('div').click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('Kartik');
+    await page.getByPlaceholder('Name').fill('test');
     await page.getByPlaceholder('Description').click();
-    await page.getByPlaceholder('Description').fill('sdfsdfsdsd dsf');
+    await page.getByPlaceholder('Description').fill('Demo_sdfsdfsdsd dsf');
     await page.getByRole('button', { name: 'Save Role' }).click();
 });
 
@@ -44,7 +44,7 @@ test('Edit Role', async ({page}) => {
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Roles' }).click();
     await page.getByRole('link', { name: 'Create Role' }).click();
-    await page.locator('div').filter({ hasText: /^2Kartikcustom$/ }).locator('span').first().click();
+    await page.locator('div').filter({ hasText: /^2Usercustom$/ }).locator('span').first().click();
     await page.locator('label').filter({ hasText: 'Dashboard' }).locator('span').click();
     await page.locator('div').filter({ hasText: /^OrdersCreateViewCancel$/ }).locator('span').nth(1).click();
     await page.locator('label').filter({ hasText: 'Cancel' }).locator('span').click();
@@ -62,9 +62,9 @@ test('Edit Role', async ({page}) => {
     await page.locator('div').filter({ hasText: /^ImportsCreateEditDeleteImport$/ }).locator('label').nth(3).click();
     await page.locator('label').filter({ hasText: 'Dashboard' }).locator('div').click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('Kartik');
+    await page.getByPlaceholder('Name').fill('test');
     await page.getByPlaceholder('Description').click();
-    await page.getByPlaceholder('Description').fill('sdfsdfsdsd dsf');
+    await page.getByPlaceholder('Description').fill('Demo_sdfsdfsdsd dsf');
     await page.getByRole('button', { name: 'Save Role' }).click();
 });
 
@@ -78,6 +78,6 @@ test('Delete Role', async ({page}) => {
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Roles' }).click();
     await page.getByRole('link', { name: 'Create Role' }).click();
-    await page.locator('div').filter({ hasText: /^2Kartikcustom$/ }).locator('span').nth(1).click();
+    await page.locator('div').filter({ hasText: /^2Usercustom$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
 });

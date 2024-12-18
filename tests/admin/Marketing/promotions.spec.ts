@@ -12,9 +12,9 @@ test('Create Cart Rule', async ({page}) => {
     await page.getByRole('link', { name: 'Cart Rules' }).click();
     await page.getByRole('link', { name: 'Create Cart Rule' }).click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('jksdhwsd');
+    await page.getByPlaceholder('Name').fill('Demo_jksdhwsd');
     await page.getByPlaceholder('Name').press('Tab');
-    await page.getByPlaceholder('Description').fill('usdwoe');
+    await page.getByPlaceholder('Description').fill('Demo_usdwoe');
     await page.getByPlaceholder('Description').press('Tab');
     await page.locator('#coupon_type').selectOption('1');
     await page.getByPlaceholder('Coupon Code').click();
@@ -71,9 +71,9 @@ test('Edit Cart Rule', async ({page}) => {
     await page.locator('div').filter({ hasText: /^1jksdhwsdewiyduew2024-12-01 12:00:002024-12-05 12:00:00Active21$/ }).locator('span').first().click();
     await page.getByRole('link', { name: 'Create Cart Rule' }).click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('jksdhwsd');
+    await page.getByPlaceholder('Name').fill('Demo_jksdhwsd');
     await page.getByPlaceholder('Name').press('Tab');
-    await page.getByPlaceholder('Description').fill('usdwoe');
+    await page.getByPlaceholder('Description').fill('Demo_usdwoe');
     await page.getByPlaceholder('Description').press('Tab');
     await page.locator('#coupon_type').selectOption('1');
     await page.getByPlaceholder('Coupon Code').click();
@@ -141,9 +141,9 @@ test('Create Catalog Rule', async ({page}) => {
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.getByRole('link', { name: 'Create Catalog Rule' }).click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('kartik');
+    await page.getByPlaceholder('Name').fill('test');
     await page.getByPlaceholder('Description').click();
-    await page.getByPlaceholder('Description').fill('sduy hsdgyu');
+    await page.getByPlaceholder('Description').fill('Demo_sduy hsdgyu');
     await page.getByText('Add Condition').click();
     await page.locator('[id="conditions\\[0\\]\\[attribute\\]"]').selectOption('product|price');
     await page.locator('select[name="conditions\\[0\\]\\[operator\\]"]').selectOption('>=');
@@ -174,7 +174,7 @@ test('Create Catalog Rule', async ({page}) => {
     await page.locator('#customer_group__1').nth(1).click();
     await page.locator('#channel__1').nth(1).click();
     await page.getByPlaceholder('Priority').click();
-    await page.getByPlaceholder('Priority').fill('wqdqedqw');
+    await page.getByPlaceholder('Priority').fill('Demo_wqdqedqw');
     await page.getByRole('button', { name: 'Save Catalog Rule' }).click();
 });
 
@@ -186,11 +186,11 @@ test('Edit Catalog Rule', async ({page}) => {
     await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
-    await page.locator('div').filter({ hasText: /^1kartik2024-12-092024-12-25Active0$/ }).locator('span').first().click();
+    await page.locator('div').filter({ hasText: /^1User2024-12-092024-12-25Active0$/ }).locator('span').first().click();
     await page.getByPlaceholder('Name').click();
-    await page.getByPlaceholder('Name').fill('kartik');
+    await page.getByPlaceholder('Name').fill('test');
     await page.getByPlaceholder('Description').click();
-    await page.getByPlaceholder('Description').fill('sduy hsdgyu');
+    await page.getByPlaceholder('Description').fill('Demo_sduy hsdgyu');
     await page.getByText('Add Condition').click();
     await page.locator('[id="conditions\\[0\\]\\[attribute\\]"]').selectOption('product|price');
     await page.locator('select[name="conditions\\[0\\]\\[operator\\]"]').selectOption('>=');
@@ -221,7 +221,7 @@ test('Edit Catalog Rule', async ({page}) => {
     await page.locator('#customer_group__1').nth(1).click();
     await page.locator('#channel__1').nth(1).click();
     await page.getByPlaceholder('Priority').click();
-    await page.getByPlaceholder('Priority').fill('wqdqedqw');
+    await page.getByPlaceholder('Priority').fill('Demo_wqdqedqw');
     await page.getByRole('button', { name: 'Save Catalog Rule' }).click();
 });
 
@@ -233,6 +233,6 @@ test('Delete Catalog Rule', async ({page}) => {
     await page.getByPlaceholder('Password').fill('admin123');
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Marketing' }).click();
-    await page.locator('div').filter({ hasText: /^1kartik2024-12-092024-12-25Active0$/ }).locator('span').nth(1).click();
+    await page.locator('div').filter({ hasText: /^1User2024-12-092024-12-25Active0$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
 });

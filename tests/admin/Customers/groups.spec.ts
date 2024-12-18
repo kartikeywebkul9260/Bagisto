@@ -12,9 +12,9 @@ test('Create Group', async ({page}) => {
     await page.getByRole('link', { name: 'Groups' }).click();
     await page.getByRole('button', { name: 'Create Group' }).click();
     await page.getByPlaceholder('Code').click();
-    await page.getByPlaceholder('Code').fill('fsfwew');
+    await page.getByPlaceholder('Code').fill('Demo_fsfwew');
     await page.locator('.box-shadow > div:nth-child(2) > div:nth-child(2)').click();
-    await page.getByPlaceholder('Name').fill('wewerw');
+    await page.getByPlaceholder('Name').fill('Demo_wewerw');
     await page.getByRole('button', { name: 'Save Group' }).click();
 });
 
@@ -29,9 +29,9 @@ test('Edit Group', async ({page}) => {
     await page.getByRole('link', { name: 'Groups' }).click();
     await page.locator('div').filter({ hasText: /^4fsfwewwewerw$/ }).locator('a').first().click();
     await page.getByPlaceholder('Code').click();
-    await page.getByPlaceholder('Code').fill('fsfwew');
+    await page.getByPlaceholder('Code').fill('Demo_fsfwew');
     await page.locator('.box-shadow > div:nth-child(2) > div:nth-child(2)').click();
-    await page.getByPlaceholder('Name').fill('wewerw');
+    await page.getByPlaceholder('Name').fill('Demo_wewerw');
     await page.getByRole('button', { name: 'Save Group' }).click();
 });
 
