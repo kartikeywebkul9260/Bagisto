@@ -198,8 +198,7 @@ test('Cancel Order', async ({page}) => {
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Profile' }).click();
-  await page.getByRole('banner').getByRole('link', { name: 'Orders' }).click();
+  await page.getByRole('link', { name: 'Orders', exact: true }).click();
   await page.locator('div').filter({ hasText: /^42024-12-17 18:21:27\$55\.00Pending$/ }).locator('span').click();
   await page.getByRole('link', { name: 'Cancel' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
@@ -221,8 +220,7 @@ test('Print Invoice', async ({page}) => {
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Profile' }).click();
-  await page.getByRole('banner').getByRole('link', { name: 'Orders' }).click();
+  await page.getByRole('link', { name: 'Orders', exact: true }).click();
   await page.locator('div').filter({ hasText: /^32024-12-17 18:20:44\$55\.00Processing$/ }).locator('span').click();
   await page.getByRole('button', { name: 'Invoices' }).click();
   const downloadPromise = page.waitForEvent('download');
@@ -246,7 +244,6 @@ test('Downloadable Orders', async ({page}) => {
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Profile' }).click();
   await page.getByRole('link', { name: 'Profile', exact: true }).click();
   await page.getByRole('link', { name: ' Downloadable Products ' }).click();
   const page2Promise = page.waitForEvent('popup');
@@ -298,7 +295,7 @@ test('Remove from Wishlist', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
-  await page.locator('#main').getByText('Remove').first().click();
+  await page.locator('div:nth-child(2) > div > div > div > div:nth-child(2) > .flex').click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
