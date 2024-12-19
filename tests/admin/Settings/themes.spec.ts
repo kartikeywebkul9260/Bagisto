@@ -137,7 +137,7 @@ test('Create Image Slider Theme', async ({page}) => {
     await page.getByPlaceholder('Link').fill(`${config.baseUrl}/admin/settings/themes/edit/16`);
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.getByText('Add Image png, jpeg, jpg').click();
-    await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+    // await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
@@ -358,7 +358,7 @@ test('Edit Image Slider Theme', async ({page}) => {
     await page.getByPlaceholder('Link').fill(`${config.baseUrl}/admin/settings/themes/edit/16`);
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.getByText('Add Image png, jpeg, jpg').click();
-    await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+    // await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();

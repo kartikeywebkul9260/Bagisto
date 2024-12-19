@@ -49,13 +49,13 @@ test('Products of Catalog', async ({page}) => {
     await page.locator('[id="catalog\\[products\\]\\[cache_small_image\\]\\[height\\]"]').click();
     await page.locator('[id="catalog\\[products\\]\\[cache_small_image\\]\\[height\\]"]').fill('21');
     await page.getByLabel('Small Image Placeholder').click();
-    await page.getByLabel('Small Image Placeholder').setInputFiles('screenshot_1732536834544.png');
+    // await page.getByLabel('Small Image Placeholder').setInputFiles('screenshot_1732536834544.png');
     await page.locator('[id="catalog\\[products\\]\\[cache_medium_image\\]\\[width\\]"]').click();
     await page.locator('[id="catalog\\[products\\]\\[cache_medium_image\\]\\[width\\]"]').fill('21');
     await page.locator('[id="catalog\\[products\\]\\[cache_medium_image\\]\\[height\\]"]').click();
     await page.locator('[id="catalog\\[products\\]\\[cache_medium_image\\]\\[height\\]"]').fill('22222221');
     await page.getByLabel('Medium Image Placeholder').click();
-    await page.getByLabel('Medium Image Placeholder').setInputFiles('screenshot_1732533139793.png');
+    // await page.getByLabel('Medium Image Placeholder').setInputFiles('screenshot_1732533139793.png');
     await page.locator('[id="catalog\\[products\\]\\[cache_large_image\\]\\[width\\]"]').click();
     await page.locator('[id="catalog\\[products\\]\\[cache_large_image\\]\\[width\\]"]').fill('12');
     await page.locator('[id="catalog\\[products\\]\\[cache_large_image\\]\\[height\\]"]').click();

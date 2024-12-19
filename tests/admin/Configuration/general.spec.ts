@@ -62,7 +62,7 @@ test('Design of General', async ({page}) => {
     await page.getByLabel('Logo Image').click();
     await page.getByLabel('Logo Image').setInputFiles('user.png');
     await page.getByLabel('Favicon').click();
-    await page.getByLabel('Favicon').setInputFiles('screenshot_1732536834544.png');
+    // await page.getByLabel('Favicon').setInputFiles('screenshot_1732536834544.png');
     await page.locator('[id="general\\[design\\]\\[admin_logo\\]\\[favicon\\]\\[delete\\]"]').nth(1).click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
   try {

@@ -17,7 +17,7 @@ test('Search by query', async ({page}) => {
 test('Search by image', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
   await page.getByRole('search').getByLabel('Search', { exact: true }).click();
-  await page.getByText('Skip to main content $ USD $').setInputFiles('screenshot_1734499887147.png');
+//   await page.getByText('Skip to main content $ USD $').setInputFiles('screenshot_1734499887147.png');
   await page.getByText('ballpoint').first().click();
   await page.getByText('Biro').first().click();
   try {

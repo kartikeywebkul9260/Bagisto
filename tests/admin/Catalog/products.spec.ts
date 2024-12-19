@@ -31,7 +31,7 @@ test('Create Product(simple)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -123,7 +123,7 @@ test('Create Product(virtual)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -207,7 +207,7 @@ test('Create Product(downloadable)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -258,7 +258,7 @@ test('Create Product(downloadable)', async ({page}) => {
   await page.locator('input[name="url"]').click();
   await page.locator('input[name="url"]').fill(`${config.baseUrl}/admin/catalog/products/edit/15`);
   await page.locator('input[name="sample_file"]').nth(1).click();
-  await page.locator('input[name="sample_file"]').nth(1).setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('input[name="sample_file"]').nth(1).setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await page.getByRole('button', { name: 'Save Product' }).click();
   try {
@@ -304,7 +304,7 @@ test('Edit Product(simple)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -401,7 +401,7 @@ test('Edit Product(virtual)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -490,7 +490,7 @@ test('Edit Product(downloadable)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -542,7 +542,7 @@ test('Edit Product(downloadable)', async ({page}) => {
   await page.locator('input[name="url"]').click();
   await page.locator('input[name="url"]').fill(`${config.baseUrl}/admin/catalog/products/edit/15`);
   await page.locator('input[name="sample_file"]').nth(1).click();
-  await page.locator('input[name="sample_file"]').nth(1).setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('input[name="sample_file"]').nth(1).setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await page.getByRole('button', { name: 'Save Product' }).click();
   try {
@@ -583,7 +583,7 @@ test('Create Product(bundle)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -671,7 +671,7 @@ test('Edit Product(bundle)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -751,7 +751,7 @@ test('Create Product(grouped)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -833,7 +833,7 @@ test('Edit Product(grouped)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -911,7 +911,7 @@ test('Create Product(configurable)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');
@@ -1005,7 +1005,7 @@ test('Edit Product(configurable)', async ({page}) => {
   await page.locator('#meta_description').click();
   await page.locator('#meta_description').fill('Demo_sudfgiweuyb');
   await page.locator('label').filter({ hasText: 'Add Image png, jpeg, jpg' }).locator('div').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.locator('.secondary-button').first().click();
   await page.getByPlaceholder('Search by name').click();
   await page.getByPlaceholder('Search by name').fill('arct');

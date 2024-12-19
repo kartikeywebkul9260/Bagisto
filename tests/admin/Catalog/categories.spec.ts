@@ -19,9 +19,9 @@ test('Create Category', async ({page}) => {
   await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').fill('Demo_ASDAWSD');
   await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').press('CapsLock');
   await page.locator('label > .flex').first().click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.getByText('png, jpeg, jpg').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 10-58-55.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 10-58-55.png');
   await page.getByPlaceholder('Meta Title').click();
   await page.getByPlaceholder('Meta Title').fill('Demo_sdwewew');
   await page.getByPlaceholder('Slug').click();
@@ -64,9 +64,9 @@ test('Edit Category', async ({page}) => {
   await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').fill('Demo_ASDAWSD');
   await page.locator('iframe[title="Rich Text Area"]').contentFrame().getByLabel('Rich Text Area. Press ALT-0').press('CapsLock');
   await page.locator('label > .flex').first().click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.getByText('png, jpeg, jpg').click();
-  await page.locator('body').setInputFiles('Screenshot from 2024-12-18 10-58-55.png');
+//   await page.locator('body').setInputFiles('Screenshot from 2024-12-18 10-58-55.png');
   await page.getByPlaceholder('Meta Title').click();
   await page.getByPlaceholder('Meta Title').fill('Demo_sdwewew');
   await page.getByPlaceholder('Slug').click();
