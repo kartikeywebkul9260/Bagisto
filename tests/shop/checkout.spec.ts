@@ -13,6 +13,8 @@ test('Customer CheckOut', async ({page}) => {
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(2).click();
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').first().click();
   await page.goto(`${config.baseUrl}/checkout/onepage`);
+  await page.waitForNavigation({ timeout: 5000 });
+  console.log(page.url());
   await page.getByPlaceholder('Company Name').click();
   await page.getByPlaceholder('Company Name').fill('Example');
   await page.getByPlaceholder('First Name').click();
@@ -81,6 +83,8 @@ test('Guest CheckOut', async ({page}) => {
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(1).click();
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(2).click();
   await page.goto(`${config.baseUrl}/checkout/onepage`);
+  await page.waitForNavigation({ timeout: 5000 });
+  console.log(page.url());
   await page.getByPlaceholder('Company Name').click();
   await page.getByPlaceholder('Company Name').fill('WEBKUL');
   await page.getByPlaceholder('First Name').click();

@@ -196,7 +196,7 @@ test('Default Address', async ({page}) => {
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Profile' }).click();
   await page.getByRole('link', { name: ' Address ' }).click();
-  await page.getByLabel('More Options').nth(1).click();
+  await page.getByLabel('More Options').first().click();
   await page.getByRole('button', { name: 'Set as Default' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
   try {
