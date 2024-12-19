@@ -295,7 +295,7 @@ test('Remove from Wishlist', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
-  await page.locator('div:nth-child(2) > div > div > div > div:nth-child(2) > .flex').first().click();
+  await page.locator('.max-md\\:hidden > .flex').first().click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
