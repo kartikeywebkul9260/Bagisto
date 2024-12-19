@@ -35,7 +35,6 @@ test('Remove One', async ({ page }) => {
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').nth(1).click();
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).locator('button').first().click();
   await page.goto(`${config.baseUrl}/checkout/cart`);
-  await page.getByRole('button', { name: 'Agree', exact: true }).click();
   await page.getByRole('button', { name: 'Remove' }).first().click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
 });
