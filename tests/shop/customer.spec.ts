@@ -334,6 +334,8 @@ test('Wishlist to Cart', async ({page}) => {
   await page.getByPlaceholder('Password').click();
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.locator('.action-items > span').first().click();
+  await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
   await page.getByRole('button', { name: 'Move To Cart' }).first().click();
@@ -355,10 +357,10 @@ test('Remove from Wishlist', async ({page}) => {
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.locator('.action-items > span').first().click();
-  await page.locator('.icon-cancel').first().click();
+  await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
-  await page.locator('#main').getByText('Remove').nth(1).click();
+  await page.locator('#main').getByText('Remove').first().click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
@@ -378,7 +380,7 @@ test('Clear Wishlist', async ({page}) => {
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.locator('.action-items > span').first().click();
-  await page.locator('.icon-cancel').first().click();
+  await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
   await page.getByText('Delete All', { exact: true }).click();
