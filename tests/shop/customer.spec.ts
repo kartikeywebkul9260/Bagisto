@@ -167,6 +167,7 @@ test('Edit Address', async ({page}) => {
   await page.getByPlaceholder('Vat ID').click();
   await page.getByPlaceholder('Street Address').click();
   await page.getByPlaceholder('Street Address').fill('123ghds1');
+  await page.getByLabel('Country').selectOption('IN');
   await page.locator('#state').selectOption('TR');
   await page.getByPlaceholder('City').click();
   await page.getByPlaceholder('City').fill('noida');
@@ -175,28 +176,6 @@ test('Edit Address', async ({page}) => {
   await page.getByPlaceholder('Phone').click();
   await page.getByPlaceholder('Phone').fill('9876543219');
   await page.getByRole('button', { name: 'Update' }).click();
-  try {
-    await page.waitForNavigation({ timeout: 5000 });
-    console.log(page.url());
-  } catch(e) {
-    console.log(page.url());
-  }
-});
-
-test('Delete Address', async ({page}) => {
-  await page.goto(`${config.baseUrl}`);
-  await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Sign In' }).click();
-  await page.getByPlaceholder('email@example.com').click();
-  await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
-  await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('testUser@123');
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Profile' }).click();
-  await page.getByRole('link', { name: ' Address ' }).click();await page.getByLabel('More Options').first().click();
-  await page.getByRole('link', { name: 'Delete' }).click();
-  await page.getByRole('button', { name: 'Agree', exact: true }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
     console.log(page.url());
@@ -216,8 +195,32 @@ test('Default Address', async ({page}) => {
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Profile' }).click();
-  await page.getByRole('link', { name: ' Address ' }).click();await page.getByLabel('More Options').nth(1).click();
+  await page.getByRole('link', { name: ' Address ' }).click();
+  await page.getByLabel('More Options').nth(1).click();
   await page.getByRole('button', { name: 'Set as Default' }).click();
+  await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
+});
+
+test('Delete Address', async ({page}) => {
+  await page.goto(`${config.baseUrl}`);
+  await page.getByLabel('Profile').click();
+  await page.getByRole('link', { name: 'Sign In' }).click();
+  await page.getByPlaceholder('email@example.com').click();
+  await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
+  await page.getByPlaceholder('Password').click();
+  await page.getByPlaceholder('Password').fill('testUser@123');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.getByLabel('Profile').click();
+  await page.getByRole('link', { name: 'Profile' }).click();
+  await page.getByRole('link', { name: ' Address ' }).click();
+  await page.getByLabel('More Options').first().click();
+  await page.getByRole('link', { name: 'Delete' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
@@ -324,7 +327,6 @@ test('Downloadable Orders', async ({page}) => {
 
 test('Wishlist to Cart', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
-  await page.locator('div:nth-child(2) > .-mt-9 > .action-items > span').first().click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
@@ -345,7 +347,6 @@ test('Wishlist to Cart', async ({page}) => {
 
 test('Remove from Wishlist', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
-  await page.locator('div:nth-child(2) > .-mt-9 > .action-items > span').first().click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
@@ -367,7 +368,6 @@ test('Remove from Wishlist', async ({page}) => {
 
 test('Clear Wishlist', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
-  await page.locator('div:nth-child(2) > .-mt-9 > .action-items > span').first().click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
