@@ -3,6 +3,13 @@ import config from '../../Config/config';
 
 test('Review Product', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
+  await page.getByLabel('Profile').click();
+  await page.getByRole('link', { name: 'Sign In' }).click();
+  await page.getByPlaceholder('email@example.com').click();
+  await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
+  await page.getByPlaceholder('Password').click();
+  await page.getByPlaceholder('Password').fill('testUser@123');
+  await page.getByRole('button', { name: 'Sign In' }).click();
   await page.locator('#main div').filter({ hasText: 'New Products View All New' }).getByLabel('Arctic Touchscreen Winter').click();
   await page.getByRole('button', { name: 'Reviews' }).click();
   await page.locator('#review-tab').getByText('Write a Review').click();

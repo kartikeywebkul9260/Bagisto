@@ -134,7 +134,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/auth.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/auth.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Auth tests
         uses: actions/upload-artifact@v4
@@ -148,7 +148,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/cart.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/cart.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Cart tests
         uses: actions/upload-artifact@v4
@@ -162,7 +162,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/miniCart.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/miniCart.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Mini Cart tests
         uses: actions/upload-artifact@v4
@@ -176,7 +176,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/cartPage.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/cartPage.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Cart Page tests
         uses: actions/upload-artifact@v4
@@ -190,7 +190,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/wishlist.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/wishlist.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Wishlist tests
         uses: actions/upload-artifact@v4
@@ -204,7 +204,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/checkout.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/checkout.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Checkout tests
         uses: actions/upload-artifact@v4
@@ -218,7 +218,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/compare.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/compare.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Compare tests
         uses: actions/upload-artifact@v4
@@ -232,7 +232,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/productsCategories.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/productsCategories.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Product, Category tests
         uses: actions/upload-artifact@v4
@@ -246,7 +246,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/customer.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/customer.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Customer tests
         uses: actions/upload-artifact@v4
@@ -260,7 +260,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/shop/search.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/shop/search.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Shop Search tests
         uses: actions/upload-artifact@v4
@@ -274,7 +274,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/auth.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/auth.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Auth tests
         uses: actions/upload-artifact@v4
@@ -288,7 +288,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/sales.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/sales.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Sales tests
         uses: actions/upload-artifact@v4
@@ -302,7 +302,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/Catalog --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/Catalog --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Catalog tests
         uses: actions/upload-artifact@v4
@@ -316,7 +316,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/Customers --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/Customers --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Customers tests
         uses: actions/upload-artifact@v4
@@ -330,7 +330,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/cms.spec --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/cms.spec --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin CMS tests
         uses: actions/upload-artifact@v4
@@ -344,7 +344,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/Marketing --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/Marketing --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Marketing tests
         uses: actions/upload-artifact@v4
@@ -358,7 +358,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/Settings --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/Settings --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Settings tests
         uses: actions/upload-artifact@v4
@@ -372,7 +372,7 @@ jobs:
         env:
           BASE_URL: 'http://127.0.0.1:8000'
         run: |
-          npx playwright test tests/admin/Configuration --workers=1 --project=chromium --retries=2 --quiet || echo "Continue"
+          npx playwright test tests/admin/Configuration --workers=1 --project=chromium --retries=0 --quiet || echo "Continue"
 
       - name: Upload Playwright report for Admin Configuration tests
         uses: actions/upload-artifact@v4
