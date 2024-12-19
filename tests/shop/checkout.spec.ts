@@ -30,7 +30,7 @@ test('Customer CheckOut', async ({page}) => {
   await page.getByPlaceholder('City').fill('any');
   await page.getByPlaceholder('Zip/Postcode').click();
   await page.getByPlaceholder('Zip/Postcode').fill('123456');
-  await page.getByPlaceholder('Telephone').click();
+  await page.getByPlaceholder('Telephone').click(); 
   await page.getByPlaceholder('Telephone').fill('9876543210');
   await page.locator('#save_address').nth(1).click();
   await page.getByRole('button', { name: 'Save' }).click();
