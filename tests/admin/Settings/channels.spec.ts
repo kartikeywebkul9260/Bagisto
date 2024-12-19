@@ -52,6 +52,12 @@ test('Create Channel', async ({page}) => {
     await page.getByLabel('Ukrainian', { exact: true }).click();
     await page.getByText('Turkish').first().click();
     await page.getByRole('button', { name: 'Save Channel' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Channel', async ({page}) => {
@@ -105,6 +111,12 @@ test('Edit Channel', async ({page}) => {
     await page.getByLabel('Ukrainian', { exact: true }).click();
     await page.getByText('Turkish').first().click();
     await page.getByRole('button', { name: 'Save Channel' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Channel', async ({page}) => {
@@ -118,4 +130,10 @@ test('Delete Channel', async ({page}) => {
     await page.getByRole('link', { name: 'Channels' }).click();
     await page.locator('div').filter({ hasText: /^2sdsdfwedfsfwe wewedfsdeew$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

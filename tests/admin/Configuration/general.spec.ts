@@ -13,6 +13,12 @@ test('General of General', async ({page}) => {
     await page.getByLabel('Weight Unit Default').selectOption('lbs');
     await page.locator('label > div').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Content of General', async ({page}) => {
@@ -36,6 +42,12 @@ test('Content of General', async ({page}) => {
     await page.getByLabel('Custom Javascript Default').click();
     await page.getByLabel('Custom Javascript Default').fill('Demo_wqqwqw');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Design of General', async ({page}) => {
@@ -53,6 +65,12 @@ test('Design of General', async ({page}) => {
     await page.getByLabel('Favicon').setInputFiles('screenshot_1732536834544.png');
     await page.locator('[id="general\\[design\\]\\[admin_logo\\]\\[favicon\\]\\[delete\\]"]').nth(1).click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Magic AI of General', async ({page}) => {
@@ -89,4 +107,10 @@ test('Magic AI of General', async ({page}) => {
     await page.getByLabel('Prompt DefaultEnglish').click();
     await page.getByLabel('Prompt DefaultEnglish').fill('Demo_qwqwasdf');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

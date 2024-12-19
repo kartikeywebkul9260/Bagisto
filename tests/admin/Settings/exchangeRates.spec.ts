@@ -16,6 +16,12 @@ test('Create Exchange Rate', async ({page}) => {
     await page.getByPlaceholder('Rate').click();
     await page.getByPlaceholder('Rate').fill('2323');
     await page.getByRole('button', { name: 'Save Exchange Rate' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Exchange Rate', async ({page}) => {
@@ -33,6 +39,12 @@ test('Edit Exchange Rate', async ({page}) => {
     await page.getByPlaceholder('Rate').click();
     await page.getByPlaceholder('Rate').fill('2323');
     await page.getByRole('button', { name: 'Save Exchange Rate' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Exchange Rate', async ({page}) => {
@@ -46,4 +58,10 @@ test('Delete Exchange Rate', async ({page}) => {
     await page.getByRole('link', { name: 'Exchange Rates' }).click();
     await page.locator('div').filter({ hasText: /^1Canadian Dollar2323\.000000000000$/ }).locator('a').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

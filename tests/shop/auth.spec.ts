@@ -18,6 +18,12 @@ test('register', async ({ page }) => {
   await page.locator('#main form div').filter({ hasText: 'Subscribe to newsletter' }).locator('label').first().click();
   await page.getByRole('button', { name: 'Register' }).click();
   await page.getByText('Account created successfully.').first().click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('login', async ({ page }) => {
@@ -29,6 +35,12 @@ test('login', async ({ page }) => {
   await page.getByPlaceholder('Password').click();
   await page.getByPlaceholder('Password').fill('testUser@123');
   await page.getByRole('button', { name: 'Sign In' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('logout', async ({ page }) => {
@@ -42,4 +54,10 @@ test('logout', async ({ page }) => {
   await page.getByRole('button', { name: 'Sign In' }).click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Logout' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

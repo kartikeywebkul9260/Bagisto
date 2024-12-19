@@ -30,7 +30,7 @@ test('Customer CheckOut', async ({page}) => {
   await page.getByPlaceholder('City').fill('any');
   await page.getByPlaceholder('Zip/Postcode').click();
   await page.getByPlaceholder('Zip/Postcode').fill('123456');
-  await page.getByPlaceholder('Telephone').click(); 
+  await page.getByPlaceholder('Telephone').click();
   await page.getByPlaceholder('Telephone').fill('9876543210');
   await page.locator('#save_address').nth(1).click();
   await page.getByRole('button', { name: 'Save' }).click();
@@ -67,6 +67,12 @@ test('Customer CheckOut', async ({page}) => {
   await page.locator('label').filter({ hasText: '$20.00Flat Rate - Flat Rate' }).click();
   await page.locator('label').filter({ hasText: 'Cash On DeliveryCash On' }).click();
   await page.getByRole('button', { name: 'Place Order' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Guest CheckOut', async ({page}) => {
@@ -103,4 +109,10 @@ test('Guest CheckOut', async ({page}) => {
   await page.locator('label').filter({ hasText: '$30.00Flat Rate - Flat Rate' }).click();
   await page.locator('label').filter({ hasText: 'Cash On DeliveryCash On' }).click();
   await page.getByRole('button', { name: 'Place Order' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

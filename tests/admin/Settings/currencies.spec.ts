@@ -24,6 +24,12 @@ test('Create Currency', async ({page}) => {
     await page.getByPlaceholder('Decimal Separator').fill('Demo_erter');
     await page.locator('select[name="currency_position"]').selectOption('left_with_space');
     await page.getByRole('button', { name: 'Save Currency' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Currency', async ({page}) => {
@@ -48,6 +54,12 @@ test('Edit Currency', async ({page}) => {
     await page.getByPlaceholder('Decimal Separator').fill('Demo_erter');
     await page.locator('select[name="currency_position"]').selectOption('left_with_space');
     await page.getByRole('button', { name: 'Save Currency' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Currency', async ({page}) => {
@@ -61,4 +73,10 @@ test('Delete Currency', async ({page}) => {
     await page.getByRole('link', { name: 'Currencies' }).click();
     await page.locator('div').filter({ hasText: /^66sassssASS$/ }).locator('a').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

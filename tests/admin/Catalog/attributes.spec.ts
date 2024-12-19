@@ -64,6 +64,12 @@ test('Create Attribute', async ({page}) => {
   await page.locator('#value_per_channel').nth(1).click();
   await page.getByLabel('Value Per Channel').click();
   await page.getByRole('button', { name: 'Save Attribute' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Attribute', async ({page}) => {
@@ -129,6 +135,12 @@ test('Edit Attribute', async ({page}) => {
   await page.locator('#value_per_channel').nth(1).click();
   await page.getByLabel('Value Per Channel').click();
   await page.getByRole('button', { name: 'Save Attribute' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Attribute', async ({page}) => {
@@ -142,6 +154,12 @@ test('Delete Attribute', async ({page}) => {
   await page.getByRole('link', { name: 'Attributes' }).click();
   await page.locator('div').filter({ hasText: /^24sizeSizeselectFalseFalseFalseFalse2024-12-17 17:01:15$/ }).locator('span').nth(2).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Mass Delete Attributes', async ({page}) => {
@@ -159,4 +177,10 @@ test('Mass Delete Attributes', async ({page}) => {
   await page.getByRole('button', { name: 'Select Action ' }).click();
   await page.getByRole('link', { name: ' Delete' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

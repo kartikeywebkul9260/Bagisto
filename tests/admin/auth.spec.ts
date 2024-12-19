@@ -8,6 +8,12 @@ test('Login', async ({page}) => {
   await page.getByPlaceholder('Password').click();
   await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Logout', async ({page}) => {
@@ -19,4 +25,10 @@ test('Logout', async ({page}) => {
   await page.getByLabel('Sign In').click();
   await page.getByRole('button', { name: 'E' }).click();
   await page.getByRole('link', { name: 'Logout' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

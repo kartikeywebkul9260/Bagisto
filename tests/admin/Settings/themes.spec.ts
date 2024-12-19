@@ -33,6 +33,12 @@ test('Create Product Carousel Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Category Carousel Theme', async ({page}) => {
@@ -65,6 +71,12 @@ test('Create Category Carousel Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Static Content Theme', async ({page}) => {
@@ -92,6 +104,12 @@ test('Create Static Content Theme', async ({page}) => {
     await page.getByText('Preview').click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Image Slider Theme', async ({page}) => {
@@ -124,6 +142,12 @@ test('Create Image Slider Theme', async ({page}) => {
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
 
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Footer Link Theme', async ({page}) => {
@@ -154,6 +178,12 @@ test('Create Footer Link Theme', async ({page}) => {
     await page.locator('.px-4 > div:nth-child(6)').click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Services Content Theme', async ({page}) => {
@@ -184,6 +214,12 @@ test('Create Services Content Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product Carousel Theme', async ({page}) => {
@@ -218,6 +254,12 @@ test('Edit Product Carousel Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Category Carousel Theme', async ({page}) => {
@@ -250,6 +292,12 @@ test('Edit Category Carousel Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Static Content Theme', async ({page}) => {
@@ -277,6 +325,12 @@ test('Edit Static Content Theme', async ({page}) => {
     await page.getByText('Preview').click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Image Slider Theme', async ({page}) => {
@@ -308,6 +362,12 @@ test('Edit Image Slider Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Footer Link Theme', async ({page}) => {
@@ -338,6 +398,12 @@ test('Edit Footer Link Theme', async ({page}) => {
     await page.locator('.px-4 > div:nth-child(6)').click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Services Content Theme', async ({page}) => {
@@ -368,6 +434,12 @@ test('Edit Services Content Theme', async ({page}) => {
     await page.locator('button').filter({ hasText: /^Save$/ }).click();
     await page.locator('.relative > label').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Theme', async ({page}) => {
@@ -381,4 +453,10 @@ test('Delete Theme', async ({page}) => {
     await page.getByRole('link', { name: 'Themes' }).click();
     await page.locator('div').filter({ hasText: /^18DefaultDefaultservices_contentaSDASSA23Active$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

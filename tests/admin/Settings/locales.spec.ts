@@ -16,6 +16,12 @@ test('Create Locale', async ({page}) => {
     await page.getByPlaceholder('Name').fill('Demo_web');
     await page.locator('#direction').selectOption('rtl');
     await page.getByRole('button', { name: 'Save Locale' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Locale', async ({page}) => {
@@ -33,6 +39,12 @@ test('Edit Locale', async ({page}) => {
     await page.getByPlaceholder('Name').fill('Demo_web');
     await page.locator('#direction').selectOption('rtl');
     await page.getByRole('button', { name: 'Save Locale' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Locale', async ({page}) => {
@@ -45,4 +57,10 @@ test('Delete Locale', async ({page}) => {
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.locator('div').filter({ hasText: /^20wewebRTL$/ }).locator('a').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

@@ -26,6 +26,12 @@ test('Shipping Settings of Sales', async ({page}) => {
     await page.getByLabel('Bank Details DefaultEnglish').click();
     await page.getByLabel('Bank Details DefaultEnglish').fill('Demo_sjdhjd shdgyuw');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Shipping Methods of Sales', async ({page}) => {
@@ -52,6 +58,12 @@ test('Shipping Methods of Sales', async ({page}) => {
     await page.getByLabel('Type Default').selectOption('per_order');
     await page.locator('div:nth-child(10) > .mb-4 > .relative > div').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Payment Methods of Sales', async ({page}) => {
@@ -105,6 +117,12 @@ test('Payment Methods of Sales', async ({page}) => {
     await page.locator('div:nth-child(4) > div:nth-child(16) > .mb-4 > .relative > div').click();
     await page.locator('div:nth-child(10) > .mb-4 > .relative > div').first().click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Order Settings of Sales', async ({page}) => {
@@ -139,6 +157,12 @@ test('Order Settings of Sales', async ({page}) => {
     await page.locator('div:nth-child(4) > .mb-4 > .relative > div').click();
     await page.getByLabel('Shop Reorder').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Invoice Settings of Sales', async ({page}) => {
@@ -168,6 +192,12 @@ test('Invoice Settings of Sales', async ({page}) => {
     await page.getByLabel('Maximum limit of reminders').fill('23');
     await page.getByLabel('Interval between reminders').selectOption('P2W');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Taxes of Sales', async ({page}) => {
@@ -196,6 +226,12 @@ test('Taxes of Sales', async ({page}) => {
     await page.locator('[id="sales\\[taxes\\]\\[sales\\]\\[display_subtotal\\]"]').selectOption('both');
     await page.locator('[id="sales\\[taxes\\]\\[sales\\]\\[display_shipping_amount\\]"]').selectOption('both');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Checkout of Customer', async ({page}) => {
@@ -216,4 +252,10 @@ test('Checkout of Customer', async ({page}) => {
     await page.getByLabel('Mini Cart Offer Information').click();
     await page.getByLabel('Mini Cart Offer Information').fill('Get Up To 30% OFF on your 1st orderawsqw');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

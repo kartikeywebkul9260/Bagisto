@@ -12,4 +12,10 @@ test('Delete Attribute Family', async ({page}) => {
   await page.getByRole('link', { name: 'Attribute Families' }).click();
   await page.locator('div').filter({ hasText: /^1defaultDefault$/ }).locator('span').nth(1).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

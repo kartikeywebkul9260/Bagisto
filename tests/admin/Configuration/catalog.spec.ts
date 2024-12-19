@@ -79,6 +79,12 @@ test('Products of Catalog', async ({page}) => {
     await page.getByLabel('Share Message').fill('Demo_qwsqc');
     await page.getByText('Products Back Save Configuration Default Default English Arabic Bengali').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Rich Snippets of Catalog', async ({page}) => {
@@ -99,6 +105,12 @@ test('Rich Snippets of Catalog', async ({page}) => {
     await page.locator('div:nth-child(16) > .mb-4 > .relative > div').click();
     await page.locator('div:nth-child(4) > div > .mb-4 > .relative > div').first().click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Inventory of Catalog', async ({page}) => {
@@ -114,4 +126,10 @@ test('Inventory of Catalog', async ({page}) => {
     await page.getByLabel('Out-of-Stock Threshold').click();
     await page.getByLabel('Out-of-Stock Threshold').fill('01');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

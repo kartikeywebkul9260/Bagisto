@@ -85,6 +85,12 @@ test('Create Product(simple)', async ({page}) => {
   await page.locator('#color').selectOption('2');
   await page.locator('#size').selectOption('7');
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Product(virtual)', async ({page}) => {
@@ -163,6 +169,12 @@ test('Create Product(virtual)', async ({page}) => {
   await page.locator('#color').selectOption('2');
   await page.locator('#size').selectOption('7');
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Product(downloadable)', async ({page}) => {
@@ -249,6 +261,12 @@ test('Create Product(downloadable)', async ({page}) => {
   await page.locator('input[name="sample_file"]').nth(1).setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product(simple)', async ({page}) => {
@@ -340,6 +358,12 @@ test('Edit Product(simple)', async ({page}) => {
   await page.locator('#color').selectOption('2');
   await page.locator('#size').selectOption('7');
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product(virtual)', async ({page}) => {
@@ -423,6 +447,12 @@ test('Edit Product(virtual)', async ({page}) => {
   await page.locator('#color').selectOption('2');
   await page.locator('#size').selectOption('7');
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product(downloadable)', async ({page}) => {
@@ -515,6 +545,12 @@ test('Edit Product(downloadable)', async ({page}) => {
   await page.locator('input[name="sample_file"]').nth(1).setInputFiles('Screenshot from 2024-12-18 11-00-34.png');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Product(bundle)', async ({page}) => {
@@ -589,6 +625,12 @@ test('Create Product(bundle)', async ({page}) => {
   await page.getByText('Add Selected Product').click();
   await page.locator('div:nth-child(5) > div:nth-child(6) > div > div > div > div:nth-child(2) > .cursor-pointer').first().click();
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product(bundle)', async ({page}) => {
@@ -671,6 +713,12 @@ test('Edit Product(bundle)', async ({page}) => {
   await page.getByText('Add Selected Product').click();
   await page.locator('div:nth-child(5) > div:nth-child(6) > div > div > div > div:nth-child(2) > .cursor-pointer').first().click();
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Product(grouped)', async ({page}) => {
@@ -739,6 +787,12 @@ test('Create Product(grouped)', async ({page}) => {
   await page.locator('input[name="links\\[link_0\\]\\[qty\\]"]').click();
   await page.locator('input[name="links\\[link_0\\]\\[qty\\]"]').fill('13');
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product(grouped)', async ({page}) => {
@@ -815,6 +869,12 @@ test('Edit Product(grouped)', async ({page}) => {
   await page.locator('input[name="links\\[link_0\\]\\[qty\\]"]').click();
   await page.locator('input[name="links\\[link_0\\]\\[qty\\]"]').fill('13');
   await page.getByRole('button', { name: 'Save Product' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Product(configurable)', async ({page}) => {
@@ -902,6 +962,12 @@ test('Create Product(configurable)', async ({page}) => {
   await page.locator('input[name="inventories\\[1\\]"]').click();
   await page.locator('input[name="inventories\\[1\\]"]').fill('023');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Product(configurable)', async ({page}) => {
@@ -990,6 +1056,12 @@ test('Edit Product(configurable)', async ({page}) => {
   await page.locator('input[name="inventories\\[1\\]"]').click();
   await page.locator('input[name="inventories\\[1\\]"]').fill('023');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Mass Delete Products', async ({page}) => {
@@ -1010,6 +1082,12 @@ test('Mass Delete Products', async ({page}) => {
   await page.getByRole('button', { name: 'Select Action ' }).click();
   await page.getByRole('link', { name: 'Delete' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Mass Update Products', async ({page}) => {
@@ -1027,4 +1105,10 @@ test('Mass Update Products', async ({page}) => {
   await page.getByRole('button', { name: 'Select Action ' }).click();
   await page.getByRole('link', { name: 'Active' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

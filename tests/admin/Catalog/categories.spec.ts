@@ -39,6 +39,12 @@ test('Create Category', async ({page}) => {
   await page.getByPlaceholder('Enter Position').click();
   await page.getByPlaceholder('Enter Position').fill('34');
   await page.getByRole('button', { name: 'Save Category' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Category', async ({page}) => {
@@ -82,6 +88,12 @@ test('Edit Category', async ({page}) => {
   await page.locator('.icon-delete').click();
   await page.locator('#Brand').nth(1).click();
   await page.getByRole('button', { name: 'Save Category' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Category', async ({page}) => {
@@ -95,6 +107,12 @@ test('Delete Category', async ({page}) => {
   await page.getByRole('link', { name: 'Categories' }).click();
   await page.locator('div').filter({ hasText: /^4SADASDWE34Active0$/ }).locator('span').nth(3).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Mass Delete Categories', async ({page}) => {
@@ -111,6 +129,12 @@ test('Mass Delete Categories', async ({page}) => {
   await page.getByRole('button', { name: 'Select Action ' }).click();
   await page.getByRole('link', { name: 'Delete' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Mass Update Categories', async ({page}) => {
@@ -128,4 +152,10 @@ test('Mass Update Categories', async ({page}) => {
   await page.getByRole('link', { name: 'Active', exact: true }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
   await page.getByRole('link', { name: 'Attributes' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

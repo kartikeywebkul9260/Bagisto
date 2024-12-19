@@ -23,6 +23,12 @@ test('Settings of Email', async ({page}) => {
     await page.getByLabel('Contact Email Default').click();
     await page.getByLabel('Contact Email Default').fill('Demo_User@example.com');
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Notifications of Email', async ({page}) => {
@@ -42,4 +48,10 @@ test('Notifications of Email', async ({page}) => {
     await page.locator('div:nth-child(12) > .mb-4 > .relative > div').click();
     await page.locator('div:nth-child(20) > .mb-4 > .relative > div').click();
     await page.getByRole('button', { name: 'Save Configuration' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

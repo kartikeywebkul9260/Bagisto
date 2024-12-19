@@ -24,6 +24,12 @@ test('Create Users', async ({page}) => {
     await page.locator('select[name="role_id"]').selectOption('1');
     await page.getByRole('button', { name: 'Save User' }).click();
     await page.locator('div').filter({ hasText: /^2KUserActiveUser@gmail\.comAdministrator$/ }).locator('a').first().click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Users', async ({page}) => {
@@ -48,6 +54,12 @@ test('Edit Users', async ({page}) => {
     await page.locator('.relative > label').click();
     await page.locator('select[name="role_id"]').selectOption('1');
     await page.getByRole('button', { name: 'Save User' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Users', async ({page}) => {
@@ -61,4 +73,10 @@ test('Delete Users', async ({page}) => {
     await page.getByRole('link', { name: 'Users' }).click();
     await page.locator('div').filter({ hasText: /^2KUserActiveUser@gmail\.comAdministrator$/ }).locator('a').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

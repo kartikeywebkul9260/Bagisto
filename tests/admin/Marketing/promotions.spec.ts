@@ -57,6 +57,12 @@ test('Create Cart Rule', async ({page}) => {
     await page.getByPlaceholder('Priority').click();
     await page.getByPlaceholder('Priority').fill('21');
     await page.getByRole('button', { name: 'Save Cart Rule' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Cart Rule', async ({page}) => {
@@ -116,6 +122,12 @@ test('Edit Cart Rule', async ({page}) => {
     await page.getByPlaceholder('Priority').click();
     await page.getByPlaceholder('Priority').fill('21');
     await page.getByRole('button', { name: 'Save Cart Rule' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Cart Rule', async ({page}) => {
@@ -129,6 +141,12 @@ test('Delete Cart Rule', async ({page}) => {
     await page.getByRole('link', { name: 'Cart Rules' }).click();
     await page.locator('div').filter({ hasText: /^1jksdhwsdewiyduew2024-12-01 12:00:002024-12-05 12:00:00Active21$/ }).locator('span').nth(2).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Create Catalog Rule', async ({page}) => {
@@ -176,6 +194,12 @@ test('Create Catalog Rule', async ({page}) => {
     await page.getByPlaceholder('Priority').click();
     await page.getByPlaceholder('Priority').fill('Demo_wqdqedqw');
     await page.getByRole('button', { name: 'Save Catalog Rule' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Catalog Rule', async ({page}) => {
@@ -223,6 +247,12 @@ test('Edit Catalog Rule', async ({page}) => {
     await page.getByPlaceholder('Priority').click();
     await page.getByPlaceholder('Priority').fill('Demo_wqdqedqw');
     await page.getByRole('button', { name: 'Save Catalog Rule' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Catalog Rule', async ({page}) => {
@@ -235,4 +265,10 @@ test('Delete Catalog Rule', async ({page}) => {
     await page.getByRole('link', { name: ' Marketing' }).click();
     await page.locator('div').filter({ hasText: /^1User2024-12-092024-12-25Active0$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

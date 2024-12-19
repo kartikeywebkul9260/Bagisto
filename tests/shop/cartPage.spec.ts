@@ -14,6 +14,12 @@ test('Increment', async ({ page }) => {
   await page.getByLabel('Increase Quantity').nth(1).click();
   await page.locator('div').filter({ hasText: /^2$/ }).getByLabel('Increase Quantity').click();
   await page.locator('div').filter({ hasText: /^1$/ }).getByLabel('Increase Quantity').click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Decrement', async ({ page }) => {
@@ -28,6 +34,12 @@ test('Decrement', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^5$/ }).getByLabel('Decrease Quantity').click();
   await page.locator('div').filter({ hasText: /^4$/ }).getByLabel('Decrease Quantity').click();
   await page.getByRole('button', { name: 'Update Cart' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Remove One', async ({ page }) => {
@@ -37,6 +49,12 @@ test('Remove One', async ({ page }) => {
   await page.goto(`${config.baseUrl}/checkout/cart`);
   await page.getByRole('button', { name: 'Remove' }).first().click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Remove All', async ({ page }) => {
@@ -48,6 +66,12 @@ test('Remove All', async ({ page }) => {
   await page.locator('.icon-uncheck').first().click();
   await page.getByRole('button', { name: 'Remove' }).first().click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Apply Coupon', async ({ page }) => {
@@ -58,4 +82,10 @@ test('Apply Coupon', async ({ page }) => {
   await page.getByPlaceholder('Enter your code').click();
   await page.getByPlaceholder('Enter your code').fill('12345');
   await page.getByRole('button', { name: 'Apply', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

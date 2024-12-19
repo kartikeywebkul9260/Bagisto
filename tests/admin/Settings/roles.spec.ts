@@ -32,6 +32,12 @@ test('Create Role', async ({page}) => {
     await page.getByPlaceholder('Description').click();
     await page.getByPlaceholder('Description').fill('Demo_sdfsdfsdsd dsf');
     await page.getByRole('button', { name: 'Save Role' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Role', async ({page}) => {
@@ -66,6 +72,12 @@ test('Edit Role', async ({page}) => {
     await page.getByPlaceholder('Description').click();
     await page.getByPlaceholder('Description').fill('Demo_sdfsdfsdsd dsf');
     await page.getByRole('button', { name: 'Save Role' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Role', async ({page}) => {
@@ -80,4 +92,10 @@ test('Delete Role', async ({page}) => {
     await page.getByRole('link', { name: 'Create Role' }).click();
     await page.locator('div').filter({ hasText: /^2Usercustom$/ }).locator('span').nth(1).click();
     await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });

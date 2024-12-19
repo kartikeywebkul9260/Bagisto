@@ -25,6 +25,12 @@ test('Profile Edit', async ({page}) => {
     await page.getByPlaceholder('Date of Birth').click();
     await page.getByLabel('December 13,').click();
     await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Change Password', async ({page}) => {
@@ -46,6 +52,12 @@ test('Change Password', async ({page}) => {
   await page.getByPlaceholder('Confirm Password').click();
   await page.getByPlaceholder('Confirm Password').fill('testUser@1234');
   await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Profile', async ({page}) => {
@@ -63,6 +75,12 @@ test('Delete Profile', async ({page}) => {
   await page.getByPlaceholder('Enter your password').click();
   await page.getByPlaceholder('Enter your password').fill('testUser@1234');
   await page.getByRole('button', { name: 'Delete' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Add Address', async ({page}) => {
@@ -113,6 +131,12 @@ test('Add Address', async ({page}) => {
   await page.locator('#main form div').filter({ hasText: 'Set as Default' }).locator('label').first().click();
   await page.locator('#main form div').filter({ hasText: 'Set as Default' }).locator('label').first().click();
   await page.getByRole('button', { name: 'Save' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Edit Address', async ({page}) => {
@@ -149,6 +173,12 @@ test('Edit Address', async ({page}) => {
   await page.getByPlaceholder('Phone').click();
   await page.getByPlaceholder('Phone').fill('9876543219');
   await page.getByRole('button', { name: 'Update' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Delete Address', async ({page}) => {
@@ -165,6 +195,12 @@ test('Delete Address', async ({page}) => {
   await page.getByRole('link', { name: ' Address ' }).click();await page.getByLabel('More Options').first().click();
   await page.getByRole('link', { name: 'Delete' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Default Address', async ({page}) => {
@@ -181,6 +217,12 @@ test('Default Address', async ({page}) => {
   await page.getByRole('link', { name: ' Address ' }).click();await page.getByLabel('More Options').nth(1).click();
   await page.getByRole('button', { name: 'Set as Default' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Reorder', async ({page}) => {
@@ -196,6 +238,12 @@ test('Reorder', async ({page}) => {
   await page.getByRole('link', { name: 'Orders', exact: true }).click();
   await page.locator('div').filter({ hasText: /^42024-12-17 18:21:27\$55\.00Pending$/ }).locator('span').click();
   await page.getByRole('link', { name: 'Reorder' }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Cancel Order', async ({page}) => {
@@ -213,6 +261,12 @@ test('Cancel Order', async ({page}) => {
   await page.locator('div').filter({ hasText: /^42024-12-17 18:21:27\$55\.00Pending$/ }).locator('span').click();
   await page.getByRole('link', { name: 'Cancel' }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Print Invoice', async ({page}) => {
@@ -232,6 +286,12 @@ test('Print Invoice', async ({page}) => {
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('link', { name: ' Print' }).click();
   const download = await downloadPromise;
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Downloadable Orders', async ({page}) => {
@@ -252,6 +312,12 @@ test('Downloadable Orders', async ({page}) => {
   await page.getByRole('link', { name: 'file', exact: true }).click();
   const page2 = await page2Promise;
   const download1 = await download1Promise;
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Wishlist to Cart', async ({page}) => {
@@ -266,6 +332,12 @@ test('Wishlist to Cart', async ({page}) => {
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
   await page.getByRole('button', { name: 'Move To Cart' }).first().click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Remove from Wishlist', async ({page}) => {
@@ -281,6 +353,12 @@ test('Remove from Wishlist', async ({page}) => {
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
   await page.locator('#main').getByText('Remove').nth(1).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
 
 test('Clear Wishlist', async ({page}) => {
@@ -296,4 +374,10 @@ test('Clear Wishlist', async ({page}) => {
   await page.getByRole('link', { name: 'Wishlist', exact: true }).click();
   await page.getByText('Delete All', { exact: true }).click();
   await page.getByRole('button', { name: 'Agree', exact: true }).click();
+  try {
+    await page.waitForNavigation({ timeout: 5000 });
+    console.log(page.url());
+  } catch(e) {
+    console.log(page.url());
+  }
 });
