@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Create Category', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('link', { name: 'Categories' }).click();
@@ -44,9 +44,9 @@ test('Create Category', async ({page}) => {
 test('Edit Category', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('link', { name: 'Categories' }).click();
@@ -87,9 +87,9 @@ test('Edit Category', async ({page}) => {
 test('Delete Category', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('link', { name: 'Categories' }).click();
@@ -100,9 +100,9 @@ test('Delete Category', async ({page}) => {
 test('Mass Delete Categories', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('link', { name: 'Categories' }).click();
@@ -116,9 +116,9 @@ test('Mass Delete Categories', async ({page}) => {
 test('Mass Update Categories', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('link', { name: 'Categories' }).click();

@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Create Currency', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Currencies' }).click();
@@ -29,9 +29,9 @@ test('Create Currency', async ({page}) => {
 test('Edit Currency', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Currencies' }).click();
@@ -53,9 +53,9 @@ test('Edit Currency', async ({page}) => {
 test('Delete Currency', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Currencies' }).click();

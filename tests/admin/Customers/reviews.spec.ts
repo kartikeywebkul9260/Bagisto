@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Update Status of Review', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Customers' }).click();
     await page.getByRole('link', { name: 'Reviews' }).click();
@@ -18,9 +18,9 @@ test('Update Status of Review', async ({page}) => {
 test('Delete Review', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Customers' }).click();
     await page.getByRole('link', { name: 'Reviews' }).click();
@@ -31,9 +31,9 @@ test('Delete Review', async ({page}) => {
 test('Mass Delete Reviews', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Customers' }).click();
     await page.getByRole('link', { name: 'Reviews' }).click();
@@ -46,9 +46,9 @@ test('Mass Delete Reviews', async ({page}) => {
 test('Mass Update Reviews', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Customers' }).click();
     await page.getByRole('link', { name: 'Reviews' }).click();

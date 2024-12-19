@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Products of Catalog', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Products Product view page,' }).click();
@@ -84,9 +84,9 @@ test('Products of Catalog', async ({page}) => {
 test('Rich Snippets of Catalog', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Rich Snippets Set products' }).click();
@@ -104,9 +104,9 @@ test('Rich Snippets of Catalog', async ({page}) => {
 test('Inventory of Catalog', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Inventory Configure inventory' }).click();

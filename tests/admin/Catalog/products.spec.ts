@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Create Product(simple)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('button', { name: 'Create Product' }).click();
@@ -90,9 +90,9 @@ test('Create Product(simple)', async ({page}) => {
 test('Create Product(virtual)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('button', { name: 'Create Product' }).click();
@@ -168,9 +168,9 @@ test('Create Product(virtual)', async ({page}) => {
 test('Create Product(downloadable)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('button', { name: 'Create Product' }).click();
@@ -254,9 +254,9 @@ test('Create Product(downloadable)', async ({page}) => {
 test('Edit Product(simple)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div:nth-child(2) > div > div > div > .relative').first().click();
@@ -345,9 +345,9 @@ test('Edit Product(simple)', async ({page}) => {
 test('Edit Product(virtual)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div:nth-child(2) > div > div > div > .relative').first().click();
@@ -428,9 +428,9 @@ test('Edit Product(virtual)', async ({page}) => {
 test('Edit Product(downloadable)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div:nth-child(2) > div > div > div > .relative').first().click();
@@ -520,9 +520,9 @@ test('Edit Product(downloadable)', async ({page}) => {
 test('Create Product(bundle)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('button', { name: 'Create Product' }).click();
@@ -594,9 +594,9 @@ test('Create Product(bundle)', async ({page}) => {
 test('Edit Product(bundle)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div:nth-child(2) > div > div > div > .relative').first().click();
@@ -676,9 +676,9 @@ test('Edit Product(bundle)', async ({page}) => {
 test('Create Product(grouped)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('button', { name: 'Create Product' }).click();
@@ -744,9 +744,9 @@ test('Create Product(grouped)', async ({page}) => {
 test('Edit Product(grouped)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div:nth-child(2) > div > div > div > .relative').first().click();
@@ -820,9 +820,9 @@ test('Edit Product(grouped)', async ({page}) => {
 test('Create Product(configurable)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByRole('button', { name: 'Create Product' }).click();
@@ -907,9 +907,9 @@ test('Create Product(configurable)', async ({page}) => {
 test('Edit Product(configurable)', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div:nth-child(2) > div > div > div > .relative').first().click();
@@ -995,9 +995,9 @@ test('Edit Product(configurable)', async ({page}) => {
 test('Mass Delete Products', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.getByText('Filter', { exact: true }).click();
@@ -1015,9 +1015,9 @@ test('Mass Delete Products', async ({page}) => {
 test('Mass Update Products', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' Catalog' }).click();
   await page.locator('div > .icon-uncheckbox').first().click();

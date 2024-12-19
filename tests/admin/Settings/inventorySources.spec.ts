@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Create Inventory Sources', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Inventory Sources' }).click();
@@ -49,9 +49,9 @@ test('Create Inventory Sources', async ({page}) => {
 test('Edit Inventory Sources', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Inventory Sources' }).click();
@@ -94,9 +94,9 @@ test('Edit Inventory Sources', async ({page}) => {
 test('Delete Inventory Sources', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Settings' }).click();
     await page.getByRole('link', { name: 'Inventory Sources' }).click();

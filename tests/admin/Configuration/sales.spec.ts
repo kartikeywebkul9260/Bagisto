@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Shipping Settings of Sales', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Shipping Settings Configure' }).click();
@@ -31,9 +31,9 @@ test('Shipping Settings of Sales', async ({page}) => {
 test('Shipping Methods of Sales', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Shipping Methods Configure' }).click();
@@ -57,9 +57,9 @@ test('Shipping Methods of Sales', async ({page}) => {
 test('Payment Methods of Sales', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Payment Methods Set payment' }).click();
@@ -110,9 +110,9 @@ test('Payment Methods of Sales', async ({page}) => {
 test('Order Settings of Sales', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Order Settings Set order' }).click();
@@ -144,9 +144,9 @@ test('Order Settings of Sales', async ({page}) => {
 test('Invoice Settings of Sales', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Invoice Settings Set invoice' }).click();
@@ -173,9 +173,9 @@ test('Invoice Settings of Sales', async ({page}) => {
 test('Taxes of Sales', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Taxes Taxes are mandatory' }).click();
@@ -201,9 +201,9 @@ test('Taxes of Sales', async ({page}) => {
 test('Checkout of Customer', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Checkout Set guest checkout,' }).click();

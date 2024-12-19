@@ -4,9 +4,9 @@ import config from '../../Config/config';
 test('Create Page', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' CMS' }).click();
   await page.getByRole('link', { name: 'Create Page' }).click();
@@ -29,9 +29,9 @@ test('Create Page', async ({page}) => {
 test('Edit Page', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' CMS' }).click();
   await page.locator('div').filter({ hasText: /^11okhjasdewdwqedqe4ded$/ }).locator('span').nth(2).click();
@@ -54,9 +54,9 @@ test('Edit Page', async ({page}) => {
 test('Delete Page', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' CMS' }).click();
   await page.locator('div').filter({ hasText: /^11okhjasdewdwqedqe4ded$/ }).locator('span').nth(3).click();
@@ -66,9 +66,9 @@ test('Delete Page', async ({page}) => {
 test('Mass Delete Pages', async ({page}) => {
   await page.goto(`${config.baseUrl}/admin/login`);
   await page.getByPlaceholder('Email Address').click();
-  await page.getByPlaceholder('Email Address').fill('admin@example.com');
+  await page.getByPlaceholder('Email Address').fill(config.adminEmail);
   await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByPlaceholder('Password').fill(config.adminPassword);
   await page.getByLabel('Sign In').click();
   await page.getByRole('link', { name: ' CMS' }).click();
   await page.locator('div').filter({ hasText: /^2Return Policyreturn-policy$/ }).locator('label span').click();

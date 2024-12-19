@@ -4,9 +4,9 @@ import config from '../../../Config/config';
 test('Settings of Email', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Email Settings Set email' }).click();
@@ -28,9 +28,9 @@ test('Settings of Email', async ({page}) => {
 test('Notifications of Email', async ({page}) => {
     await page.goto(`${config.baseUrl}/admin/login`);
     await page.getByPlaceholder('Email Address').click();
-    await page.getByPlaceholder('Email Address').fill('admin@example.com');
+    await page.getByPlaceholder('Email Address').fill(config.adminEmail);
     await page.getByPlaceholder('Password').click();
-    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByPlaceholder('Password').fill(config.adminPassword);
     await page.getByLabel('Sign In').click();await page.getByText('Dashboard Sales Orders').click();
     await page.getByRole('link', { name: ' Configure' }).click();
     await page.getByRole('link', { name: 'Notifications To configure,' }).click();
