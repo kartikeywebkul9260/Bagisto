@@ -60,44 +60,6 @@ test('Change Password', async ({page}) => {
   }
 });
 
-test('Delete Profile', async ({page}) => {
-  await page.goto(`${config.baseUrl}`);
-  await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Sign In' }).click();
-  await page.getByPlaceholder('email@example.com').click();
-  await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
-  await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('testUser@1234');
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Profile' }).click();
-  await page.getByText('Delete Profile').first().click();
-  await page.getByPlaceholder('Enter your password').click();
-  await page.getByPlaceholder('Enter your password').fill('testUser@1234');
-  await page.getByRole('button', { name: 'Delete' }).click();
-  
-  try {
-    await page.getByRole('link', { name: 'Create your account' }).click();
-    await page.getByPlaceholder('First Name').click();
-    await page.getByPlaceholder('First Name').fill('testUser');
-    await page.getByPlaceholder('Last Name').click();
-    await page.getByPlaceholder('Last Name').fill('Demo');
-    await page.getByPlaceholder('email@example.com').click();
-    await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
-    await page.getByPlaceholder('Password', { exact: true }).click();
-    await page.getByPlaceholder('Password', { exact: true }).fill('testUser@123');
-    await page.getByPlaceholder('Confirm Password').click();
-    await page.getByPlaceholder('Confirm Password').fill('testUser@123');
-    await page.locator('#main form div').filter({ hasText: 'Subscribe to newsletter' }).locator('label').first().click();
-    await page.getByRole('button', { name: 'Register' }).click();
-    await page.getByText('Account created successfully.').first().click();
-
-    console.log(page.url());
-  } catch(e) {
-    console.log(page.url());
-  }
-});
-
 test('Add Address', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
@@ -393,4 +355,27 @@ test('Clear Wishlist', async ({page}) => {
   } catch(e) {
     console.log(page.url());
   }
+});
+
+test('Delete Profile', async ({page}) => {
+    await page.goto(`${config.baseUrl}`);
+    await page.getByLabel('Profile').click();
+    await page.getByRole('link', { name: 'Sign In' }).click();
+    await page.getByPlaceholder('email@example.com').click();
+    await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('testUser@1234');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    await page.getByLabel('Profile').click();
+    await page.getByRole('link', { name: 'Profile' }).click();
+    await page.getByText('Delete Profile').first().click();
+    await page.getByPlaceholder('Enter your password').click();
+    await page.getByPlaceholder('Enter your password').fill('testUser@1234');
+    await page.getByRole('button', { name: 'Delete' }).click();
+    try {
+      await page.waitForNavigation({ timeout: 5000 });
+      console.log(page.url());
+    } catch(e) {
+      console.log(page.url());
+    }
 });
