@@ -111,21 +111,23 @@ test('Add Address', async ({page}) => {
   await page.getByRole('link', { name: 'Add Address' }).click();
   await page.getByPlaceholder('Company Name').click();
   await page.getByPlaceholder('Company Name').fill('Webkul');
-  await page.getByPlaceholder('First Name').click();
-  await page.getByPlaceholder('First Name').fill('User');
-  await page.getByPlaceholder('Last Name').click();
-  await page.getByPlaceholder('Last Name').fill('Demo');
-  await page.getByPlaceholder('Email', { exact: true }).click();
-  await page.getByPlaceholder('Email', { exact: true }).fill('User@gmail.com');
-  await page.getByPlaceholder('Street Address').click();
-  await page.getByPlaceholder('Street Address').fill('Demo_qwertyuiop');
-  await page.getByLabel('trans(\'shop::app.customers.').selectOption('AG');
+  await page.getByPlaceholder('Company Name').press('Tab');
+  await page.getByPlaceholder('First Name').fill('Demo');
+  await page.getByPlaceholder('First Name').press('Tab');
+  await page.getByPlaceholder('Last Name').fill('User');
+  await page.getByPlaceholder('Last Name').press('Tab');
+  await page.getByPlaceholder('Email', { exact: true }).fill('test@example.com');
+  await page.getByPlaceholder('Email', { exact: true }).press('Tab');
+  await page.getByPlaceholder('Vat ID').press('Tab');
+  await page.getByPlaceholder('Street Address').fill('Demo');
+  await page.getByPlaceholder('Street Address').press('Tab');
+  await page.getByLabel('Country').selectOption('DZ');
   await page.getByPlaceholder('State').click();
-  await page.getByPlaceholder('State').fill('Demo_dsywuyed');
+  await page.getByPlaceholder('State').fill('any');
   await page.getByPlaceholder('City').click();
-  await page.getByPlaceholder('City').fill('Demo_kahiw');
+  await page.getByPlaceholder('City').fill('any');
   await page.getByPlaceholder('Post Code').click();
-  await page.getByPlaceholder('Post Code').fill('1213233');
+  await page.getByPlaceholder('Post Code').fill('123456');
   await page.getByPlaceholder('Phone').click();
   await page.getByPlaceholder('Phone').fill('9876543210');
   await page.locator('#main form div').filter({ hasText: 'Set as Default' }).locator('label').first().click();
@@ -322,6 +324,7 @@ test('Downloadable Orders', async ({page}) => {
 
 test('Wishlist to Cart', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
+  await page.locator('div:nth-child(2) > .-mt-9 > .action-items > span').first().click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
@@ -342,6 +345,7 @@ test('Wishlist to Cart', async ({page}) => {
 
 test('Remove from Wishlist', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
+  await page.locator('div:nth-child(2) > .-mt-9 > .action-items > span').first().click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
@@ -363,6 +367,7 @@ test('Remove from Wishlist', async ({page}) => {
 
 test('Clear Wishlist', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
+  await page.locator('div:nth-child(2) > .-mt-9 > .action-items > span').first().click();
   await page.getByLabel('Profile').click();
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByPlaceholder('email@example.com').click();
