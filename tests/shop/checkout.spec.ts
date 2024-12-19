@@ -38,8 +38,8 @@ test('Customer CheckOut', async ({page}) => {
   await page.locator('#save_address').nth(1).click();
   await page.getByRole('button', { name: 'Save' }).click();
   await page.getByRole('button', { name: 'Proceed' }).click();
-  await page.locator('span').filter({ hasText: 'Flat Rate' }).click();
-  await page.locator('p').filter({ hasText: 'Cash On Delivery' }).click();
+  await page.getByText('Free Shipping').click();
+  await page.getByText('Cash On Delivery').first().click();
   await page.getByRole('button', { name: 'Place Order' }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
@@ -82,8 +82,8 @@ test('Guest CheckOut', async ({page}) => {
   await page.getByPlaceholder('Zip/Postcode').click();
   await page.getByPlaceholder('Zip/Postcode').fill('2673854');
   await page.getByRole('button', { name: 'Proceed' }).click();
-  await page.locator('span').filter({ hasText: 'Flat Rate' }).click();
-  await page.locator('p').filter({ hasText: 'Cash On Delivery' }).click();
+  await page.getByText('Free Shipping').click();
+  await page.getByText('Cash On Delivery').first().click();
   await page.getByRole('button', { name: 'Place Order' }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
