@@ -33,33 +33,6 @@ test('Profile Edit', async ({page}) => {
   }
 });
 
-test('Change Password', async ({page}) => {
-  await page.goto(`${config.baseUrl}`);
-  await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Sign In' }).click();
-  await page.getByPlaceholder('email@example.com').click();
-  await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
-  await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('testUser@123');
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  await page.getByLabel('Profile').click();
-  await page.getByRole('link', { name: 'Profile' }).click();
-  await page.getByRole('link', { name: 'Edit' }).click();
-  await page.getByPlaceholder('Current Password').click();
-  await page.getByPlaceholder('Current Password').fill('testUser@123');
-  await page.getByPlaceholder('New Password').click();
-  await page.getByPlaceholder('New Password').fill('testUser@1234');
-  await page.getByPlaceholder('Confirm Password').click();
-  await page.getByPlaceholder('Confirm Password').fill('testUser@1234');
-  await page.getByRole('button', { name: 'Save' }).click();
-  try {
-    await page.waitForNavigation({ timeout: 5000 });
-    console.log(page.url());
-  } catch(e) {
-    console.log(page.url());
-  }
-});
-
 test('Add Address', async ({page}) => {
   await page.goto(`${config.baseUrl}`);
   await page.getByLabel('Profile').click();
@@ -355,6 +328,33 @@ test('Clear Wishlist', async ({page}) => {
   } catch(e) {
     console.log(page.url());
   }
+});
+
+test('Change Password', async ({page}) => {
+    await page.goto(`${config.baseUrl}`);
+    await page.getByLabel('Profile').click();
+    await page.getByRole('link', { name: 'Sign In' }).click();
+    await page.getByPlaceholder('email@example.com').click();
+    await page.getByPlaceholder('email@example.com').fill('testUser@gmail.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('testUser@123');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    await page.getByLabel('Profile').click();
+    await page.getByRole('link', { name: 'Profile' }).click();
+    await page.getByRole('link', { name: 'Edit' }).click();
+    await page.getByPlaceholder('Current Password').click();
+    await page.getByPlaceholder('Current Password').fill('testUser@123');
+    await page.getByPlaceholder('New Password').click();
+    await page.getByPlaceholder('New Password').fill('testUser@1234');
+    await page.getByPlaceholder('Confirm Password').click();
+    await page.getByPlaceholder('Confirm Password').fill('testUser@1234');
+    await page.getByRole('button', { name: 'Save' }).click();
+    try {
+      await page.waitForNavigation({ timeout: 5000 });
+      console.log(page.url());
+    } catch(e) {
+      console.log(page.url());
+    }
 });
 
 test('Delete Profile', async ({page}) => {
