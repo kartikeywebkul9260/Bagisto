@@ -82,8 +82,8 @@ test('Guest CheckOut', async ({page}) => {
   await page.getByPlaceholder('Zip/Postcode').click();
   await page.getByPlaceholder('Zip/Postcode').fill('2673854');
   await page.getByRole('button', { name: 'Proceed' }).click();
-  await page.locator('div:nth-child(2) > .icon-radio-unselect').click();
-  await page.locator('div:nth-child(3) > .border-b > div > .z-10 > .flex > div:nth-child(2) > .icon-radio-unselect').click();
+  await page.locator('.icon-radio-unselect').first().click();
+  await page.locator('div:nth-child(3) > .icon-radio-unselect').click();
   await page.getByRole('button', { name: 'Place Order' }).click();
   try {
     await page.waitForNavigation({ timeout: 5000 });
