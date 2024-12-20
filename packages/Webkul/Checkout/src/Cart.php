@@ -103,7 +103,7 @@ class Cart
             return;
         }
 
-        $cartTemp = new \stdClass();
+        $cartTemp = new \stdClass;
         $cartTemp->id = $this->cart->id;
 
         session()->put('cart', $cartTemp);
@@ -361,12 +361,16 @@ class Cart
 
             $this->cartItemRepository->update([
                 'quantity'            => $quantity,
-                'total'               => $total = core()->convertPrice($item->price_incl_tax * $quantity),
-                'total_incl_tax'      => $total,
-                'base_total'          => $item->price_incl_tax * $quantity,
+                'total'               => core()->convertPrice($item->base_price * $quantity),
+                'total_incl_tax'      => core()->convertPrice($item->base_price_incl_tax * $quantity),
+                'base_total'          => $item->base_price * $quantity,
                 'base_total_incl_tax' => $item->base_price_incl_tax * $quantity,
                 'total_weight'        => $item->weight * $quantity,
                 'base_total_weight'   => $item->weight * $quantity,
+                'additional'          => [
+                    ...$item->additional,
+                    'quantity' => $quantity,
+                ],
             ], $itemId);
 
             Event::dispatch('checkout.cart.update.after', $item);
@@ -753,6 +757,10 @@ class Cart
 
         if (core()->getConfigData('sales.order_settings.minimum_order.include_discount_amount')) {
             $minimumOrderAmount -= $this->cart->tax_total;
+
+            if ($this->cart->discount_amount) {
+                $minimumOrderAmount -= $this->cart->discount_amount;
+            }
         }
 
         return $minimumOrderAmount;
