@@ -591,6 +591,39 @@ test('Wishlist to Cart', async () => {
     test.setTimeout(config.mediumTimeout);
 
     try {
+        await page.goto(`${baseUrl}`);
+
+        console.log('Add To Wishlist');
+
+        const exists = await page.waitForSelector('.cursor-pointer.text-2xl.icon-heart', { timeout: 20000 }).catch(() => null);
+
+        if (exists) {
+            const buttons = await page.$$('.cursor-pointer.text-2xl.icon-heart');
+
+            if (buttons.length === 0) {
+                console.log('No "Add To Cart" buttons found.');
+            } else {
+                for (let button of buttons) {
+                    await button.click({ timeout: 1000 }).catch(() => null);
+
+                    const iconExists = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 5000 }).catch(() => null);
+                    var message = '';
+
+                    if (iconExists) {
+                        const icons = await page.$$('.break-words + .icon-cancel');
+
+                        message = await icons[0].evaluate(el => el.parentNode.innerText);
+                        await icons[0].click();
+
+                        console.log(message);
+                        return;
+                    }
+                }
+            }
+        } else {
+            console.log('No any product found in page.');
+        }
+        
         await page.goto(`${baseUrl}/customer/wishlist`);
 
         await page.waitForSelector('div#not_avaliable', { timeout: 5000 }).catch(() => null);
