@@ -179,11 +179,64 @@ test('Guest CheckOut', async () => {
   try {
     const cart = await addToCart(page);
 
-    if (cart == null) {
-      return;
+    await page.goto(`${baseUrl}`);
+
+    const isExists = await page.waitForSelector('.secondary-button.w-full.max-w-full.text-sm.font-medium', { timeout: 20000 }).catch(() => null);
+
+    if (isExists) {
+      const buttons = await page.$$('.secondary-button.w-full.max-w-full.text-sm.font-medium');
+
+      if (buttons.length === 0) {
+        console.log('No "Add To Cart" buttons found.');
+        return null;
+      }
+
+      const index = Math.floor(Math.random() * ((buttons.length - 1) - 0 + 1)) + 0;
+
+      await buttons[0].click();
+
+      const iconExist1 = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
+
+      if (iconExist1) {
+        const icons = await page.$$('.break-words + .icon-cancel');
+
+        const message = await icons[0].evaluate(el => el.parentNode.innerText);
+        console.log(message);
+        await icons[0].click();
+
+        return message;
+      }
+      await buttons[1].click();
+
+      const iconExist2 = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
+
+      if (iconExist2) {
+        const icons = await page.$$('.break-words + .icon-cancel');
+
+        const message = await icons[0].evaluate(el => el.parentNode.innerText);
+        console.log(message);
+        await icons[0].click();
+
+        return message;
+      }
+      await buttons[2].click();
+
+      const iconExist3 = await page.waitForSelector('.break-words + .icon-cancel', { timeout: 10000 }).catch(() => null);
+
+      if (iconExist3) {
+        const icons = await page.$$('.break-words + .icon-cancel');
+
+        const message = await icons[0].evaluate(el => el.parentNode.innerText);
+        console.log(message);
+        await icons[0].click();
+
+        return message;
+      }
     }
 
     console.log('Guest CheckOut');
+
+    await page.goto(`${baseUrl}`);
 
     await page.click('.icon-cart');
 

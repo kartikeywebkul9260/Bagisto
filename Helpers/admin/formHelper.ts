@@ -1,8 +1,15 @@
 import config from "../../Config/config";
-const fs = await import('fs');
-const path = await import('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-function getRandomImageFile(directory = path.resolve(__dirname, '../../packages/Webkul/Shop/src/Resources/assets/images/')) {
+// Derive __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function getRandomImageFile(
+    directory = path.resolve(__dirname, '../../packages/Webkul/Shop/src/Resources/assets/images/')
+) {
     if (!fs.existsSync(directory)) {
         throw new Error(`Directory does not exist: ${directory}`);
     }
