@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import config from '../../Config/config';
 import logIn from '../../Helpers/shop/loginHelper';
 
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = await import('playwright');
 const baseUrl = config.baseUrl;
 
 let browser;

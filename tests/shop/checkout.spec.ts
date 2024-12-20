@@ -5,7 +5,7 @@ import logIn from '../../Helpers/shop/loginHelper';
 import address from '../../Helpers/shop/addressHelper';
 import * as forms from '../../Helpers/shop/formHelper';
 
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = await import('playwright');
 const baseUrl = config.baseUrl;
 
 let browser;

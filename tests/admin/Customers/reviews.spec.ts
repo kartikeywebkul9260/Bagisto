@@ -3,7 +3,7 @@ import logIn from '../../../Helpers/admin/loginHelper';
 import mode from '../../../Helpers/admin/modeHelper';
 import config from '../../../Config/config';
 
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = await import('playwright');
 const baseUrl = config.baseUrl;
 
 let browser;

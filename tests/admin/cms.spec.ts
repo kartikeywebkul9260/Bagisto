@@ -4,7 +4,7 @@ import mode from '../../Helpers/admin/modeHelper';
 import config from '../../Config/config';
 import * as forms from '../../Helpers/admin/formHelper';
 
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = await import('playwright');
 const baseUrl = config.baseUrl;
 
 let browser;

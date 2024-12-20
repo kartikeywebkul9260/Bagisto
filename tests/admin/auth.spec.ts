@@ -3,7 +3,7 @@ import logIn from '../../Helpers/admin/loginHelper';
 import config from '../../Config/config';
 
 test('Login', async () => {
-  const { chromium, firefox, webkit } = require('playwright');
+  const { chromium, firefox, webkit } = await import('playwright');
 
   var browser;
 
@@ -30,7 +30,7 @@ test('Login', async () => {
 });
 
 test('Logout', async () => {
-  const { chromium, firefox, webkit } = require('playwright');
+  const { chromium, firefox, webkit } = await import('playwright');
 
   var browser;
 

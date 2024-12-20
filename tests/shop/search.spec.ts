@@ -3,7 +3,7 @@ import config from '../../Config/config';
 import { generateRandomProductName } from '../../Helpers/admin/formHelper'
 import * as forms from '../../Helpers/shop/formHelper';
 
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = await import('playwright');
 const baseUrl = config.baseUrl;
 
 let browser;

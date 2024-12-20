@@ -5,7 +5,7 @@ import addToCart from '../../Helpers/shop/cartHelper';
 const baseUrl = config.baseUrl;
 
 test('Add To Cart', async () => {
-    const { chromium, firefox, webkit } = require('playwright');
+    const { chromium, firefox, webkit } = await import('playwright');
 
     var browser;
 

@@ -6,7 +6,7 @@ import * as readlineSync from 'readline-sync';
 import * as forms from '../../Helpers/admin/formHelper';
 import address from '../../Helpers/admin/addressHelper';
 
-const { chromium, firefox, webkit } = require('playwright');
+const { chromium, firefox, webkit } = await import('playwright');
 const baseUrl = config.baseUrl;
 
 let browser;

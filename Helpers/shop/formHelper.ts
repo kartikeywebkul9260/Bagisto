@@ -1,7 +1,6 @@
 import config from "../../Config/config";
-
-const fs = require('fs');
-const path = require('path');
+const fs = await import('fs');
+const path = await import('path');
 
 function getRandomImageFile(directory = path.resolve(__dirname, '../../packages/Webkul/Shop/src/Resources/assets/images/')) {
     if (!fs.existsSync(directory)) {

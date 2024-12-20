@@ -7,7 +7,7 @@ import * as readlineSync from 'readline-sync';
 const baseUrl = config.baseUrl;
 
 test('Register', async () => {
-  const { chromium, firefox, webkit } = require('playwright');
+  const { chromium, firefox, webkit } = await import('playwright');
 
   var browser;
 
@@ -49,7 +49,7 @@ test('Register', async () => {
 });
 
 test('Login', async () => {
-  const { chromium, firefox, webkit } = require('playwright');
+  const { chromium, firefox, webkit } = await import('playwright');
 
   var browser;
 
@@ -76,7 +76,7 @@ test('Login', async () => {
 });
 
 test('Logout', async () => {
-  const { chromium, firefox, webkit } = require('playwright');
+  const { chromium, firefox, webkit } = await import('playwright');
 
   var browser;
 
